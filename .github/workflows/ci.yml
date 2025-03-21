@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: CI
 
 on:
@@ -53,11 +54,27 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+=======
+name: Rails CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+>>>>>>> main
   test:
     runs-on: ubuntu-latest
 
     services:
       postgres:
+<<<<<<< HEAD
         image: postgres
         env:
           POSTGRES_USER: postgres
@@ -99,3 +116,38 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+=======
+        image: postgres:15
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: myapp_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U myuser"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Ruby をセットアップ
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
+
+      - name: データベースをセットアップ
+        run: |
+          bin/rails db:create
+          bin/rails db:schema:load
+          bin/rails db:migrate
+          bin/rails db:test:prepare
+
+      - name: テストを実行
+        run: |
+          bin/rails test
+>>>>>>> main
