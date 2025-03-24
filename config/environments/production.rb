@@ -3,7 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
 
   # 許可するホストを明示
-  config.hosts << "graduation-project-x30c.onrender.com/"
+  config.hosts << "graduation-project-x30c.onrender.com"
 
   # コードはリクエスト間でリロードされません
   config.enable_reloading = false
