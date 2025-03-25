@@ -13,7 +13,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:15
@@ -39,12 +38,22 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
 
+      - name: PostgreSQLが起動するまで待機
+        run: |
+          until pg_isready -h localhost -U myuser; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 3
+          done
+
       - name: データベースをセットアップ
         run: |
-          bin/rails db:create
           bin/rails db:schema:load
           bin/rails db:migrate
           bin/rails db:test:prepare
+
+      - name: テストを実行
+        run: |
+          bin/rails test
 
       - name: テストを実行
         run: |
