@@ -16,7 +16,7 @@ services:
       - db
     environment:
       - RAILS_ENV=development
-      - DATABASE_URL=postgresql://myuser:mypassword@db:5432/myapp_development
+      - DATABASE_URL=postgresql://myuser:mypassword@db/myapp_development 
     volumes:
       - .:/myapp
 volumes:
