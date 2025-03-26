@@ -7,11 +7,9 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y \
 
 WORKDIR /myapp
 
-# Gemfileだけを先にコピーしてインストール
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs=4 --retry=3 && rm -rf ~/.bundle
 
-# 残りのアプリケーションコードをコピー
 COPY . .
 
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
@@ -31,6 +29,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /myapp /myapp
 
 RUN chown -R rails:rails /myapp
+RUN chmod +x ./bin/rails
 
 COPY entrypoint.sh /myapp/bin/docker-entrypoint
 RUN chmod +x /myapp/bin/docker-entrypoint
