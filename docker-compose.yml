@@ -15,8 +15,8 @@ services:
     depends_on:
       - db
     environment:
-      - RAILS_ENV=development
-      - DATABASE_URL=postgresql://myuser:mypassword@db/myapp_development 
+    - RAILS_ENV=test
+    - DATABASE_URL=postgresql://myuser:mypassword@db/myapp_test
     volumes:
       - .:/myapp
 volumes:
