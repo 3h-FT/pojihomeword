@@ -13,3 +13,6 @@ development:
 test:
   <<: *default
   database: myapp_test
+  host: postgres
+  username: myuser
+  password: mypassword
