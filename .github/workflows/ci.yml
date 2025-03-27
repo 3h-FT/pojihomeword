@@ -34,9 +34,16 @@ jobs:
         with:
           ruby-version: 3.2.2
           bundler-cache: true
+      - name: データベースの準備完了を待機
+        run: |
+          sleep 10s
+          until pg_isready -h db -U myuser -d myapp_test; do
+            echo "Waiting for database to be ready..."
+            sleep 2
+          done
       - name: データベースをセットアップ
         run: |
-          bin/rails db:create --trace
+          bin/rails db:create
           bin/rails db:schema:load
           bin/rails db:migrate
           bin/rails db:test:prepare
