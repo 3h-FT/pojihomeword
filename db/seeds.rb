@@ -10,7 +10,7 @@
 
 targets = ["自分自身", "友達", "家族", "恋人・パートナー", "学生", "職場"]
 targets.each do |target_name|
-  Target.create(name: target_name)
+  Target.find_or_create_by!(name: target_name)
 end
 
 situations = [
@@ -65,11 +65,11 @@ situations = [
 
 # シチュエーションの登録と対応するポジティブメッセージの登録
 situations.each do |target_data|
-    target = Target.find_by(name: target_data[:target_name])
+    target = Target.find_or_create_by!(name: target_data[:target_name])
 
 # シチュエーションを対象人物ごとに登録
 target_data[:situations].each do |situation_name|
-    situation = Situation.create(name: situation_name)
+    situation = Situation.find_or_create_by!(name: situation_name, target_id: target.id)
 
     positive_words = {
         # 自分自身に対するシチュエーション
@@ -179,7 +179,34 @@ target_data[:situations].each do |situation_name|
             "何か悩んでるのかな？一緒に考えるよ！",
             "心配しないで、君が元気でいられるように支えるよ！"
           ],
-        
+          
+          # 学生向けのシチュエーションを追加
+          "試験やテスト前の激励" => [
+            "君ならできる！落ち着いて頑張ろう！",
+            "努力は必ず報われるよ！自信を持って試験に挑もう！",
+            "ここまで頑張ってきた自分を信じて、最後まで全力を尽くそう！"
+          ],
+          "勉強に疲れたときの励まし" => [
+            "ちょっと休憩しよう！リフレッシュすれば、また頑張れるよ！",
+            "頑張りすぎもよくないよ。少し休んでからまた取り組もう！",
+            "疲れたときは深呼吸。無理せず、自分のペースで進めばいいんだよ！"
+          ],
+          "目標達成を祝う" => [
+            "目標達成おめでとう！本当に頑張ったね！",
+            "努力が実を結んだね！自分を誇りに思っていいよ！",
+            "最高の結果だね！これからも一緒に頑張ろう！"
+          ],
+          "部活や課外活動の頑張りを評価" => [
+            "練習の成果が出てるね！すごいよ！",
+            "毎日の努力が実っているね！自信を持って進もう！",
+            "全力で取り組む姿勢が素晴らしいよ！これからも応援してる！"
+          ],
+          "新しいことに挑戦するとき" => [
+            "新しい挑戦、ワクワクするね！楽しんで取り組もう！",
+            "最初は不安かもしれないけど、君ならきっと大丈夫！",
+            "挑戦する勇気が素晴らしい！自信を持って進もう！"
+          ],
+          
           # 職場に対するシチュエーション
           "プロジェクト成功を祝う" => [
             "プロジェクト成功おめでとう！これからも一緒に頑張ろう！",
@@ -208,10 +235,8 @@ target_data[:situations].each do |situation_name|
           ]
         }
     
-      puts "Processing situation: #{situation_name}"
-      positive_words[situation_name].to_a.each do |word|
-        puts "Creating PositiveWord: #{word}"
-        PositiveWord.create(user_id: nil, word: word, is_custom: false, situation_id: situation.id, target_id: target.id)
+          positive_words[situation_name].each do |word|
+            PositiveWord.find_or_create_by!(user_id: nil, word: word, is_custom: false, situation_id: situation.id, target_id: target.id)
+        end
+      end
     end
-  end
-end
