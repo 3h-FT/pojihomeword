@@ -7,6 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+<<<<<<< HEAD
 
 targets = ["自分自身", "友達", "家族", "恋人・パートナー", "学生", "職場"]
 targets.each do |target_name|
