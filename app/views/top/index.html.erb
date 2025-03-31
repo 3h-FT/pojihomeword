@@ -4,6 +4,7 @@
   <!-- ユーザーがログインしていた時の処理 -->
   <h2> ようこそ<%= current_user.username %> さん </h2>
   <h4> メールアドレス： <%= current_user.email %> </h4>
+  <%= link_to "ポジティブワードを知る", positive_words_path, class: 'post' %> <!-- シチュエーションを選択画面へ -->
   <%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
 <% else %>
   <!-- ユーザーがログインしていなかった時の処理 -->

@@ -1,0 +1,34 @@
+<h1>シチュエーション選択ページ</h1>
+
+<%= form_tag positive_words_path, method: :get do %>
+  <div>
+    <%= label_tag :target_id, '対象人物' %>
+    <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '対象人物を選択' %>
+  </div>
+
+  <% if params[:target_id].present? %>
+    <div>
+      <%= label_tag :situation_id, 'シチュエーション' %>
+      <%= select_tag :situation_id, options_from_collection_for_select(@situations, :id, :name, params[:situation_id]), prompt: 'シチュエーションを選択' %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= submit_tag '表示' %>
+  </div>
+<% end %>
+
+<% if @positive_words.present? %>
+  <h2>ポジティブワード</h2>
+  <ul>
+    <% @positive_words.each do |word| %>
+      <li><%= word.word %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<script>
+  document.getElementById('target_id').addEventListener('change', function() {
+    this.form.submit();
+  });
+</script>

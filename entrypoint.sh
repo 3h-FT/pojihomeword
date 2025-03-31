@@ -6,6 +6,7 @@ set -e
 bundle check || bundle install
 
 # 以前のサーバープロセスのPIDファイルを削除
+echo "Removing server.pid"
 rm -f tmp/pids/server.pid
 
 # データベースのセットアップ（初回のみ）

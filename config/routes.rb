@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "top#index"
+  resources :positive_words, only: [:index]
 end
