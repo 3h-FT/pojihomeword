@@ -5,10 +5,14 @@
   <h2> ようこそ<%= current_user.username %> さん </h2>
   <h4> メールアドレス： <%= current_user.email %> </h4>
   <%= link_to "ポジティブワードを知る", positive_words_path, class: 'post' %> <!-- シチュエーションを選択画面へ -->
+  <p>
+  <%= link_to "ユーザーページ", userpages_path, class: 'post' %> <!-- ユーザーページへ -->
+  <p>
   <%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
 <% else %>
   <!-- ユーザーがログインしていなかった時の処理 -->
   <h2> 現在ログインしていません </h2>
   <%= link_to "ログイン", new_user_session_path, class: 'post' %> <!-- ログイン画面に移行する -->
+  <p>
   <%= link_to "新規登録", new_user_registration_path, class: 'post' %> <!-- 新規登録画面に移行する -->
 <% end %>

@@ -1,0 +1,7 @@
+<h2> <%= current_user.username %> さんのページ</h2>
+
+<%= link_to "トップページに戻る", root_path, class: 'post' %> <!-- トップページへ -->
+<p>
+<%= link_to "ポジティブワードを知る", positive_words_path, class: 'post' %> <!-- シチュエーションを選択画面へ -->
+<p>
+<%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
