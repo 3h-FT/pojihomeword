@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "top#index"
   resources :positive_words, only: [:index]
+  resources :userpages, only: [:index]
 end

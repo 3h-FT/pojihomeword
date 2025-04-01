@@ -1,4 +1,4 @@
-<h1>シチュエーション選択ページ</h1>
+<h2>シチュエーション選択ページ</h2>
 
 <%= form_tag positive_words_path, method: :get do %>
   <div>
@@ -26,6 +26,13 @@
     <% end %>
   </ul>
 <% end %>
+<p>
+<%= link_to "トップページに戻る", root_path, class: 'post' %> <!-- トップページへ -->
+<p>
+  <%= link_to "ユーザーページ", userpages_path, class: 'post' %> <!-- ユーザーページへ -->
+<p>
+<%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
+
 
 <script>
   document.getElementById('target_id').addEventListener('change', function() {
