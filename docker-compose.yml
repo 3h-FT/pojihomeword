@@ -17,7 +17,12 @@ services:
     environment:
       - RAILS_ENV=development
       - DATABASE_URL=postgresql://myuser:mypassword@db/myapp_development
+    env_file:
+      - .env
     volumes:
       - .:/myapp
+    stdin_open: true
+    tty: true
+
 volumes:
   db_data:
