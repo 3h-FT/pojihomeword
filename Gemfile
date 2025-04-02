@@ -48,6 +48,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :test do
@@ -59,3 +61,6 @@ end
 gem "dockerfile-rails", ">= 1.7", :group => :development
 
 gem 'pry'     # pryのデバッガ
+
+gem 'sentry-ruby'
+gem 'sentry-rails'
