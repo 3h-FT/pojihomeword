@@ -1,7 +1,17 @@
-<h2> <%= current_user.username %> さんのページ</h2>
+<h2 class="text-center text-5xl font-bold text-gray-900 mb-10">
+  <%= current_user.username %> さんのページ
+</h2>
 
-<%= link_to "トップページに戻る", root_path, class: 'post' %> <!-- トップページへ -->
-<p>
-<%= link_to "ポジティブワードを知る", positive_words_path, class: 'post' %> <!-- シチュエーションを選択画面へ -->
-<p>
-<%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
+<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
+  <div class="mt-6 text-center">
+    <%= link_to "トップページに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+  </div>
+
+  <div class="mt-6 text-center">
+    <%= link_to "ポジティブワードを知る", positive_words_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+  </div>
+
+  <div class="mt-6 text-center">
+    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-700 hover:bg-red-700 px-4 py-2 rounded-md' %>
+  </div>
+</div>

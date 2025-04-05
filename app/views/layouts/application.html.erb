@@ -1,26 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" class="h-full bg-white">
   <head>
-    <title><%= content_for(:title) || "Myapp" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for(:title) || "posihomeword" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
+    <%= yield :head %>  <!-- ページ固有のCSSやメタタグをここで追加 -->
 
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-    <%= Sentry.get_trace_propagation_meta.html_safe %>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   </head>
 
-  <body>
-    <%= yield %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <body class="h-full bg-white">
+     <div class="min-h-screen px-8 py-6">
+      <%= yield %>  <!-- 各ページの内容がここに挿入される -->
+    </div>
   </body>
 </html>
