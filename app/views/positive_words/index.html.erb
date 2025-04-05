@@ -1,41 +1,44 @@
-<h2>シチュエーション選択ページ</h2>
+<h2 class="text-center text-5xl font-bold text-gray-900 mb-10">シチュエーション選択ページ</h2>
 
-<%= form_tag positive_words_path, method: :get do %>
-  <div>
-    <%= label_tag :target_id, '対象人物' %>
-    <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '対象人物を選択' %>
+<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
+<%= form_tag positive_words_path, method: :get, class: "space-y-6" do %>
+  <div class="text-left mt-4">
+    <%= label_tag :target_id, '対象人物を選んでください', class: 'block mb-1 text-xl font-medium text-gray-900' %>
+    <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '対象人物を選択', class: "mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 border border-gray-300 outline-1 outline-offset-1 outline-gray-300 placeholder:text-gray-400" %>
   </div>
 
   <% if params[:target_id].present? %>
-    <div>
-      <%= label_tag :situation_id, 'シチュエーション' %>
-      <%= select_tag :situation_id, options_from_collection_for_select(@situations, :id, :name, params[:situation_id]), prompt: 'シチュエーションを選択' %>
+    <div class="text-left mt-4">
+      <%= label_tag :situation_id, 'シチュエーションを選んでください', class: 'block mb-1 text-xl font-medium text-gray-900' %>
+      <%= select_tag :situation_id, options_from_collection_for_select(@situations, :id, :name, params[:situation_id]), prompt: 'シチュエーションを選択', class: "mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 border border-gray-300 outline-1 outline-offset-1 outline-gray-300 placeholder:text-gray-400" %>
     </div>
   <% end %>
 
-  <div>
-    <%= submit_tag '表示' %>
+  <div class="text-right mt-4">
+    <%= submit_tag '表示', class: 'px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400' %>
   </div>
 <% end %>
+</div>
 
 <% if @positive_words.present? %>
-  <h2>ポジティブワード</h2>
-  <ul>
+  <h2 class="text-center text-3xl font-bold text-gray-900 mt-6">ポジティブワード</h2>
+  <ul class="text-center text-2xl font-bold pl-6 leading-loose mt-4 p-6 rounded-lg shadow-lg border-2 border-yellow-300 sm:mx-auto sm:w-full xl:w-1/2">
     <% @positive_words.each do |word| %>
-      <li><%= word.word %></li>
+      <li class="py-2 text-3xl text-red-500 hover:text-red-900 transition-colors duration-200">
+        ・<%= word.word %>
+      </li>
     <% end %>
   </ul>
 <% end %>
-<p>
-<%= link_to "トップページに戻る", root_path, class: 'post' %> <!-- トップページへ -->
-<p>
-  <%= link_to "ユーザーページ", userpages_path, class: 'post' %> <!-- ユーザーページへ -->
-<p>
-<%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
 
+<p class="text-center mt-10">
+  <%= link_to "トップページに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+</p>
 
-<script>
-  document.getElementById('target_id').addEventListener('change', function() {
-    this.form.submit();
-  });
-</script>
+<div class="mt-4 text-center">
+  <%= link_to "ポジティブワードを振り返る(ユーザーページ)", userpages_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+</div>
+
+<div class="mt-6 text-center">
+<%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-700 hover:bg-red-700 px-4 py-2 rounded-md' %>
+</div>

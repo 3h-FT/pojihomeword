@@ -1,18 +1,42 @@
-<h1>トップページ</h1>
+<h1 class="mt-10 text-center text-5xl font-bold tracking-tight text-gray-800 mb-8">
+  ポジほめワード
+</h1>
 
-<% if user_signed_in? %> <!-- ユーザーがログインしているか調べる -->
-  <!-- ユーザーがログインしていた時の処理 -->
-  <h2> ようこそ<%= current_user.username %> さん </h2>
-  <h4> メールアドレス： <%= current_user.email %> </h4>
-  <%= link_to "ポジティブワードを知る", positive_words_path, class: 'post' %> <!-- シチュエーションを選択画面へ -->
-  <p>
-  <%= link_to "ユーザーページ", userpages_path, class: 'post' %> <!-- ユーザーページへ -->
-  <p>
-  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %> <!-- ログアウトをする -->
-<% else %>
-  <!-- ユーザーがログインしていなかった時の処理 -->
-  <h2> 現在ログインしていません </h2>
-  <%= link_to "ログイン", new_user_session_path, class: 'post' %> <!-- ログイン画面に移行する -->
-  <p>
-  <%= link_to "新規登録", new_user_registration_path, class: 'post' %> <!-- 新規登録画面に移行する -->
-<% end %>
+<div class="sm:mx-auto sm:w-full sm:max-w-lg">
+  <% if user_signed_in? %>
+    <!-- ログイン時 -->
+    <h2 class="text-center text-3xl font-semibold text-gray-900">
+      ようこそ <%= current_user.username %> さん
+    </h2>
+    <h4 class="text-center text-xl text-gray-600 mt-2">
+      メールアドレス: <%= current_user.email %>
+    </h4>
+
+    <div class="mt-6 text-center">
+      <%= link_to "ポジティブワードを知る", positive_words_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+    </div>
+
+    <div class="mt-4 text-center">
+    <%= link_to "ポジティブワードを振り返る(ユーザーページ)", userpages_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-700 hover:bg-red-700 px-4 py-2 rounded-md' %>
+    </div>
+
+  <% else %>
+    <!-- 未ログイン時 -->
+    <h3 class="mt-10 text-center text-3xl font-semibold text-gray-900">
+      現在ログインしていません
+    </h3>
+
+    <div class="mt-6 text-center">
+      <%= link_to "ログイン", new_user_session_path, class: 'inline-block text-m font-medium text-white bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-md' %>
+    </div>
+
+    <p class="mt-4 text-center text-m text-gray-500">
+      アカウントをお持ちでないですか？
+      <%= link_to "新規登録はこちら", new_user_registration_path, class: "font-semibold text-indigo-600 hover:text-indigo-500" %>
+    </p>
+  <% end %>
+</div>
