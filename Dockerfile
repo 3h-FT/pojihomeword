@@ -1,14 +1,17 @@
 FROM ruby:3.2.3-slim AS build
 
+# 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install --no-install-recommends -y \
     build-essential \
     libpq-dev \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /myapp
 
 # Gemfileだけを先にコピーしてインストール
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./ 
 RUN bundle install --jobs=4 --retry=3 && rm -rf ~/.bundle
 
 # 残りのアプリケーションコードをコピー
@@ -18,8 +21,11 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 FROM ruby:3.2.3-slim AS final
 
+# 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install --no-install-recommends -y \
     libpq-dev \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --system --gid 1000 rails && \
