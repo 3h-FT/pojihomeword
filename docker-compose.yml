@@ -1,3 +1,4 @@
+version: '3'
 services:
   db:
     image: postgres:15
@@ -14,15 +15,26 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - selenium-hub  # selenium-hubの依存関係を追加
     environment:
       - RAILS_ENV=development
       - DATABASE_URL=postgresql://myuser:mypassword@db/myapp_development
     env_file:
-      - .env
+      - .env  # .env ファイルから環境変数を読み込む
     volumes:
       - .:/myapp
     stdin_open: true
     tty: true
+
+  selenium-hub:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "4444:4444"  # Selenium Hubのポート
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm  # Chromeのメモリ共有設定
 
 volumes:
   db_data:
