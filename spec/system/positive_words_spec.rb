@@ -22,5 +22,10 @@ RSpec.describe "PositiveWords", type: :system do
     expect(page).to have_link("トップページに戻る", href: root_path)
     expect(page).to have_link("ポジティブワードを振り返る(ユーザーページ)", href: userpages_path)
     expect(page).to have_button("ログアウト")
+
+    # ログアウトボタンをクリック
+    click_button "ログアウト"
+    expect(page).to have_current_path(root_path)# ログアウト後トップページへ
+    expect(page).to have_content("Signed out successfully.")
   end
 end

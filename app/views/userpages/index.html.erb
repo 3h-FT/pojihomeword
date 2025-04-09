@@ -1,10 +1,10 @@
 <% content_for :title, "ユーザーページ" %>
 
-<h2 class="text-center text-5xl font-bold text-gray-900 mb-10">
+<h2 class="text-center text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
   <%= current_user.username %> さんのページ
 </h2>
 
-<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
+<div class="mt-4 sm:mx-auto sm:w-full sm:max-w-lg">
   <div class="mt-6 text-center">
     <%= link_to "トップページに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-400' %>
   </div>
