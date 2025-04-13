@@ -1,49 +1,36 @@
 <% content_for :title, "ログイン" %>
 
 <div class="sm:mx-auto sm:w-full sm:max-w-lg">
-  <h2 class="mt-10 text-center text-5xl font-bold tracking-tight text-gray-900">ログイン</h2>
+  <h2 class="mt-2 text-center text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">ログイン</h2>
 </div>
 
-<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-lg">
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
-    <!-- メールアドレス入力欄 -->
-    <div>
-      <label for="email" class="block text-xl font-medium text-gray-900">メールアドレス</label>
-      <div class="mt-2">
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 outline-offset-1 outline-gray-300 placeholder:text-gray-400 border border-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-base" %>
-      </div>
+<div class="sm:mx-auto sm:w-full sm:max-w-lg">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="mt-4">
+      <%= f.label :email, "メールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-900" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 border border-gray-300 focus:outline-indigo-600" %>
     </div>
 
-    <!-- パスワード入力欄 -->
-    <div>
-      <div class="flex items-center justify-between">
-        <label for="password" class="block text-xl font-medium text-gray-900">パスワード</label>
-        <div class="text-xl">
-          <%= link_to "パスワードを忘れた場合", new_user_password_path, class: "font-semibold text-indigo-600 hover:text-indigo-500" %>
-        </div>
-      </div>
-      <div class="mt-2">
-        <%= f.password_field :password, autocomplete: "current-password", required: true, class: "block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 outline-offset-1 outline-gray-300 placeholder:text-gray-400  border border-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-base" %>
-      </div>
+    <div class="mt-4">
+      <%= f.label :password, "パスワード", class: "block text-lg sm:text-xl font-medium text-gray-900" %>
+      <%= f.password_field :password, autocomplete: "current-password", required: true, class: "mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 border border-gray-300 focus:outline-indigo-600" %>
     </div>
 
-    <!-- Remember me チェックボックス -->
     <% if devise_mapping.rememberable? %>
-      <div class="flex items-center">
+      <div class="mt-4 flex items-center">
         <%= f.check_box :remember_me, class: "h-6 w-6 text-indigo-600 border-gray-300 rounded" %>
-        <%= f.label :remember_me, class: "ml-2 text-xl text-gray-900" %>
+        <%= f.label :remember_me, "ログイン情報を保持する", class: "ml-2 text-lg sm:text-xl text-gray-900" %>
       </div>
     <% end %>
 
-    <!-- ログインボタン -->
-    <div>
-      <%= f.submit "ログイン", class: "flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600" %>
+    <div class="mt-6">
+      <%= f.submit "ログイン", class: "flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus:outline-2 focus:outline-indigo-600" %>
+    </div>
+
+    <div class="mt-2 text-center text-base sm:text-lg text-gray-500">
+      <%= render "devise/shared/links" %>
     </div>
   <% end %>
-
-  <!-- 新規登録へのリンク -->
-  <p class="mt-4 text-center text-lg text-gray-500">
-    アカウントをお持ちでないですか？
-    <%= link_to "新規登録", new_user_registration_path, class: "font-semibold text-indigo-600 hover:text-indigo-500" %>
-  </p>
 </div>

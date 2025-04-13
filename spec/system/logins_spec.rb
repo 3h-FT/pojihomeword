@@ -6,6 +6,7 @@ RSpec.describe "ログイン機能", type: :system do
   before { login(user) }
 
   it 'トップページにリダイレクトされること' do
-    expect(page.current_path).to eq(root_path)
+    expect(page).to have_current_path(root_path)
+    expect(page).to have_content('Signed in successfully.')
   end
 end
