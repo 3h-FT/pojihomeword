@@ -16,4 +16,9 @@ Rails.application.routes.draw do
   root "top#index"
   resources :positive_words, only: [ :index ]
   resources :userpages, only: [ :index ]
+
+  if Rails.env.development?
+    # letter_opener_web へのアクセスを許可
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end
