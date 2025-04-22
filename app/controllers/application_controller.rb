@@ -6,11 +6,12 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from StandardError, with: :render_500
 
+  private
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :username ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :username ])
   end
-
-  private
 
   # 404エラーを public/404.html に接続
   def render_404(exception = nil)
