@@ -34,11 +34,15 @@ Rails.application.configure do
   # マイグレーション後にスキーマをダンプしない
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.default_url_options = { host: 'graduation-project-x30c.onrender.com' }
+  
+  config.action_mailer.raise_delivery_errors = true
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "your_domain.com",
+    domain: "graduation-project-x30c.onrender.com",
     user_name: ENV["GMAIL_USERNAME"],
     password: ENV["GMAIL_PASSWORD"],
     authentication: "plain",
