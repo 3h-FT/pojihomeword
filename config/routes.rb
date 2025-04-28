@@ -17,7 +17,11 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "top#index"
   resources :positive_words, only: [ :index ]
+  post 'ai_messages/generate', to: 'ai_messages#generate', as: :ai_messages_generate
+get 'ai_messages/new', to: 'ai_messages#new', as: :new_ai_message
+  
   resources :userpages, only: [ :index ]
+
 
   if Rails.env.development?
     # letter_opener_web へのアクセスを許可
