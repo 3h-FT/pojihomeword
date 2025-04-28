@@ -1,10 +1,8 @@
 services:
   db:
     image: postgres:15
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: myapp_development
+    env_file:
+      - .env
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -22,6 +20,7 @@ services:
       - .env  # .env ファイルから環境変数を読み込む
     volumes:
       - .:/myapp
+      - bundle_data:/usr/local/bundle  # bundle_dataをここで使用
     stdin_open: true
     tty: true
 
@@ -36,4 +35,5 @@ services:
       - /dev/shm:/dev/shm  # Chromeのメモリ共有設定
 
 volumes:
-  db_data:
+  db_data:  # PostgreSQL用ボリューム
+  bundle_data:  # bundle_dataボリュームを追加
