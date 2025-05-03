@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_20_080053) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_30_063745) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,4 +54,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_20_080053) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  create_table "word_favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "positive_word_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["positive_word_id"], name: "index_word_favorites_on_positive_word_id"
+    t.index ["user_id", "positive_word_id"], name: "index_word_favorites_on_user_id_and_positive_word_id", unique: true
+    t.index ["user_id"], name: "index_word_favorites_on_user_id"
+  end
+
+  add_foreign_key "word_favorites", "positive_words"
+  add_foreign_key "word_favorites", "users"
 end
