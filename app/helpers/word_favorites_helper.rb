@@ -1,0 +1,2 @@
+module WordFavoritesHelper
+end

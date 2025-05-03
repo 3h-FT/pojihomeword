@@ -1,0 +1,7 @@
+<% if (fav = current_user.word_favorites.find_by(positive_word_id: positive_word.id)) %>
+  <%= link_to word_favorite_path(fav),
+              data: { turbo_method: :delete },
+              class: "text-2xl" do %>
+    <i class="bi bi-star-fill"></i>
+  <% end %>
+<% end %>

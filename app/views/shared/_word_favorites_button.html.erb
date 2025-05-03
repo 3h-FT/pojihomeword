@@ -1,0 +1,7 @@
+<div id="bookmark-button-for-word-<%= positive_word.id %>">
+  <% if current_user.bookmark?(positive_word) %>
+    <%= render 'shared/unbookmark', positive_word: positive_word %>
+  <% else %>
+    <%= render 'shared/bookmark', positive_word: positive_word %>
+  <% end %>
+</div>

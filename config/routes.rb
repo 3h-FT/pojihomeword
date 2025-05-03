@@ -2,29 +2,18 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
-  get "top/index"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/*
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
-  # root "posts#index"
   root "top#index"
-  resources :positive_words, only: [ :index ]
-  post 'ai_messages/generate', to: 'ai_messages#generate', as: :ai_messages_generate
-get 'ai_messages/new', to: 'ai_messages#new', as: :new_ai_message
-  
-  resources :userpages, only: [ :index ]
 
+  resources :userpages, only: [ :index ]
+  resources :positive_words, only: [ :index ]
+
+  post "ai_messages/generate", to: "ai_messages#generate", as: :ai_messages_generate
+  get "ai_messages/new", to: "ai_messages#new", as: :new_ai_message
+
+  resources :word_favorites, only: [ :create, :destroy ]
 
   if Rails.env.development?
-    # letter_opener_web へのアクセスを許可
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 end

@@ -7,4 +7,18 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   has_many :positive_words, dependent: :destroy
+  has_many :word_favorites, dependent: :destroy
+  has_many :favorited_words, through: :word_favorites, source: :positive_word
+
+  def bookmark(positive_word)
+    favorited_words << positive_word
+  end
+
+  def unbookmark(positive_word)
+    favorited_words.destroy(positive_word)
+  end
+
+  def bookmark?(positive_word)
+    favorited_words.include?(positive_word)
+  end
 end

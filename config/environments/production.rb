@@ -34,8 +34,8 @@ Rails.application.configure do
   # マイグレーション後にスキーマをダンプしない
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: 'graduation-project-x30c.onrender.com' }
-  
+  config.action_mailer.default_url_options = { host: "graduation-project-x30c.onrender.com" }
+
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.delivery_method = :smtp
