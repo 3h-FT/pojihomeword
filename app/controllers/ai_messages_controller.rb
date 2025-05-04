@@ -10,17 +10,17 @@ class AiMessagesController < ApplicationController
   end
 
   def generate
-    if user_reached_limit?
-      respond_to do |format|
-        format.html {
-          redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限3回)")
-        }
-        format.json {
-          render json: { error: "一日の生成回数制限に達しました(上限3回)" }, status: :forbidden
-        }
-      end
-      return
-    end
+    #if user_reached_limit?
+      #respond_to do |format|
+        #format.html {
+          #redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限3回)")
+        #}
+        #format.json {
+          #render json: { error: "一日の生成回数制限に達しました(上限3回)" }, status: :forbidden
+        #}
+      #end
+      #return
+    #end
 
     target_name = params[:positive_word][:target].to_s.strip
     situation_name = params[:positive_word][:situation].to_s.strip
@@ -47,18 +47,19 @@ class AiMessagesController < ApplicationController
     )
 
     if @positive_word.valid?
-      prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージを1つ考えてください。出力はそのメッセージ本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージと重複しないようにしてください。"
+      #prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージを1つ考えてください。出力はそのメッセージ本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージと重複しないようにしてください。"
 
-      client = OpenAI::Client.new
-      response = client.chat(
-        parameters: {
-          model: "gpt-4.1-mini",
-          messages: [ { role: "user", content: prompt } ],
-          temperature: 0.8
-        }
-      )
+      #client = OpenAI::Client.new
+      #response = client.chat(
+        #parameters: {
+          #model: "gpt-4.1-mini",
+          #messages: [ { role: "user", content: prompt } ],
+          #temperature: 0.8
+        #}
+      #)
 
-      ai_message = response.dig("choices", 0, "message", "content")
+      #ai_message = response.dig("choices", 0, "message", "content")
+      ai_message = "#{target.name}さんが#{situation.name}のシチュエーションでポジティブなメッセージを送ります！"
 
       @positive_word.word = ai_message
       @positive_word.save!
@@ -78,6 +79,10 @@ class AiMessagesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def word_favorites
+    @favorited_words = current_user.favorited_words.includes(:positive_word)
   end
 
   private

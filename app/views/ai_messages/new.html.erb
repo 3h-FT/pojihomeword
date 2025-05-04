@@ -11,56 +11,17 @@
         <p class="text-lg text-gray-600">使い方がわからなければ、まずはサンプルを見てみましょう♪</p>
         <%= link_to "サンプルを見る", positive_words_path, class: "inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 px-8 rounded-full shadow-md" %>
       </div>
-
+      
       <% if params[:error].present? %>
         <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md">
           <strong>エラー:</strong> <%= params[:error] %>
         </div>
       <% end %>
 
-      <%= form_with model: @positive_word, url: ai_messages_generate_path, method: :post, local: true, class: "space-y-6", id: "generate-form" do |f| %>
-        <div>
-          <%= f.label :target, '💌 誰に送りますか？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-          <%= f.text_field :target, value: @target, placeholder: "例：友達、家族、自分", class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
-        </div>
+      <%= render 'form' %>
 
-        <div>
-          <%= f.label :situation, '🌈 どんな時？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-          <%= f.text_field :situation, value:  @situation, placeholder: "例：褒めたい時、応援したい時", class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
-        </div>
-
-        <div>
-          <%= f.submit 'ワードを作る', class: "w-full bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
-        </div>
-      <% end %>
-
-      <% if params[:word_id].present? && (positive_word = PositiveWord.find_by(id: params[:word_id])) %>
-        <div class="mt-6 bg-pink-50 py-8 px-8">
-          <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ポジティブワード生成結果</h3>
-
-          <p id="ai-message" class="py-3 px-6 bg-white text-2xl text-gray-800 rounded-full shadow-sm font-semibold leading-relaxed hover:bg-yellow-100 transition-all flex items-center gap-x-3">
-            <span class="text-pink-400">🌸</span>
-            <span class="flex-grow"><%= positive_word.word %></span>
-
-            <% if user_signed_in? %>
-              <span id="bookmark-button-for-word-<%= positive_word.id %>">
-                <% if current_user.bookmark?(positive_word) %>
-                  <%= render 'shared/unbookmark', positive_word: positive_word %>
-                <% else %>
-                  <%= render 'shared/bookmark', positive_word: positive_word %>
-                <% end %>
-              </span>
-            <% end %>
-          </p>
-
-          <div class="mt-8 flex justify-center">
-            <%= link_to "もう一度作る", new_ai_message_path, class: "px-6 py-3 bg-red-400 text-white rounded-full hover:bg-red-500" %>
-          </div>
-        </div>
-      <% elsif params[:word_id].present? %>
-        <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md text-center">
-          ポジティブワードが見つかりませんでした。
-        </div>
+      <% if @positive_word&.persisted? %>
+        <%= render 'result', positive_word: @positive_word %>
       <% end %>
 
       <div class="mt-6 space-y-3 text-center">
@@ -74,5 +35,3 @@
     </div>
   </div>
 </div>
-
-<%= javascript_include_tag 'ai_messages', 'data-turbo-track': 'reload', crossorigin: 'anonymous' %>
