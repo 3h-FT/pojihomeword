@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_30_063745) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_05_091950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "positive_words", force: :cascade do |t|
     t.integer "user_id"
     t.text "word"
-    t.boolean "is_custom"
+    t.boolean "is_custom", default: false
     t.integer "situation_id"
     t.integer "target_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "source_type", default: 1
   end
 
   create_table "situations", force: :cascade do |t|
