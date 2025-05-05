@@ -1,0 +1,9 @@
+<%= search_form_for @q, url: userpages_path, method: :get, html: { class: 'w-full' } do |f| %>
+    <div class="flex w-full space-x-2">
+      <%= f.text_field :positive_word_word_cont,
+          class: 'flex-grow p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 rounded',
+          placeholder: 'ワード検索' %>
+      <%= f.submit '検索',
+          class: 'whitespace-nowrap text-white bg-indigo-500 hover:bg-indigo-600 py-2 px-4 rounded shadow-md' %>
+    </div>
+  <% end %>

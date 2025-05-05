@@ -8,4 +8,8 @@ class PositiveWord < ApplicationRecord
 
     validates :situation, presence: true
     validates :target, presence: true
+
+    def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "id", "is_custom", "situation_id", "target_id", "updated_at", "user_id", "word"]
+  end
 end

@@ -59,7 +59,7 @@ class AiMessagesController < ApplicationController
       #)
 
       #ai_message = response.dig("choices", 0, "message", "content")
-      ai_message = "#{target.name}さんが#{situation.name}のシチュエーションでポジティブなメッセージを送ります！"
+      ai_message = "シチュエーションでポジティブなメッセージを送ります！"
 
       @positive_word.word = ai_message
       @positive_word.save!

@@ -1,27 +1,34 @@
-<% content_for :title, "ユーザーページ" %>
+<%= content_for :title, "ユーザーページ" %>
 
-<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
-  <h2 class="text-center text-2xl sm:text-3xl font-semibold text-yellow-600 mb-6">
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+  <h2 class="text-center text-3xl font-semibold text-yellow-600 mb-8">
     <%= current_user.username %> さんのページ
   </h2>
-  
-  <% if @favorited_words.present? %>
-   <h3 class="text-center text-2xl sm:text-3xl font-semibold text-yellow-600 mb-6">
-    お気に入り登録一覧
-  </h3>
-  <div class="space-y-4">
-    <%= render partial: 'ai_messages/result', collection: @favorited_words, as: :positive_word, locals: { show_header_and_button: false } %>
-  </div>
-<% else %>
-  <div class="text-center text-2xl mb-4 space-y-3">
-  <p>お気に入り登録はありません</p>
-  </div>
-<% end %>
 
-  <div class="mt-6 text-center space-y-3">
-    <%= link_to "トップページに戻る", root_path, class: 'inline-block text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-    <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'inline-block text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-    <%= link_to "アカウントを編集する", edit_user_registration_path, class: 'mt-6 inline-block text-sm sm:text-base font-medium text-white bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md' %>
-    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md' %>
+  <%= render 'search', q: @q %>
+
+  <% if @favorited_words.present? %>
+    <div class="mt-6 bg-pink-50 py-4 px-4 rounded-xl shadow">
+      <h3 class="text-center text-2xl sm:text-3xl font-semibold text-yellow-600 mb-6">
+        お気に入り登録一覧
+      </h3>
+      <div class="space-y-2">
+        <%= render partial: 'ai_messages/result', collection: @favorited_words, as: :positive_word, locals: { show_header_and_button: false, favorited_word_ids: @favorited_word_ids } %>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-center text-lg text-gray-600 mb-8">
+      お気に入り登録はありません
+    </p>
+  <% end %>
+
+  <div class="mt-8 space-y-4">
+    <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+    <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+
+    <div class="flex justify-center space-x-4 mt-6">
+      <%= link_to "アカウントを編集する", edit_user_registration_path, class: 'text-sm sm:text-base font-medium text-white bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-full shadow-md' %>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full shadow-md' %>
+    </div>
   </div>
 </div>

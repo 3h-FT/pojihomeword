@@ -21,7 +21,9 @@
       <%= render 'form' %>
 
       <% if @positive_word&.persisted? %>
+        <div class="mt-6 bg-pink-50 py-8 px-8 rounded-xl shadow">
         <%= render 'result', positive_word: @positive_word %>
+        </div>
       <% end %>
 
       <div class="mt-6 space-y-3 text-center">
