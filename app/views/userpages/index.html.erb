@@ -11,50 +11,59 @@
 
   <%= render 'search', q: @q %>
 
-<div class="flex justify-center space-x-4 p-4">
-  <button data-tab="all" class="tab-button bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-full">すべて</button>
-  <button data-tab="custom" class="tab-button bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded-full">カスタム</button>
-  <button data-tab="favorite" class="tab-button bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full">お気に入り</button>
-</div>
+<button data-tab="all" class="tab-button py-2 px-10 font-semibold transition duration-300 ease-in-out focus:outline-none"
+        data-default-class="bg-blue-100 text-gray-700 hover:bg-gray-200"
+        aria-selected="<%= @active_tab == 'all' %>">
+  すべて
+</button>
 
-  <div class="mt-6">
-    <%= render 'new' %>
-  </div>
+<button data-tab="custom" class="tab-button py-2 px-10 font-semibold transition duration-300 ease-in-out focus:outline-none"
+        data-default-class="bg-green-50 text-gray-700 hover:bg-green-200"
+        aria-selected="<%= @active_tab == 'custom' %>">
+  カスタム
+</button>
+
+<button data-tab="favorite" class="tab-button py-2 px-10 font-semibold transition duration-300 ease-in-out focus:outline-none"
+        data-default-class="bg-yellow-100 text-gray-700 hover:bg-yellow-200"
+        aria-selected="<%= @active_tab == 'favorite' %>">
+  お気に入り
+</button>
 
   <div data-tab-content="all" class="<%= 'hidden' unless @active_tab == 'all' %>">
-  <% if @custom_words.present? %>
-    <%= render 'custom_words_section', words: @custom_words_page %>
-    <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'all' } %>
-  <% end %>
+    <%= render 'new' %>
+    <% if @custom_words.present? %>
+      <%= render 'custom_words_section', words: @custom_words_page %>
+      <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'all' } %>
+    <% end %>
 
-  <% if @favorited_words.present? %>
-    <%= render 'favorited_words_section', words: @favorited_words_page %>
-    <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'all' } %>
-  <% end %>
+    <% if @favorited_words.present? %>
+      <%= render 'favorited_words_section', words: @favorited_words_page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'all' } %>
+    <% end %>
 
     <% if @custom_words.blank? && @favorited_words.blank? %>
-    <p class="text-center text-lg text-gray-600 py-8">登録されたワードはありません</p>
-  <% end %>
-</div>
+      <p class="text-center text-lg text-gray-600 py-8">登録されたワードはありません</p>
+    <% end %>
+  </div>
 
-<div data-tab-content="custom" class="<%= 'hidden' unless @active_tab == 'custom' %>">
-  <% if @custom_words.present? %>
-    <%= render 'custom_words_section', words: @custom_words_page %>
-    <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'custom' } %>
-  <% else %>
-    <p class="text-center text-lg text-gray-600 py-8">カスタムワードはありません</p>
-  <% end %>
-</div>
+  <div data-tab-content="custom" class="<%= 'hidden' unless @active_tab == 'custom' %>">
+    <%= render 'new' %>
+    <% if @custom_words.present? %>
+      <%= render 'custom_words_section', words: @custom_words_page %>
+      <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'custom' } %>
+    <% else %>
+      <p class="text-center text-lg text-gray-600 py-8">カスタムワードはありません</p>
+    <% end %>
+  </div>
 
-<div data-tab-content="favorite" class="<%= 'hidden' unless @active_tab == 'favorite' %>">
-  <% if @favorited_words.present? %>
-    <%= render 'favorited_words_section', words: @favorited_words_page %>
-   <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'favorite' } %>
-  <% else %>
-    <p class="text-center text-lg text-gray-600 py-8">お気に入り登録はありません</p>
-  <% end %>
-</div>
- 
+  <div data-tab-content="favorite" class="<%= 'hidden' unless @active_tab == 'favorite' %>">
+    <% if @favorited_words.present? %>
+      <%= render 'favorited_words_section', words: @favorited_words_page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'favorite' } %>
+    <% else %>
+      <p class="text-center text-lg text-gray-600 py-8">お気に入り登録はありません</p>
+    <% end %>
+  </div>
 
   <div class="mt-8 space-y-4">
     <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
@@ -66,4 +75,3 @@
     </div>
   </div>
 </div>
-
