@@ -1,12 +1,14 @@
-<%= form_with model: PositiveWord.new, url: userpages_path, local: true do |f| %>
-    <div class="py-3">
-      <%= f.label :word, "自分でポジティブワードを追加する", class: "block mb-2 text-lg font-medium text-gray-700" %>
-      <%= f.text_field :word, placeholder: 'ワードを入力',class: "w-full p-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-gray-700" %>
-    </div>
-  
-    <%= f.hidden_field :is_custom, value: true %>
-  
-    <div class="text-center">
-      <%= f.submit "追加", class: "bg-yellow-400 hover:bg-yellow-500 text-white py-3 px-8 rounded-full font-semibold" %>
-    </div>
-  <% end %>
+<div class="bg-green-100 py-2 px-2 ">
+ <%= form_with model: PositiveWord.new, url: userpages_path, local: true do |f| %>
+ <h3 class="text-xl font-semibold text-green-600 text-center p-4">自分でポジティブワードを追加する</h3>
+ <div class="mb-4">
+ <%= f.text_field :word, placeholder: 'ワードを入力', class: "w-full p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-gray-700" %>
+ </div>
+
+ <%= f.hidden_field :is_custom, value: true %>
+
+ <div class="text-center">
+ <%= f.submit "追加", class: "mb-4 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-full font-semibold" %>
+ </div>
+ <% end %>
+</div>

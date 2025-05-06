@@ -78,3 +78,4 @@ gem "dotenv-rails"       # APIキーの.env管理に
 gem "ruby-openai"        # OpenAIのAPIラッパー
 
 gem 'ransack', '4.3.0'
+gem 'kaminari'

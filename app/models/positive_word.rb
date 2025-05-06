@@ -10,7 +10,10 @@ class PositiveWord < ApplicationRecord
     validates :target, presence: true, unless: :is_custom?
   
     def self.ransackable_attributes(auth_object = nil)
-      ["created_at", "id", "is_custom", "situation_id", "target_id", "updated_at", "user_id", "word"]
+      ["word"]
     end
-  end
-  
+
+    def self.ransackable_associations(auth_object = nil)
+      %w[situation target]
+    end
+  end 
