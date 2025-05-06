@@ -1,0 +1,4 @@
+// tabs@0.2.0 downloaded from https://ga.jspm.io/npm:tabs@0.2.0/index.js
+
+var a="undefined"!==typeof globalThis?globalThis:"undefined"!==typeof self?self:global;var e={};!function(s,t){e?e=t():(this||a)[s]=t()}("tabs",(function(){return function tabs(a){var tabs=a.querySelectorAll(".tab");var e=a.querySelectorAll(".tab-pane");each(tabs,(function(a,s){s.addEventListener("click",(function(s){activate(tabs,a);activate(e,a)}))}));function activate(a,e){each(a,(function(a,s){a!=e?removeClass(s,"active"):addClass(s,"active")}))}};function each(a,e){for(var s=a.length-1;s>=0;s--)e(s,a[s])}function hasClass(a,e){return a.className.match(new RegExp("(\\s|^)"+e+"(\\s|$)"))}function addClass(a,e){hasClass(a,e)||(a.className+=" "+e)}function removeClass(a,e){if(hasClass(a,e)){var s=new RegExp("(\\s|^)"+e+"(\\s|$)");a.className=a.className.replace(s,"")}}}));var s=e;export default s;
+

@@ -2,13 +2,21 @@ class UserpagesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @q = WordFavorite.ransack(params[:q])
-    @favorited_words = @q.result(distinct: true).includes(:positive_word).order(created_at: :desc).map(&:positive_word)
+    @q = current_user.positive_words.ransack(params[:q])
+    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+  
+    @favorited_words = @searched_words.where(id: current_user.favorited_words.pluck(:positive_word_id))
+    @custom_words = @searched_words.where(is_custom: true)
+  
     @favorited_word_ids = current_user.favorited_words.pluck(:positive_word_id)
+    
+    @favorited_words_count = current_user.favorited_words.count
+    @custom_words_count = current_user.positive_words.where(is_custom: true).count
+    @known_word_count = @favorited_words_count + @custom_words_count
 
-    @custom_words = current_user.positive_words.where(is_custom: true)
-
-    @known_word_count = @favorited_words.count + @custom_words.count
+    @favorited_words_page = @favorited_words.page(params[:favorited_page]).per(10)
+    @custom_words_page = @custom_words.page(params[:custom_page]).per(10)
+    @active_tab = params[:tab] || "all"
   end
   
   def create
