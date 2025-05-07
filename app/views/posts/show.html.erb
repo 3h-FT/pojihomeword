@@ -1,0 +1,36 @@
+<% content_for(:post_word, @post.post_word) %>
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+  <h2 class="text-center text-3xl font-semibold text-yellow-600 mb-8">
+    投稿詳細
+  </h2>
+
+  <h3 class="text-3xl font-semibold text-yellow-600 mb-4">
+   <%= @post.post_word %>
+   </h3>
+  <p><%= simple_format(@post.caption) %></p>
+  <ul>
+  <li ><%= "#{@post.user.username}" %></li>
+  <li ><%= l @post.created_at, format: :long %></li>
+</ul>
+ 
+<% if current_user.own?(@post) %>
+  <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}" do %>
+
+   <i class="bi bi-pencil-fill"></i>
+       <% end %>
+  <%= link_to post_path(@post), id: "button-delete-#{@post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しました'} do %>
+    <i class="bi bi-trash-fill"></i>
+   <% end %>
+    <% end %>
+
+  <div class="mt-8 space-y-4">
+  <%= link_to "投稿一覧に戻る", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+  <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+  <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+  <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
+
+  <div class="flex justify-center space-x-4 mt-6">
+    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full shadow-md' %>
+  </div>
+</div>
+</div>
