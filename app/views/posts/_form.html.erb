@@ -1,0 +1,15 @@
+<%= form_with model: post, class: 'space-y-8 p-5', local: true do |f| %>
+    <div>
+      <%= f.label :post_word, '投稿したいワード', class: 'block mb-2 text-lg font-medium text-gray-700 ' %>
+      <%= f.text_area :post_word, placeholder: "例：おめでとう、ありがとう", class: "w-full p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+    </div>
+  
+    <div>
+      <%= f.label :caption, 'ワードの説明', class: 'block mb-2 text-lg font-medium text-gray-700' %>
+      <%= f.text_area :caption, placeholder: "例：家族にお祝いしてもらったときの言葉です", class: "w-full p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+    </div>
+  
+    <div>
+      <%= f.submit '投稿', class: "w-full bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
+    </div>
+  <% end %>
