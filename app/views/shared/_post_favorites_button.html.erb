@@ -1,0 +1,7 @@
+<div id="post-favorite-button-<%= post.id %>">
+  <% if current_user.post_bookmarked?(post) %>
+    <%= render 'shared/unpost_bookmark', post: post %>
+  <% else %>
+    <%= render 'shared/post_bookmark', post: post %>
+  <% end %>
+</div>

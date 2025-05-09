@@ -1,9 +1,9 @@
-<%= search_form_for @q, url: posts_path, method: :get, html: { class: 'w-full' } do |f| %>
-    <div class="flex w-full space-x-2 mb-6">
-      <%= f.text_field :post_word_or_caption_cont,
-          class: 'flex-grow p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 rounded',
-          placeholder: 'ワード検索' %>
-      <%= f.submit '検索',
-          class: 'whitespace-nowrap text-white bg-indigo-500 hover:bg-indigo-600 py-2 px-4 rounded shadow-md' %>
-    </div>
-  <% end %>
+<%= search_form_for q, url: url, method: :get, html: { class: 'w-full' } do |f| %>
+  <div class="flex w-full space-x-2 mb-6">
+    <%= f.text_field :post_word_or_caption_cont,
+      class: 'flex-grow p-4 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-full',
+      placeholder: 'ポジティブワードまたはキャプションで検索' %>
+    <%= f.submit '検索',
+      class: 'whitespace-nowrap text-white bg-red-400 hover:bg-red-500 py-3 px-6 rounded-full shadow-md cursor-pointer' %>
+  </div>
+<% end %>

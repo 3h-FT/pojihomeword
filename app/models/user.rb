@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :positive_words, dependent: :destroy
   has_many :word_favorites, dependent: :destroy
   has_many :favorited_words, through: :word_favorites, source: :positive_word
+  has_many :post_favorites, dependent: :destroy
+  has_many :favorite_posts,  through: :post_favorites,  source: :post
 
   has_many :posts, dependent: :destroy
 
@@ -23,6 +25,18 @@ class User < ApplicationRecord
 
   def bookmark?(positive_word)
     favorited_words.include?(positive_word)
+  end
+
+  def post_bookmark(post)
+    favorite_posts << post
+  end
+  
+  def unpost_bookmark(post)
+    favorite_posts.destroy(post)
+  end
+  
+  def post_bookmarked?(post)
+    favorite_posts.include?(post)
   end
 
   def own?(object)

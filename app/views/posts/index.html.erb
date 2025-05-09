@@ -1,35 +1,41 @@
-<%= content_for :title, "投稿ページ" %>
+<%= content_for :title, "ポジティブ掲示板" %>
 
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-  <h2 class="text-center text-3xl font-semibold text-yellow-600 mb-8">
-    みんなのポジほめワード
-  </h2>
-  
-  <%= render 'search' %>
-  
-  <%= link_to "+ 新規投稿", new_post_path, class: 'block text-right text-3xl font-bold text-blue-500 hover:text-blue-700 hover:underline' %>
+<div class="bg-gradient-to-br from-teal-100 to-lime-200 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-yellow-100 py-8 px-6 rounded-t-2xl border-b border-yellow-200">
+      <h1 class="text-3xl font-bold text-yellow-600 text-center mb-4">
+        <i class="fas fa-sun text-yellow-400 mr-2"></i> ポジティブ掲示板
+      </h1>
+      <p class="text-lg text-gray-700 text-center">
+        日々の素敵な発見や、心を明るくする言葉をシェアしましょう。
+      </p>
+    </div>
 
-  <% if @posts.present? %>
-    <% @posts.each do |post| %>
-      <div id="post-id-<%= post.id %>">
-        <h4 class="text-lg font-semibold text-gray-700">
-          <%= link_to post.post_word, post_path(post) %>
-        </h4>
-         <p><%= post.caption %></p>
-         <%= post.user.username %>
-         <%= l post.created_at, format: :short %>
+    <div class="p-6">
+      <%= render 'search', q: @q, url: posts_path %>
+
+      <div class="mt-6 flex justify-center space-x-4">
+        <%= link_to "お気に入り", favorites_posts_path, class: 'inline-flex items-center text-lg font-semibold text-blue-600 bg-blue-100 hover:bg-blue-200 px-6 py-3 rounded-full shadow-sm' %>
+        <%= link_to "+ 新規投稿", new_post_path, class: 'inline-flex items-center text-lg font-bold text-white bg-gradient-to-br from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 px-6 py-3 rounded-full shadow-md' %>
       </div>
-    <% end %>
-    <% else %>
-     <p>投稿はありません</p>
-    <% end %>
 
-  <div class="mt-8 space-y-4">
-    <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-    <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-    <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-    <div class="flex justify-center space-x-4 mt-6">
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full shadow-md' %>
+      <div class="mt-8">
+        <% if @posts.present? %>
+          <ul class="space-y-4">
+            <%= render partial: 'posts/card', collection: @posts, as: :post %>
+          </ul>
+          <%= paginate @posts, param_name: :page %>
+        <% else %>
+          <p class="text-gray-600 italic text-center">まだ投稿はありません。</p>
+        <% end %>
+      </div>
+
+      <div class="mt-8 space-y-4">
+      <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+      <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+      <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'block text-center text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
+      <div class="flex justify-center space-x-4 mt-6">
+        <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full shadow-md' %>
+      </div>
     </div>
   </div>
-</div>

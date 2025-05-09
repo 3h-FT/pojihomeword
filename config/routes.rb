@@ -13,7 +13,12 @@ Rails.application.routes.draw do
 
   resources :word_favorites, only: %i[create destroy]
 
-  resources :posts, only: %i[ index new create show edit update destroy ]
+  resources :posts do
+    collection do
+      get :post_favorites, as: :favorites
+    end
+  end
+  resources :post_favorites, only: %i[create destroy]
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

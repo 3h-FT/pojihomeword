@@ -1,0 +1,26 @@
+<div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 mb-4">
+  <div class="p-6">
+    <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-full bg-red-100 px-4 py-2 inline-block">
+      <%= link_to post.post_word, post_path(post), class: 'hover:text-red-700' %>
+    </h4>
+    <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
+      <%= post.caption %>
+    </p>
+    <div class="flex items-center justify-between text-sm text-gray-600">
+      <span>投稿者: <%= link_to post.user.username, class: 'font-medium text-blue-500 hover:text-blue-700' %></span>
+      <span><%= l post.created_at, format: :short %></span>
+    </div>
+  </div>
+  <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+    <% if current_user.own?(post) %>
+      <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700' do %>
+        <i class="bi bi-pencil-fill"></i>
+      <% end %>
+      <%= link_to post_path(post), id: "button-delete-#{post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しました'}, class: 'text-red-500 hover:text-red-700' do %>
+        <i class="bi bi-trash-fill"></i>
+      <% end %>
+    <% else %>
+      <%= render 'shared/post_favorites_button', post: post %>
+    <% end %>
+  </div>
+</div>
