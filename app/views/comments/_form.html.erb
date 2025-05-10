@@ -1,0 +1,12 @@
+<div id="comment-form">
+  <%= form_with(model: comment, url: comment.persisted? ? comment_path(comment) : post_comments_path(post),
+                  method: comment.persisted? ? :patch : :post,
+                  data: { turbo: true },
+                  class: 'space-y-2 py-3 px-4') do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <%= f.label :'コメント', class: 'block mb-2 text-lg font-medium text-gray-700 ' %>
+    <%= f.text_area :body, placeholder: "コメントを入力", class: "w-full p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+    <%= f.hidden_field :post_id, value: comment.post_id %> 
+    <%= f.submit comment.persisted? ? "更新" : "投稿", class: "bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
+  <% end %>

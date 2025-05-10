@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
   belongs_to :positive_word, optional: true
+  has_many :comments, dependent: :destroy
   has_many :post_favorites, dependent: :destroy
 
   validates :post_word, presence: true, length: { maximum: 100 }

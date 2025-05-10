@@ -1,0 +1,19 @@
+<tr id="comment-<%= comment.id %>">
+  <h3 class="small"><%= comment.user.username %></h3>
+  <p><%= simple_format(comment.body) %></p>
+
+  <% if current_user.own?(comment) %>
+    <ul>
+      <li>
+        <%= link_to edit_comment_path(comment), class: "edit-comment-link" do %>
+          <i class="bi bi-pencil-fill"></i>
+        <% end %>
+      </li>
+      <li>
+<%= button_to comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: "text-red-500 hover:text-red-700" do %>
+  <i class="bi bi-trash-fill"></i>
+<% end %>
+      </li>
+    </ul>
+  <% end %>
+</tr>
