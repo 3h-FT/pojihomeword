@@ -1,19 +1,22 @@
 <tr id="comment-<%= comment.id %>">
-  <h3 class="small"><%= comment.user.username %></h3>
-  <p><%= simple_format(comment.body) %></p>
+  <td colspan="100%">
+    <div class="py-4 px-6 bg-white border border-gray-300 rounded-xl shadow-sm flex items-start gap-x-4 text-gray-800">
+      <div class="flex-grow">
+        <h3 class="text-lg font-bold text-pink-500 mb-1"><%= comment.user.username %></h3>
+        <p class="text-xl font-bold leading-relaxed text-gray-900"><%= simple_format(comment.body) %></p>
+      </div>
 
-  <% if current_user.own?(comment) %>
-    <ul>
-      <li>
-        <%= link_to edit_comment_path(comment), class: "edit-comment-link" do %>
-          <i class="bi bi-pencil-fill"></i>
-        <% end %>
-      </li>
-      <li>
-<%= button_to comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: "text-red-500 hover:text-red-700" do %>
-  <i class="bi bi-trash-fill"></i>
-<% end %>
-      </li>
-    </ul>
-  <% end %>
+      <% if current_user.own?(comment) %>
+        <div class="flex gap-3 items-center">
+          <%= link_to edit_comment_path(comment), class: "text-blue-500 hover:text-blue-700 text-xl" do %>
+            <i class="bi bi-pencil-fill"></i>
+          <% end %>
+
+          <%= button_to comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: "text-red-500 hover:text-red-700 text-xl" do %>
+            <i class="bi bi-trash-fill"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </td>
 </tr>
