@@ -10,10 +10,11 @@ class User < ApplicationRecord
   has_many :positive_words, dependent: :destroy
   has_many :word_favorites, dependent: :destroy
   has_many :favorited_words, through: :word_favorites, source: :positive_word
-  has_many :post_favorites, dependent: :destroy
-  has_many :favorite_posts,  through: :post_favorites,  source: :post
 
   has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :post_favorites, dependent: :destroy
+  has_many :favorite_posts,  through: :post_favorites,  source: :post
 
   def bookmark(positive_word)
     favorited_words << positive_word

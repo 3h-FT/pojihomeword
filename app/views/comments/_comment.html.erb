@@ -1,0 +1,22 @@
+<tr id="comment-<%= comment.id %>">
+  <td colspan="100%">
+    <div class="py-4 px-6 mb-2 bg-white border border-gray-300 rounded-xl shadow-sm flex items-start gap-x-4 text-gray-800">
+      <div class="flex-grow">
+        <h3 class="text-lg font-bold text-pink-500 mb-1"><%= comment.user.username %></h3>
+        <p class="text-xl font-bold leading-relaxed text-gray-900"><%= simple_format(comment.body) %></p>
+      </div>
+
+      <% if current_user.own?(comment) %>
+        <div class="flex gap-3 items-center">
+          <%= link_to edit_comment_path(comment), class: "text-blue-500 hover:text-blue-700 text-xl" do %>
+            <i class="bi bi-pencil-fill"></i>
+          <% end %>
+
+          <%= button_to comment_path(comment), method: :delete, class: "text-red-500 hover:text-red-700 text-xl" do %>
+            <i class="bi bi-trash-fill"></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </td>
+</tr>

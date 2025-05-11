@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :word_favorites, only: %i[create destroy]
 
   resources :posts do
+    resources :comments, only: %i[create edit update destroy], shallow: true
     collection do
       get :post_favorites, as: :favorites
     end
