@@ -9,9 +9,14 @@
           <span class="text-green-600">●</span>
           <%= word.word %>
         </div>
+        <div class="flex items-center gap-x-3">
+        <%= link_to edit_userpage_path(word), class: "text-ingot-600 hover:text-ingot-800" do %>     
+          <i class="bi bi-pencil-fill"></i>
+        <% end %>
         <%= button_to userpage_path(word), method: :delete, form: { data: { turbo: false } }, class: "text-red-600 hover:text-red-800" do %>     
           <i class="bi bi-trash-fill"></i>
         <% end %>
+        </div>
       </li>
     <% end %>
   </ul>

@@ -1,0 +1,29 @@
+<%= content_for :title, "ワードの編集" %>
+
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+<div class="bg-green-100 py-2 px-2 ">
+<% if @positive_word.errors.any? %>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <p><strong><%= pluralize(@positive_word.errors.count, "エラー") %>が発生しました:</strong></p>
+    <ul class="list-disc pl-5">
+      <% @positive_word.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with model: @positive_word, url: userpage_path(@positive_word), method: :patch do |f| %>
+  <%= hidden_field_tag :tab, params[:tab] || 'all' %>
+ <h3 class="text-xl font-semibold text-green-600 text-center p-4">ワードを編集</h3>
+ <div class="mb-4">
+ <%= f.text_field :word, placeholder: 'ワードを入力', class: "w-full p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-gray-700" %>
+ </div>
+
+ <%= f.hidden_field :is_custom, value: true %>
+
+ <div class="text-center">
+ <%= f.submit "更新", class: "mb-4 bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-full font-semibold" %>
+ </div>
+ <% end %>
+</div>
+</div> 
