@@ -7,6 +7,7 @@ document.addEventListener('turbo:load', () => {
   const situationSelect = document.getElementById('situation_id');
   const situationContainer = document.getElementById('situation-container');
 
+  // シチュエーションをターゲットIDに基づいて更新する関数
   function updateSituationsForTarget(targetId) {
     if (situationContainer) {
       situationContainer.style.display = 'none';
@@ -29,7 +30,22 @@ document.addEventListener('turbo:load', () => {
     }
   }
 
+  // ターゲットの選択変更時にシチュエーションを更新
   targetSelect.addEventListener('change', (e) => {
     updateSituationsForTarget(e.target.value);
+  });
+
+  // コピー機能を追加
+  document.querySelectorAll('.copy-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.getAttribute('data-word');
+      navigator.clipboard.writeText(content)
+        .then(() => {
+          alert('コピーしました!');
+        })
+        .catch(err => {
+          console.error('コピーに失敗しました: ', err);
+        });
+    });
   });
 });
