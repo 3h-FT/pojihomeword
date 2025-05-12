@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :positive_words, only: %i[index]
 
   post "ai_messages/generate", to: "ai_messages#generate", as: :ai_messages_generate
-  get "ai_messages/new", to: "ai_messages#new", as: :new_ai_message
+  resources :ai_messages, only: %i[ new create edit update ]
 
   resources :word_favorites, only: %i[create destroy]
 

@@ -10,7 +10,7 @@
           <%= word.word %>
         </div>
         <div class="flex items-center gap-x-3">
-        <%= link_to edit_userpage_path(word), class: "text-ingot-600 hover:text-ingot-800" do %>     
+        <%= link_to edit_userpage_path(word), class: "text-gray-500 hover:text-gray-600" do %>     
           <i class="bi bi-pencil-fill"></i>
         <% end %>
         <%= button_to userpage_path(word), method: :delete, form: { data: { turbo: false } }, class: "text-red-600 hover:text-red-800" do %>     

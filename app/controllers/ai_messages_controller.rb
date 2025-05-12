@@ -11,15 +11,15 @@ class AiMessagesController < ApplicationController
 
   def generate
     # if user_reached_limit?
-    # respond_to do |format|
-    # format.html {
-    # redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限3回)")
-    # }
-    # format.json {
-    # render json: { error: "一日の生成回数制限に達しました(上限3回)" }, status: :forbidden
-    # }
-    # end
-    # return
+    #   respond_to do |format|
+    #     format.html {
+    #       redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限3回)")
+    #     }
+    #     format.json {
+    #       render json: { error: "一日の生成回数制限に達しました(上限3回)" }, status: :forbidden
+    #     }
+    #   end
+    #   return
     # end
 
     target_name = params[:positive_word][:target].to_s.strip
@@ -47,19 +47,21 @@ class AiMessagesController < ApplicationController
     )
 
     if @positive_word.valid?
+      # --- AIメッセージ生成用プロンプトとAPI呼び出し (将来的に有効化予定) ---
       # prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージを1つ考えてください。出力はそのメッセージ本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージと重複しないようにしてください。"
-
+      #
       # client = OpenAI::Client.new
       # response = client.chat(
-      # parameters: {
-      # model: "gpt-4.1-mini",
-      # messages: [ { role: "user", content: prompt } ],
-      # temperature: 0.8
-      # }
+      #   parameters: {
+      #     model: "gpt-4.1-mini",
+      #     messages: [ { role: "user", content: prompt } ],
+      #     temperature: 0.8
+      #   }
       # )
-
+      #
       # ai_message = response.dig("choices", 0, "message", "content")
-      ai_message = "シチュエーションでポジティブなメッセージを送ります！"
+
+      ai_message = "シチュエーションでポジティブなメッセージを送ります！" # ダミー出力（開発用）
 
       @positive_word.word = ai_message
       @positive_word.save!
@@ -68,8 +70,8 @@ class AiMessagesController < ApplicationController
         format.html {
           redirect_to new_ai_message_path(
             word_id: @positive_word.id,
-            target: params[:positive_word][:target],
-            situation: params[:positive_word][:situation]
+            target: target_name,
+            situation: situation_name
           )
         }
         format.json {
@@ -80,6 +82,41 @@ class AiMessagesController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+def edit
+  @positive_word = current_user.positive_words.find(params[:id])
+  @from = params[:from]
+end
+
+def update
+  @positive_word = current_user.positive_words.find(params[:id])
+
+  target_name = params[:positive_word][:target].to_s.strip
+  situation_name = params[:positive_word][:situation].to_s.strip
+
+  target = Target.find_or_create_by(name: target_name)
+  situation = Situation.find_or_create_by(name: situation_name)
+
+  if @positive_word.update(
+       word: params[:positive_word][:word],
+       target: target,
+       situation: situation
+     )
+    #リダイレクト先を分岐
+    if params[:from] == 'userpages'
+      redirect_to userpages_path(anchor: "favorited_words"), notice: "ワードを編集しました"
+    else
+      redirect_to new_ai_message_path(
+        word_id: @positive_word.id,
+        target: target.name,
+        situation: situation.name
+      ), notice: 'ワードを編集しました'
+    end
+  else
+    flash.now[:alert] = 'ワードを編集できません'
+    render :edit, status: :unprocessable_entity
+  end
+end
 
   def word_favorites
     @favorited_words = current_user.favorited_words.includes(:positive_word)

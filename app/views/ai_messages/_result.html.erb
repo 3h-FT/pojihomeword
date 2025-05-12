@@ -6,6 +6,11 @@
   <span class="text-pink-400">●</span>
   <span class="flex-grow"><%= positive_word.word %></span>
 
+<% path = local_assigns[:from].present? ? edit_ai_message_path(positive_word, from: local_assigns[:from]) : edit_ai_message_path(positive_word) %>
+<%= link_to path, class: "text-gray-500 hover:text-gray-600" do %>
+  <i class="bi bi-pencil-fill"></i>
+<% end %>
+  
   <% if user_signed_in? %>
     <span id="bookmark-button-for-word-<%= positive_word.id %>">
       <% if current_user.bookmark?(positive_word) %>
