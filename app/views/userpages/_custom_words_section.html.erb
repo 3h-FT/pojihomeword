@@ -1,17 +1,23 @@
-<div class="bg-green-100 py-2 px-4">
-  <h3 class="text-center text-2xl sm:text-3xl font-semibold text-green-600 py-4">
+<div class="bg-yellow-100 py-2 px-4">
+  <h3 class="text-center text-2xl sm:text-3xl font-semibold text-yellow-600 py-4">
     カスタムワード: <span class="text-pink-500"><%= @custom_words.count %></span> 個
   </h3>
   <ul class="mb-8 space-y-2 text-lg text-gray-700">
     <% words.each do |word| %>
-      <li class="py-3 px-6 bg-white text-2xl text-gray-800 rounded-full shadow-sm font-semibold leading-relaxed hover:bg-yellow-100 transition-all flex items-center justify-between gap-x-3">
+      <li class="py-3 px-6 bg-white text-2xl text-gray-800 rounded-full shadow-sm font-semibold leading-relaxed hover:bg-blue-50 transition-all flex items-center justify-between gap-x-3">
         <div class="flex items-center gap-x-3">
-          <span class="text-green-600">●</span>
+          <span class="text-yellow-600">●</span>
           <%= word.word %>
         </div>
-        <%= button_to userpage_path(word), method: :delete, form: { data: { turbo: false } }, class: "text-red-600 hover:text-red-800" do %>     
-          <i class="bi bi-trash-fill"></i>
-        <% end %>
+        <div class="flex items-center gap-x-3">
+          <%= link_to edit_userpage_path(word), class: "text-gray-500 hover:text-gray-600" do %>
+            <i class="bi bi-pencil-fill"></i>
+          <% end %>
+          <%= button_to userpage_path(word), method: :delete, form: { data: { turbo: false } }, class: "text-red-600 hover:text-red-800" do %>
+            <i class="bi bi-trash-fill"></i>
+          <% end %>
+          <i class="bi bi-copy ml-2 text-blue-500 hover:text-blue-700 cursor-pointer copy-button" data-word="<%= word.word %>"></i>
+        </div>
       </li>
     <% end %>
   </ul>

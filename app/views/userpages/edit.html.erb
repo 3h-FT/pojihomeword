@@ -1,0 +1,43 @@
+<%= content_for :title, "ワードの編集" %>
+
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+  <% if @positive_word.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+      <p class="font-semibold">
+        <%= pluralize(@positive_word.errors.count, "エラー") %>が発生しました:
+      </p>
+      <ul class="list-disc pl-5 mt-2">
+        <% @positive_word.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ワードを編集</h3>
+
+  <%= form_with model: @positive_word, url: userpage_path(@positive_word), method: :patch, local: true, class: 'space-y-6' do |f| %>
+    <%= hidden_field_tag :tab, params[:tab] || 'all' %>
+    <%= f.hidden_field :is_custom, value: true %>
+
+    <div>
+      <%= f.label :word, 'ポジティブワード', class: 'block mb-2 text-lg font-medium text-gray-700' %>
+      <%= f.text_field :word, placeholder: '例：あなたならきっとできる！', class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "更新", class: "bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
+    </div>
+      <div class="mt-8 space-y-4">
+      <%= link_to "トップページに戻る", root_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+      <%= link_to "ポジティブワードを作ろう", new_ai_message_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+      <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+      <%= link_to "ワードを投稿する", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+    <div class="flex justify-center space-x-4 mt-6">
+      <%= link_to "アカウントを編集する", edit_user_registration_path, class: 'text-sm sm:text-base font-medium text-white bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-full shadow-md' %>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full shadow-md' %>
+    </div>
+  </div>
+</div>
+  <% end %>
+</div>
