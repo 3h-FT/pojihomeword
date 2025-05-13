@@ -148,6 +148,7 @@ GEM
       net-http (>= 0.5.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    high_voltage (4.0.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -416,6 +417,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  high_voltage
   importmap-rails
   jbuilder
   kaminari

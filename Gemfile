@@ -79,3 +79,4 @@ gem "ruby-openai"        # OpenAIのAPIラッパー
 
 gem "ransack", "4.3.0"
 gem "kaminari"
+gem 'high_voltage'

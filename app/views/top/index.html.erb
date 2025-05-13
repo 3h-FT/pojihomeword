@@ -22,7 +22,9 @@
           <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'inline-block text-base sm:text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
           <%= link_to "ワードを投稿する", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
           <%= link_to "アカウントを編集する", edit_user_registration_path, class: 'mt-6 inline-block text-sm sm:text-base font-medium text-white bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md' %>
-          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md' %>
+          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'mb-4 inline-block text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md' %>
+          <%= link_to '利用規約', page_path('term_of_service') %>
+          <%= link_to 'プライバシーポリシー', page_path('policy') %>
         </div>
 
       <% else %>
@@ -42,6 +44,8 @@
                   devise_mapping: Devise.mappings[:user],
                   resource_class: User %>
           </div>
+          <%= link_to '利用規約', page_path('term_of_service') %>
+          <%= link_to 'プライバシーポリシー', page_path('policy') %>
         </div>
       <% end %>
     </div>
