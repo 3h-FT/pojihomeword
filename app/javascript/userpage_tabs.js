@@ -43,7 +43,7 @@ document.addEventListener("turbo:load", () => {
     // アクティブなタブに色付け
     const activeBtn = document.querySelector(`.tab-button[data-tab="${target}"]`);
     if (activeBtn) {
-      activeBtn.classList.remove("bg-blue-100", "bg-yellow-50", "bg-pink-100", "text-gray-700", "hover:bg-gray-200", "hover:bg-green-200", "hover:bg-pink-200");
+      activeBtn.classList.remove("bg-blue-100", "bg-yellow-50", "bg-pink-100", "text-gray-700", "hover:bg-gray-200", "hover:bg-yellow-200", "hover:bg-pink-200");
       if (target === "all") {
         activeBtn.classList.add("bg-blue-200", "text-blue-600");
       } else if (target === "custom") {
