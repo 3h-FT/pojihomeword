@@ -8,6 +8,7 @@
       <div class="text-center mb-8 space-y-3">
         <p class="text-lg text-gray-600">誰に、どんな気持ちを伝えたいですか？</p>
         <p class="text-lg text-gray-600">下のフォームに自由に書いてみてくださいね！</p>
+        <p class="text-lg text-red-600">※作成は1日3回まで</p>
       </div>
       
       <% if params[:error].present? %>
@@ -23,16 +24,6 @@
         <%= render 'result', positive_word: @positive_word %>
         </div>
       <% end %>
-
-      <div class="mt-6 space-y-3 text-center">
-        <%= link_to "トップに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-        <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'block text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-        <%= link_to "ワードを投稿する", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-        </div>
-
-      <div class="mt-4 text-center">
-        <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md' %>
-      </div>
     </div>
   </div>
 </div>

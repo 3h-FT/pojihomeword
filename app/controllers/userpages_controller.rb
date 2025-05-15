@@ -15,6 +15,9 @@ class UserpagesController < ApplicationController
     @known_word_count = @favorited_words_count + @custom_words_count
 
     @favorited_words_page = @favorited_words.page(params[:favorited_page]).per(10)
+    if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
+      redirect_to userpages_path(tab: 'favorite', favorited_page: @favorited_words_page.total_pages)
+    end
     @custom_words_page = @custom_words.page(params[:custom_page]).per(10)
     @active_tab = params[:tab] || "all"
   end
