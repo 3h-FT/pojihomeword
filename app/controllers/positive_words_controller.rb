@@ -1,6 +1,4 @@
 class PositiveWordsController < ApplicationController
-  before_action :authenticate_user!
-
   def index
     @targets = Target.all
     @situations = params[:target_id].present? ? Situation.where(target_id: params[:target_id]) : []

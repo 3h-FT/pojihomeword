@@ -3,7 +3,7 @@
 <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
   <div class="p-8">
     <h2 class="text-3xl font-semibold text-red-400 text-center mb-6">
-      サンプル
+      ポジティブワードを作ろう:サンプル
     </h2>
 
     <div class="text-center mb-8 space-y-3">
@@ -13,8 +13,12 @@
       <p class="text-lg text-gray-600">
         次に、どんなシチュエーションか選んでみて♪
       </p>
-      <%= link_to "自分で作ってみる？", new_ai_message_path, class: "inline-block bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 px-8 rounded-full shadow-md" %>
-    </div>
+      <% if user_signed_in? %>
+        <%= link_to "自分で作ってみる？", new_ai_message_path, class: 'inline-block text-sm sm:text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full shadow-md' %>
+      <% else %>
+        <%= link_to "自分で作ってみる？(ログイン)", new_user_session_path, class: 'inline-block text-sm sm:text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full shadow-md' %>
+      <% end %>
+      </div>
 
     <%= form_tag positive_words_path, method: :get, class: "space-y-6" do %>
       <div>
@@ -49,17 +53,9 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="text-center">
-    <%= link_to "トップページに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-  </div>   
- <div class="py-4 text-center space-y-3">
-    <%= link_to "メッセージを振り返る(ユーザーページ)", userpages_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-    <%= link_to "ワードを投稿する", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
-    <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: 'inline-block text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md' %>
-  </div>
+    <div class="mt-6 mb-6 space-y-3 text-center">
+        <%= link_to "トップに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
+        </div>
 </div>
 
 <div id="situations-data" data-situations="<%= @situations.to_json %>"></div>
-
-<%= javascript_import_module_tag 'situations' %>

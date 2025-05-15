@@ -1,0 +1,104 @@
+<header class="bg-pink-200">
+  <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+    <a href="/" class="flex items-center space-x-2 text-xl">
+      <%= image_tag 'pojihome_logo.png', size: "40x40", alt: "ポジほめワード ロゴ" %>
+      <span class="font-not-rounded">ポジほめワード</span>
+    </a>
+
+    <!-- ハンバーガーボタン（モバイル用） -->
+    <button id="hamburger-button" class="md:hidden focus:outline-none bg-white rounded-md shadow-lg px-2 py-2">
+      <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- デスクトップメニュー -->
+    <div class="hidden md:flex items-center space-x-4 text-lg">
+      <nav class="flex items-center space-x-4">
+        <% if user_signed_in? %>
+          <!-- ドロップダウン -->
+          <div class="relative">
+            <button id="dropdown-button" class="text-gray-800 font-medium bg-white rounded-full px-4 py-2 shadow hover:bg-gray-100 flex items-center space-x-1 focus:outline-none">
+              <span>ポジティブワード</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+            <div id="dropdown-menu" class="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg z-20 hidden">
+              <a href="/ai_messages/new" class="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-100">
+                <i class="bi bi-lightbulb"></i>
+                <span>ワードを作る</span>
+              </a>
+              <a href="/userpages" class="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-100">
+                <i class="bi bi-journals"></i>
+                <span>ワードを振り返る</span>
+              </a>
+              <a href="/posts" class="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-100">
+                <i class="bi bi-share-fill"></i>
+                <span>ワードを共有する</span>
+              </a>
+            </div>
+          </div>
+
+          <%= link_to edit_user_registration_path, class: "flex items-center space-x-2 text-gray-800 bg-white hover:bg-gray-100 font-medium rounded-full px-4 py-2 shadow" do %>
+            <i class="bi bi-gear-fill"></i>
+            <span>アカウント編集</span>
+          <% end %>
+
+          <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-2 text-red-600 bg-white hover:bg-gray-100 font-medium rounded-full px-4 py-2 shadow" do %>
+            <i class="bi bi-box-arrow-right"></i>
+            <span>ログアウト</span>
+          <% end %>
+
+        <% else %>
+          <%= link_to new_user_registration_path, class: "flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 font-medium rounded-full px-4 py-2 shadow" do %>
+            <i class="bi bi-person-plus-fill"></i>
+            <span>サインイン</span>
+          <% end %>
+
+          <%= link_to new_user_session_path, class: "flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 font-medium rounded-full px-4 py-2 shadow" do %>
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>ログイン</span>
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-lg">
+    <% if user_signed_in? %>
+      <a href="/ai_messages/new" class="flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 rounded-full px-4 py-2 shadow">
+        <i class="bi bi-lightbulb"></i>
+        <span>ワードを作る</span>
+      </a>
+      <a href="/userpages" class="flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 rounded-full px-4 py-2 shadow">
+        <i class="bi bi-journals"></i>
+        <span>ワードを振り返る</span>
+      </a>
+      <a href="/posts" class="flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 rounded-full px-4 py-2 shadow">
+        <i class="bi bi-share-fill"></i>
+        <span>ワードを共有する</span>
+      </a>
+
+      <%= link_to edit_user_registration_path, class: "flex items-center space-x-2 text-red-600 bg-white hover:bg-gray-100 rounded-full px-4 py-2 shadow" do %>
+        <i class="bi bi-gear-fill"></i>
+        <span>アカウント編集</span>
+      <% end %>
+
+      <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-2 text-red-600 bg-white hover:bg-gray-100 rounded-full px-4 py-2 shadow" do %>
+        <i class="bi bi-box-arrow-right"></i>
+        <span>ログアウト</span>
+      <% end %>
+
+    <% else %>
+      <%= link_to new_user_registration_path, class: "flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 rounded-full px-4 py-2 shadow" do %>
+        <i class="bi bi-person-plus-fill"></i>
+        <span>サインイン</span>
+      <% end %>
+
+      <%= link_to new_user_session_path, class: "flex items-center space-x-2 text-gray-800 bg-white hover:bg-yellow-100 rounded-full px-4 py-2 shadow" do %>
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>ログイン</span>
+      <% end %>
+    <% end %>
+  </div>
+</header>
