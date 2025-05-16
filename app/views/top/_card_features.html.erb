@@ -1,37 +1,39 @@
-<div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-10  ">
+<div class="mt-10 grid grid-cols-1 xl:grid-cols-3 gap-10">
 
   <!-- Card 1 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
-    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-yellow-200 mx-auto mb-4">
-      <i class="bi bi-lightbulb text-yellow-500 text-2xl"></i>
+  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
+    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-pink-200 mx-auto mb-4">
+      <i class="bi bi-lightbulb text-pink-500 text-2xl"></i>
     </div>
-    <h3 class="text-xl font-semibold text-yellow-600 mb-4">ポジティブワードを知る</h3>
+    <h3 class="text-xl font-semibold text-pink-600 mb-4">ポジティブワードを知る</h3>
     <p class="text-gray-600 text-lg mb-6">
       「誰に」「どんな」言葉を送りたい？シチュエーションに合わせた、ポジティブな言葉を見つけてみよう。</br>
     </p>
-    <p class="text-red-600 text-lg mb-6">  ※ワードの作成は1日3回まで </p>
-    
+    <p class="text-red-600 text-lg mb-6">※ワードの作成は1日3回まで</p>
+
     <% if signed_in %>
-      <%= link_to "ポジティブワードを作る", new_ai_message_path, class: 'inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-full shadow-md text-lg' %>
+      <%= link_to "ポジティブワードを作る", new_ai_message_path,
+        class: "block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
     <% end %>
   </div>
 
   <!-- Card 2 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
-    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-pink-200 mx-auto mb-4">
-      <i class="bi bi-journals text-pink-500 text-2xl"></i>
+  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
+    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-yellow-200 mx-auto mb-4">
+      <i class="bi bi-journals text-yellow-500 text-2xl"></i>
     </div>
-    <h3 class="text-xl font-semibold text-pink-600 mb-4">ワードをためる</h3>
+    <h3 class="text-xl font-semibold text-yellow-600 mb-4">ワードをためる</h3>
     <p class="text-gray-600 text-lg mb-6">
       アプリで作ったワードや、日常で見つけた素敵な言葉など、自分専用のポジティブワード集を作りませんか。気になる言葉はストックしておけば、いつでも見返せます。
     </p>
     <% if signed_in %>
-      <%= link_to "ポジティブワードを振り返ろう(ユーザーページ)", userpages_path, class: 'inline-block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-md text-lg' %>
+      <%= link_to "ポジティブワードを振り返る", userpages_path,
+        class: "block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
     <% end %>
   </div>
 
   <!-- Card 3 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
+  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-red-200 mx-auto mb-4">
       <i class="bi bi-share-fill text-red-500 text-2xl"></i>
     </div>
@@ -40,7 +42,8 @@
       他のユーザーのポジティブなワードを見て、あなたのポジティブワードの知識はさらに広がる！お気に入りの言葉をシェアして、ポジティブな気持ちを広げよう！
     </p>
     <% if signed_in %>
-      <%= link_to "ワードを共有する", posts_path, class: 'inline-block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-8 rounded-full shadow-md text-lg' %>
+      <%= link_to "ポジティブワードを共有する", posts_path,
+        class: "block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
     <% end %>
   </div>
 </div>
