@@ -31,11 +31,11 @@ class User < ApplicationRecord
   def post_bookmark(post)
     favorite_posts << post
   end
-  
+
   def unpost_bookmark(post)
     favorite_posts.destroy(post)
   end
-  
+
   def post_bookmarked?(post)
     favorite_posts.include?(post)
   end

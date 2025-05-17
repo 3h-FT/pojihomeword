@@ -102,18 +102,18 @@ def update
        target: target,
        situation: situation
      )
-    #リダイレクト先を分岐
-    if params[:from] == 'userpages'
+    # リダイレクト先を分岐
+    if params[:from] == "userpages"
       redirect_to userpages_path(anchor: "favorited_words"), notice: "ワードを編集しました"
     else
       redirect_to new_ai_message_path(
         word_id: @positive_word.id,
         target: target.name,
         situation: situation.name
-      ), notice: 'ワードを編集しました'
+      ), notice: "ワードを編集しました"
     end
   else
-    flash.now[:alert] = 'ワードを編集できません'
+    flash.now[:alert] = "ワードを編集できません"
     render :edit, status: :unprocessable_entity
   end
 end

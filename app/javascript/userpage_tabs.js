@@ -33,7 +33,7 @@ document.addEventListener("turbo:load", () => {
 
     // ボタンの見た目を更新
     buttons.forEach(btn => {
-      btn.className = "tab-button py-2 px-10 font-semibold transition duration-300 ease-in-out focus:outline-none";
+      btn.className = "tab-button py-2 px-6 font-semibold transition duration-300 ease-in-out focus:outline-none border-b-2 border-transparent";
       const defaultClass = btn.getAttribute("data-default-class");
       if (defaultClass) {
         defaultClass.split(" ").forEach(c => btn.classList.add(c));
@@ -43,14 +43,8 @@ document.addEventListener("turbo:load", () => {
     // アクティブなタブに色付け
     const activeBtn = document.querySelector(`.tab-button[data-tab="${target}"]`);
     if (activeBtn) {
-      activeBtn.classList.remove("bg-blue-100", "bg-yellow-50", "bg-pink-100", "text-gray-700", "hover:bg-gray-200", "hover:bg-yellow-200", "hover:bg-pink-200");
-      if (target === "all") {
-        activeBtn.classList.add("bg-blue-200", "text-blue-600");
-      } else if (target === "custom") {
-        activeBtn.classList.add("bg-yellow-200", "text-yellow-700");
-      } else if (target === "favorite") {
-        activeBtn.classList.add("bg-pink-200", "text-pink-700");
-      }
+      activeBtn.classList.remove("text-gray-700", "hover:text-yellow-600", "border-transparent");
+      activeBtn.classList.add("text-yellow-700", "border-yellow-700");
     }
   }
 });

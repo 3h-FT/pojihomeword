@@ -60,3 +60,9 @@
     <%= render partial: 'top/card_features', locals: { signed_in: user_signed_in? } %>
   </div>
 </section>
+
+<div class="mt-6 text-center space-y-2">
+  <%= link_to '利用規約', page_path('term_of_service'), class: 'text-gray-500 text-lg block' %>
+  <%= link_to 'プライバシーポリシー', page_path('policy'), class: 'text-gray-500 text-lg block' %>
+  <p class="text-gray-500 text-lg">Copyright © 2025 ポジほめワード. All rights reserved.</p>
+</div>

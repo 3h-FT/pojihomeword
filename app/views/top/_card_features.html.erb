@@ -7,12 +7,12 @@
     </div>
     <h3 class="text-xl font-semibold text-pink-600 mb-4">ポジティブワードを知る</h3>
     <p class="text-gray-600 text-lg mb-6">
-      「誰に」「どんな」言葉を送りたい？シチュエーションに合わせた、ポジティブな言葉を見つけてみよう。</br>
+      「誰に」「どんな」言葉を送りたい？シチュエーションに合わせて、ポジティブなワードをAIが作成します。</br>
     </p>
     <p class="text-red-600 text-lg mb-6">※ワードの作成は1日3回まで</p>
 
     <% if signed_in %>
-      <%= link_to "ポジティブワードを作る", new_ai_message_path,
+      <%= link_to "ポジティブワードを知る", new_ai_message_path,
         class: "block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
     <% end %>
   </div>
@@ -27,7 +27,7 @@
       アプリで作ったワードや、日常で見つけた素敵な言葉など、自分専用のポジティブワード集を作りませんか。気になる言葉はストックしておけば、いつでも見返せます。
     </p>
     <% if signed_in %>
-      <%= link_to "ポジティブワードを振り返る", userpages_path,
+      <%= link_to "ポジティブワードをためる", userpages_path,
         class: "block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
     <% end %>
   </div>

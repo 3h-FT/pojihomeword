@@ -16,7 +16,7 @@ class UserpagesController < ApplicationController
 
     @favorited_words_page = @favorited_words.page(params[:favorited_page]).per(10)
     if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
-      redirect_to userpages_path(tab: 'favorite', favorited_page: @favorited_words_page.total_pages)
+      redirect_to userpages_path(tab: "favorite", favorited_page: @favorited_words_page.total_pages)
     end
     @custom_words_page = @custom_words.page(params[:custom_page]).per(10)
     @active_tab = params[:tab] || "all"
@@ -26,7 +26,7 @@ class UserpagesController < ApplicationController
     @positive_word = current_user.positive_words.find(params[:id])
     @active_tab = params[:tab] || "all"  # タブを保持するため
   end
-  
+
 def update
   @positive_word = current_user.positive_words.find(params[:id])
   original_tab = params[:tab] || "all"

@@ -71,7 +71,7 @@ gem "pry"
 
 gem "sentry-ruby"
 gem "sentry-rails"
-gem "tailwindcss-ruby", "~> 4.0"
+gem "tailwindcss-ruby"
 
 gem "tailwindcss-rails", "~> 4.2"
 gem "dotenv-rails"       # APIキーの.env管理に
@@ -79,4 +79,4 @@ gem "ruby-openai"        # OpenAIのAPIラッパー
 
 gem "ransack", "4.3.0"
 gem "kaminari"
-gem 'high_voltage'
+gem "high_voltage"
