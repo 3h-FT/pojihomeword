@@ -1,16 +1,26 @@
-<%= content_for :title, "お気に入り登録ページ" %> 
+<%= content_for :title, "お気に入り登録ページ" %>
 
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-  <h2 class="text-center text-3xl font-semibold text-yellow-600 mb-8">
-    お気に入り登録ワード一覧：<span class="text-pink-500"><%= @post_favorites_count %></span> 個
-  </h2>
-  
-  <%= render 'search', q: @q, url: favorites_posts_path %>
-  
-  <% if @post_favorites.present? %>
-    <%= render partial: 'posts/card', collection: @post_favorites, as: :post %>
-    <%= paginate @post_favorites %>
-    <% else %>
-      <p class="text-center text-lg text-gray-600 py-8">お気に入り登録はありません</p>
-    <% end %>
+
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+  <div class="bg-red-50 py-8 px-6 rounded-t-2xl border-b border-red-200">
+    <h2 class="text-center text-2xl font-bold text-red-600">
+        お気に入り登録一覧：<span class="text-pink-500"><%= @post_favorites_count %></span> 個
+      </h2>
+    </div>
+
+    <div class="p-6">
+      <%= render 'search', q: @q, url: favorites_posts_path %>
+
+      <div class="mt-8">
+        <% if @post_favorites.present? %>
+          <ul class="space-y-4">
+            <%= render partial: 'posts/card', collection: @post_favorites, as: :post %>
+          </ul>
+          <%= paginate @post_favorites %>
+        <% else %>
+          <p class="text-center text-lg text-gray-600 py-8">お気に入り登録はありません</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

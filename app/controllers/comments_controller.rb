@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-
   def edit
     @comment = current_user.comments.find(params[:id])
     @post = @comment.post
@@ -19,11 +18,11 @@ end
 def create
   @comment = current_user.comments.build(comment_create_params)
   if @comment.save
-    redirect_to post_path(@comment.post), notice: 'コメントを投稿しました'
+    redirect_to post_path(@comment.post), notice: "コメントを投稿しました"
   else
-    @post = Post.find(params[:post_id]) 
+    @post = Post.find(params[:post_id])
     flash.now[:alert] = "コメントを投稿できません"
-    render 'posts/show', status: :unprocessable_entity
+    render "posts/show", status: :unprocessable_entity
   end
 end
 

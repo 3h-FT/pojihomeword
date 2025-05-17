@@ -4,9 +4,11 @@
       <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-full bg-red-100 px-4 py-2 inline-block group-hover:text-red-700">
         <%= post.post_word %>
       </h4>
-      <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
-        <%= post.caption %>
-      </p>
+      <% if post.caption.present? %>
+        <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
+          <%= post.caption %>
+        </p>
+      <% end %>
       <div class="flex items-center justify-between text-sm text-gray-600">
         <span>投稿者: <span class="font-medium text-blue-500 group-hover:text-blue-700"><%= post.user.username %></span></span>
         <span><%= l post.created_at, format: :short %></span>

@@ -1,15 +1,20 @@
 <%= content_for :title, "新規投稿" %>
+  <% if params[:alert].present? %>
+    <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md">
+      <strong>エラー:</strong> <%= params[:alert] %>
+    </div>
 
-<div class="bg-gradient-to-br from-teal-100 to-lime-200 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-    <h2 class="text-center text-4xl font-semibold text-yellow-600 mb-2 py-8 px-4">
-      新規投稿作成
-    </h2>
+  <% end %>
 
-    <%= render 'form', post: @post %>
-
-    <div class="mb-6 space-y-3 text-center">
-      <%= link_to "ワード一覧に戻る", posts_path, class: 'block text-center text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline' %>
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+  <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-red-50 py-8 px-6 rounded-t-2xl border-b border-red-200">
+      <h2 class="text-center text-2xl font-bold text-red-600">
+        <i class="bi bi-pencil-square text-red-400 mr-2"></i> 新規投稿作成
+      </h2>
+    </div>
+    <div class="p-6">
+      <%= render 'form', post: @post %>
     </div>
   </div>
 </div>
