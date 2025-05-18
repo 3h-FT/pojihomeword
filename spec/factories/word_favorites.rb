@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :word_favorite do
-    user { nil }
-    positive_word { nil }
+    association :user
+    association :positive_word
   end
 end
