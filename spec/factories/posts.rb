@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :post do
-    user { nil }
-    positive_word { nil }
+    association :user
+    association :positive_word
     caption { "MyText" }
-    word { "MyText" }
+    post_word { "MyText" }
   end
 end

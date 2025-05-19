@@ -4,5 +4,6 @@ FactoryBot.define do
     is_custom { false }
     association :target
     association :situation
+    association :user
   end
 end
