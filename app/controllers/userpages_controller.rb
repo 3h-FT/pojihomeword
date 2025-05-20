@@ -51,7 +51,7 @@ end
     @positive_word.is_custom = true if params[:positive_word][:is_custom] == "true"
 
     if @positive_word.save
-      redirect_to userpages_path, notice: "ポジティブワードを追加しました！"
+      redirect_to userpages_path, notice: "ワードを追加しました"
     else
       redirect_to userpages_path, alert: "ワードの追加に失敗しました"
     end

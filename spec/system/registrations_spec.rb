@@ -19,7 +19,7 @@ RSpec.describe "Registrations", type: :system do
     fill_in 'user_password_confirmation', with: user_attributes[:password_confirmation]
 
     click_button '登録'
-    expect(page).to have_current_path(root_path)
+    Capybara.assert_current_path("/", ignore_query: true)
     expect(page).to have_content('Welcome! You have signed up successfully.')
   end
 

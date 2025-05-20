@@ -10,12 +10,12 @@
   <div class="p-6">
     <div class="bg-white rounded-xl shadow-md border border-gray-200 mb-6">
       <div class="p-6">
-        <h3 class="text-2xl font-semibold text-red-500 mb-4 rounded-full bg-red-50 px-4 py-2 inline-block">
+        <h3 class="text-2xl font-semibold text-red-500 mb-4 rounded-full bg-red-100 px-4 py-2 inline-block">
           <%= @post.post_word %>
         </h3>
 
-        <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-red-50 p-3">
-          <%= simple_format(@post.caption) %>
+        <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
+          <%= @post.caption %>
         </p>
 
         <div class="flex items-center justify-between text-sm text-gray-600 mb-3 font-not-rounded">
@@ -36,10 +36,11 @@
         <% end %>
       </div>
     </div>
-
     <%= render 'comments/form', comment: @comment, post: @post %>
-    <div class="mt-6">
-      <%= render @comments %>
-    </div>
+      <table class="table mt-6 w-full">
+        <tbody id="table-comment">
+            <%= render @comments %>
+        </tbody>
+      </table>
   </div>
 </div>
