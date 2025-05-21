@@ -1,28 +1,18 @@
-<%= content_for :title, "ワードの編集" %>
-
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-  <% if @positive_word.errors.any? %>
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-      <p class="font-semibold"><%= pluralize(@positive_word.errors.count, "エラー") %>が発生しました:</p>
-      <ul class="list-disc pl-5 mt-2">
-        <% @positive_word.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ワードを編集</h3>
-
-  <%= form_with model: @positive_word, url: ai_message_path(@positive_word, from: params[:from]), local: true, class: 'space-y-6' do |f| %>
-    <div>
-      <%= f.label :word, 'ポジティブワード', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-      <%= f.text_field :word, placeholder: '例：あなたならきっとできる！', class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+<div class="bg-red-50 py-10">
+  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-red-100 py-6 px-6 rounded-t-2xl border-b border-red-200">
+      <h2 class="text-center text-2xl font-bold text-red-600">
+        <i class="fas fa-comment-dots text-red-400 mr-2"></i> コメント編集
+      </h2>
     </div>
 
-    <div class="text-center">
-      <%= f.submit "更新", class: "bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
+      <div class="p-6">
+          <%= render "form", comment: @comment, post: @post %>
+      </div>
+
+      <div class="mt-2 mb-6 text-center">
+        <%= link_to "投稿詳細に戻る", post_path(@post), class: 'inline-block text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline transition duration-200' %>
+      </div>
     </div>
-</div>
-  <% end %>
+  </div>
 </div>

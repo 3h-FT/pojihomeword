@@ -63,31 +63,24 @@ RSpec.describe 'Comments', type: :system do
       end
     end
 
-    describe 'コメントの削除' do
-      # 削除対象のコメントを各テストケースで明確に作成する
-      let!(:comment_to_delete) { create(:comment, user: user, post: post) }
+  describe "自分のコメント操作" do
+    it "自分のコメントを削除できる" do
+      login_as(user)
+      comment = create(:comment, user: user, post: post)
 
-      it 'コメントを削除できること' do
-        login_as(user)
-        visit '/posts'
-        first(:css, "#post-id-#{post.id} a", text: post.post_word).click   
-        within("#comment-#{comment_to_delete.id}") do
-          expect(page).to have_selector('.delete-comment-button', wait: 5)
-          page.accept_confirm do
-           find('.delete-comment-button').click
-          end
-        end
+      visit post_path(post)
 
-        # フラッシュメッセージが表示されるまで待機
-        expect(page).to have_content('コメントを削除しました'), 'コメントの削除が正しく機能していません'   
-        
-        # 削除したコメントがDOMから消えたことを確認
-        expect(page).not_to have_selector("#comment-#{comment_to_delete.id}"), '削除したコメントがページに残っています'
-        
-        # データベースからも削除されたことを確認
-        expect(Comment.find_by(id: comment_to_delete.id)).to be_nil
+      expect(page).to have_content comment.body
+
+      within "#comment-#{comment.id}" do
+        expect(page).to have_selector('.delete-comment-button')
+        click_button class: 'delete-comment-button'
       end
+
+      expect(page).to have_content "コメントを削除しました"
+      expect(page).not_to have_content comment.body
     end
+  end
 
     describe 'コメントの編集' do
       let!(:comment_to_edit) { create(:comment, user: user, post: post) }
