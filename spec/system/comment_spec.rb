@@ -20,7 +20,6 @@ RSpec.describe 'Comments', type: :system do
       end
     end
 
-
     describe 'コメントの作成' do
       it 'コメントを作成できること' do
         login_as(user)
@@ -33,16 +32,13 @@ RSpec.describe 'Comments', type: :system do
         fill_in 'comment_body', with: '新規コメント'
         click_on '投稿'
 
-        # コメント投稿後にフラッシュメッセージが表示されることを確認
         expect(page).to have_content('コメントを投稿しました'), 'フラッシュメッセージ「コメントを投稿しました」が表示されていません'
         
-        # コメントがデータベースに保存されたことを確認
         comment = Comment.last
         expect(comment.body).to eq('新規コメント')
         expect(comment.user).to eq(user)
         expect(comment.post).to eq(post)
 
-        # 新規作成したコメントの要素がDOMに表示されるまで待機
         expect(page).to have_selector("#comment-#{comment.id}", wait: 5) # wait時間も考慮
 
         within "#comment-#{comment.id}" do
@@ -101,7 +97,7 @@ RSpec.describe 'Comments', type: :system do
 
           fill_in 'comment_body', with: '更新されたコメント'
           click_on '更新'
-          expect(page).to have_current_path(post_path(post)) # 更新後に投稿詳細ページに戻ることを想定
+          expect(page).to have_current_path(post_path(post))
 
           within("#comment-#{comment_to_edit.id}") do
             expect(page).to have_content('更新されたコメント'), '更新されたコメントの本文が表示されていません'
