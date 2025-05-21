@@ -16,11 +16,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-      @comment = current_user.comments.build(comment_create_params)
+    @comment = current_user.comments.build(comment_create_params)
+    @post = Post.find(params[:post_id])
+    @comments = @post.comments.includes(:user)
+
     if @comment.save
       redirect_to post_path(@comment.post), notice: "コメントを投稿しました"
     else
-      @post = Post.find(params[:post_id])
       flash.now[:alert] = "コメントを投稿できません"
       render "posts/show", status: :unprocessable_entity
     end
