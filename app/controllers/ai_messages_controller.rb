@@ -83,40 +83,40 @@ class AiMessagesController < ApplicationController
     end
   end
 
-def edit
-  @positive_word = current_user.positive_words.find(params[:id])
-  @from = params[:from]
-end
+  def edit
+    @positive_word = current_user.positive_words.find(params[:id])
+    @from = params[:from]
+  end
 
-def update
-  @positive_word = current_user.positive_words.find(params[:id])
+  def update
+    @positive_word = current_user.positive_words.find(params[:id])
 
-  target_name = params[:positive_word][:target].to_s.strip
-  situation_name = params[:positive_word][:situation].to_s.strip
+    target_name = params[:positive_word][:target].to_s.strip
+    situation_name = params[:positive_word][:situation].to_s.strip
 
-  target = Target.find_or_create_by(name: target_name)
-  situation = Situation.find_or_create_by(name: situation_name)
+    target = Target.find_or_create_by(name: target_name)
+    situation = Situation.find_or_create_by(name: situation_name)
 
-  if @positive_word.update(
-       word: params[:positive_word][:word],
-       target: target,
-       situation: situation
-     )
-    # リダイレクト先を分岐
-    if params[:from] == "userpages"
-      redirect_to userpages_path(anchor: "favorited_words"), notice: "ワードを編集しました"
-    else
-      redirect_to new_ai_message_path(
+    if @positive_word.update(
+        word: params[:positive_word][:word],
+        target: target,
+        situation: situation
+      )
+      # リダイレクト先を分岐
+      if params[:from] == "userpages"
+        redirect_to userpages_path(anchor: "favorited_words"), notice: "ワードを編集しました"
+      else
+        redirect_to new_ai_message_path(
         word_id: @positive_word.id,
         target: target.name,
         situation: situation.name
-      ), notice: "ワードを編集しました"
+        ), notice: "ワードを編集しました"
+      end
+    else
+      flash.now[:alert] = "ワードを編集できません"
+      render :edit, status: :unprocessable_entity
     end
-  else
-    flash.now[:alert] = "ワードを編集できません"
-    render :edit, status: :unprocessable_entity
   end
-end
 
   def word_favorites
     @favorited_words = current_user.favorited_words.includes(:positive_word)

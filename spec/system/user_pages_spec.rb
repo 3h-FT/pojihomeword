@@ -138,38 +138,66 @@ RSpec.describe "UserPages", type: :system do
 
     context 'ワードがない場合' do
       it 'メッセージが表示される', js: true do
-        visit '/userpages?tab=favorite'
+        visit userpages_path(tab: 'favorite')
         find("[data-tab='favorite']", wait: 5).click
-        expect(page).to have_selector("[data-tab-content='favorite']", visible: true)
         expect(page).to have_content('お気に入り登録はありません')
       end
     end
 
     context 'ワードがある場合' do
-      let!(:positive_word) { create(:positive_word, user: user, situation: create(:situation), target: create(:target)) }
-      let!(:word_favorite) { create(:word_favorite, user: user, positive_word: positive_word) }
+      it 'AIメッセージを生成してお気に入りに登録し、favoriteタブで表示される' do
+        visit new_ai_message_path
 
-      it '表示される', js: true do
-        visit '/userpages?tab=favorite'
-        find("[data-tab='favorite']", wait: 5).click
-        expect(page).to have_selector("[data-tab-content='favorite']", visible: true)
+        fill_in '誰に送りますか', with: '友達'
+        fill_in 'どんな時', with: '励ましたい時'
+        click_button 'ワードを作る'
 
-        within "[data-tab-content='favorite']" do
-          expect(page).to have_content(positive_word.word)
-        end
+        expect(page).to have_content('ポジティブワード生成結果')
+        new_word = PositiveWord.order(created_at: :desc).first
+
+        expect(page).to have_selector("#bookmark-button-for-word-#{new_word.id}")
+        find(:css, "#bookmark-button-for-word-#{new_word.id} a").click
+
+
+        visit userpages_path(tab: 'favorite')
+        expect(page).to have_content(new_word.word)
+        expect(page).not_to have_selector('.pagination'),'10件以下はページネーションが表示されない'
       end
-    end
 
-    context 'ワードが11件以上ある場合' do
-      before { create_list(:word_favorite, 11, user: user) }
+      it '11件以上お気に入り登録したら、ページネーションされ2ページ目に11件目が表示される' do
+        11.times do |i|
+          word = create(:positive_word, user:, word: "お気に入り#{i + 1}")
+          user.word_favorites.create!(positive_word: word)
+        end
 
-      it 'ページングが表示される', js: true do
-        visit '/userpages?tab=favorite'
-        find("[data-tab='favorite']", wait: 5).click
-        expect(page).to have_selector("[data-tab-content='favorite']", visible: true)
+        visit userpages_path(tab: 'favorite')
+
+        (1..10).each do |i|
+          expect(page).to have_content("お気に入り#{i}")
+        end
+        expect(page).not_to have_content("お気に入り11")
+
         within "[data-tab-content='favorite']" do
           expect(page).to have_selector('.pagination')
         end
+      end
+
+      it 'お気に入り登録したワードの編集が可能' do
+        login_as(user)
+        word = create(:positive_word, user:, word: "編集ワード")
+        user.word_favorites.create!(positive_word: word)
+
+        visit userpages_path(tab: 'favorite')
+        within "[data-tab-content='favorite']" do
+          find("a[href='/ai_messages/#{word.id}/edit?from=userpages']").click
+        end
+
+        fill_in 'ポジティブワード', with: '編集後のワード'
+        click_button '更新'
+
+        Capybara.assert_current_path("/userpages", ignore_query: true)
+        expect(page).to have_text('ワードを編集しました')
+        expect(page).to have_content('編集後のワード')
       end
     end
   end
