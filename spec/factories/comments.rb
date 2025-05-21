@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :comment do
     association :user
     association :post
-    body { "Comment" }
+    sequence(:body) { |n| "本文#{n}" }
   end
 end

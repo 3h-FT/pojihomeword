@@ -52,7 +52,7 @@
           <span>アカウント編集</span>
         <% end %>
 
-        <%= button_to destroy_user_session_path, method: :delete, class: "hover:bg-yellow-100 text-red-700 flex items-center space-x-1" do %>
+        <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-desktop", class: "hover:bg-yellow-100 text-red-700 flex items-center space-x-1" do %>
           <i class="bi bi-box-arrow-right text-sm"></i>
           <span>ログアウト</span>
         <% end %>
@@ -102,7 +102,7 @@
         <span>アカウント編集</span>
       <% end %>
 
-      <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 w-full" do %>
+      <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-mobile", class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 w-full" do %>
         <i class="bi bi-box-arrow-right text-sm"></i>
         <span>ログアウト</span>
       <% end %>

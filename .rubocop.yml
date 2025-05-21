@@ -6,3 +6,75 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+AllCops:
+  NewCops: enable            # 新しいCopは自動的に有効化
+  SuggestExtensions: false   # gemの提案をオフ
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'spec/**/*'
+    - 'node_modules/**/*'
+    - 'config/**/*'
+    - 'config.ru'
+    - 'Gemfile'
+    - 'Rakefile'
+  DisplayCopNames: true      # 警告にCop名を表示
+
+
+# コード整形・改行・インデント・endのズレ防止
+
+
+Layout/LineLength:
+  Max: 120                # 1行の最大文字数
+
+Layout/IndentationWidth:
+  Width: 2                # インデントはスペース2つ
+
+Layout/TrailingWhitespace:
+  Enabled: true           # 行末の空白は警告
+
+Layout/TrailingEmptyLines:
+  Enabled: true           # ファイル末尾の空行をチェック
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: true           # do...endやdef...end内部に空行がないと警告
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space    # { key: value } のようにスペースを入れる
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true           # return if の後に空行がないと警告
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_line  # do...end, {} ブロックの end をキーワードに合わせる
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: keyword  # def/class/module の end をキーワードに合わせる
+
+
+# コメント・命名ルール系（優しめ）
+
+
+Style/AsciiComments:
+  Enabled: false          # 日本語コメント許可
+
+Naming/MethodName:
+  EnforcedStyle: snake_case  # メソッド名はスネークケース推奨
+
+
+#  その他のルール
+
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 30                # メソッドは30行以内（コメントはカウントしない）
+
+Metrics/AbcSize:
+  Max: 25               # メソッドの複雑さの最大値（ABCサイズ）
+
+Style/FrozenStringLiteralComment:
+  Enabled: false         # # frozen_string_literal: true は不要
+
+Style/Documentation:
+  Enabled: false # クラスやモジュールにドキュメントコメントがなくてもOK

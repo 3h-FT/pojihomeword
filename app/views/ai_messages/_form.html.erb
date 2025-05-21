@@ -1,11 +1,11 @@
 <%= form_with model: @positive_word, url: ai_messages_generate_path, method: :post, class: 'space-y-6', local: true do |f| %>
     <div>
-      <%= f.label :target, '誰に送りますか？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
+      <%= f.label :target, '誰に送りますか', class: 'block mb-2 text-lg font-medium text-gray-700' %>
       <%= f.text_field :target, value: @target, placeholder: "例：友達、家族、自分", class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
     </div>
   
     <div>
-      <%= f.label :situation, 'どんな時？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
+      <%= f.label :situation, 'どんな時', class: 'block mb-2 text-lg font-medium text-gray-700' %>
       <%= f.text_field :situation, value:  @situation, placeholder: "例：褒めたい時、応援したい時", class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
     </div>
   

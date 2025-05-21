@@ -8,11 +8,11 @@
 
       <% if current_user.own?(comment) %>
         <div class="flex gap-3 items-center">
-          <%= link_to edit_comment_path(comment), class: "text-blue-500 hover:text-blue-700 text-xl" do %>
+          <%= link_to edit_comment_path(comment), class: "text-blue-500 hover:text-blue-700 text-xl edit-comment-button" do %>
             <i class="bi bi-pencil-fill"></i>
           <% end %>
 
-          <%= button_to comment_path(comment), method: :delete, class: "text-red-500 hover:text-red-700 text-xl" do %>
+          <%= button_to comment_path(comment), method: :delete, class: "text-red-500 hover:text-red-700 text-xl delete-comment-button" do %>
             <i class="bi bi-trash-fill"></i>
           <% end %>
         </div>

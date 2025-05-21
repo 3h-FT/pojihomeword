@@ -3,7 +3,6 @@
                 method: comment.persisted? ? :patch : :post,
                 data: { turbo: true },
                 class: 'space-y-3') do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
 
     <div>
       <%= f.label :'コメント', class: 'block mb-2 text-lg font-medium text-gray-700' %>

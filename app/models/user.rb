@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true
   validates :password_confirmation, presence: true
-  
+
   has_many :positive_words, dependent: :destroy
   has_many :word_favorites, dependent: :destroy
   has_many :favorited_words, through: :word_favorites, source: :positive_word
