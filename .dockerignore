@@ -52,3 +52,7 @@ Dockerfile*
 *.bak
 .idea
 .vscode
+
+# Documentation
+/doc/*
+!/doc/.keep
