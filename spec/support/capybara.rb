@@ -7,14 +7,9 @@ Capybara.register_driver :remote_chrome do |app|
   options.add_argument('--disable-gpu')
   options.add_argument('--window-size=1680,1050')
 
-  selenium_url = ENV.fetch('SELENIUM_DRIVER_URL') {
-    # fallback ロジックを用意
-    if ENV['GITHUB_ACTIONS'] == 'true'
-      'http://selenium:4444/wd/hub'
-    else
-      'http://selenium-hub:4444/wd/hub'
-    end
-  }
+  # SELENIUM_DRIVER_URL 環境変数を直接使用
+  selenium_url = ENV.fetch('SELENIUM_DRIVER_URL', 'http://localhost:4444/wd/hub') # fallbackはローカル環境向けにlocalhostを指定
+  # CI環境ではSELENTIUM_DRIVER_URLがhttp://selenium:4444/wd/hubになる想定
 
   Capybara::Selenium::Driver.new(
     app,

@@ -50,9 +50,10 @@ RSpec.configure do |config|
   # Capybara設定: リモートのChromeブラウザを使用するように設定
   config.before(:each, type: :system) do
     driven_by :remote_chrome  # :remote_chrome ドライバを使用
-    Capybara.server_host = '127.0.0.1'   # サーバーのホスト名を取得
-    Capybara.server_port = 9887  # ポート番号
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"  # アプリケーションのホストを設定
+    # 以下の行を削除またはコメントアウト
+    # Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+    # Capybara.server_port = 9887
+    # Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
     Capybara.ignore_hidden_elements = false  # 非表示要素も無視しない
   end
 end
