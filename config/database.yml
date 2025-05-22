@@ -4,7 +4,7 @@ default: &default
   pool: 5
   username: myuser
   password: mypassword
-  host: db
+  host: localhost
 
 development:
   <<: *default
@@ -13,6 +13,6 @@ development:
 test:
   <<: *default
   database: myapp_test
-  host: db
+  host: localhost
   username: myuser
   password: mypassword

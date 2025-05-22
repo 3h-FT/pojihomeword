@@ -1,6 +1,5 @@
 FROM ruby:3.2.3-slim AS build
 
-# 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install --no-install-recommends -y \
     build-essential \
     libpq-dev \
@@ -10,18 +9,15 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y \
 
 WORKDIR /myapp
 
-# Gemfileだけを先にコピーしてインストール
-COPY Gemfile Gemfile.lock ./ 
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs=4 --retry=3 && rm -rf ~/.bundle
 
-# 残りのアプリケーションコードをコピー
 COPY . .
 
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 FROM ruby:3.2.3-slim AS final
 
-# 必要なパッケージをインストール
 RUN apt-get update -qq && apt-get install --no-install-recommends -y \
     libpq-dev \
     chromium \
@@ -33,10 +29,9 @@ RUN groupadd --system --gid 1000 rails && \
 
 WORKDIR /myapp
 
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /myapp /myapp
-
-RUN chown -R rails:rails /myapp
+# 所有者を COPY 時点で設定
+COPY --chown=rails:rails --from=build /usr/local/bundle /usr/local/bundle
+COPY --chown=rails:rails --from=build /myapp /myapp
 
 COPY entrypoint.sh /myapp/bin/docker-entrypoint
 RUN chmod +x /myapp/bin/docker-entrypoint
