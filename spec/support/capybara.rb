@@ -7,13 +7,19 @@ Capybara.register_driver :remote_chrome do |app|
   options.add_argument('--disable-gpu')
   options.add_argument('--window-size=1680,1050')
 
+  selenium_url = ENV.fetch('SELENIUM_DRIVER_URL') {
+    # fallback ロジックを用意
+    if ENV['GITHUB_ACTIONS'] == 'true'
+      'http://selenium:4444/wd/hub'
+    else
+      'http://selenium-hub:4444/wd/hub'
+    end
+  }
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :remote,
-    url: ENV.fetch('SELENIUM_DRIVER_URL', 'http://localhost:4444/wd/hub'),
+    url: selenium_url,
     capabilities: options
   )
 end
-
-Capybara.javascript_driver = :remote_chrome
-
