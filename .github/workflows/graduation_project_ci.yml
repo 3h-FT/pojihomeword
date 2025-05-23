@@ -77,7 +77,7 @@ jobs:
         run: docker compose exec -T web bin/rails db:prepare
 
       - name: RSpecテストを実行
-        run: docker compose exec web bundle exec rspec
+        run: docker compose run --rm web bundle exec rspec
 
       - name: RuboCopを実行
         run: docker compose exec web bundle exec rubocop
