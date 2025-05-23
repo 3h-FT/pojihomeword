@@ -62,8 +62,6 @@ jobs:
       - name: Docker Compose プロジェクトを起動
         run: docker compose up -d
 
-      - name: データベースをセットアップ
-        run: docker compose run --rm web sh -c "mkdir -p tmp/pids tmp/storage && touch tmp/local_secret.txt && chmod -R 666 tmp && bin/rails db:prepare"
 
       - name: RSpecテストを実行
         run: docker compose run --rm web bundle exec rspec
