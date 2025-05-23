@@ -71,7 +71,7 @@ jobs:
       - name: tmp と log ディレクトリを作成＆権限付与
         run: |
           mkdir -p tmp log
-          chmod -R 777 tmp log  
+          chmod -R 777 tmp log
 
       - name: データベースをセットアップ
         run: docker compose exec -T web bin/rails db:prepare
@@ -81,3 +81,4 @@ jobs:
 
       - name: RuboCopを実行
         run: docker compose exec web bundle exec rubocop
+
