@@ -47,7 +47,7 @@ RSpec.configure do |config|
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
-
+  # Capybara設定: リモートのChromeブラウザを使用するように設定
   config.before(:each, type: :system) do
     driven_by :remote_chrome  # :remote_chrome ドライバを使用
     Capybara.server_host = IPSocket.getaddress(Socket.gethostname)  # サーバーのホスト名を取得
