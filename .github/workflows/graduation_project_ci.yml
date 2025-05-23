@@ -74,4 +74,3 @@ jobs:
 
       - name: RuboCopを実行
         run: docker compose exec web bundle exec rubocop
-
