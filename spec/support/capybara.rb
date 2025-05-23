@@ -8,4 +8,3 @@ Capybara.register_driver :remote_chrome do |app|
     Capybara::Selenium::Driver.new(app, browser: :remote, url: ENV['SELENIUM_DRIVER_URL'], capabilities: options)
   end
 end
-
