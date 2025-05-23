@@ -68,10 +68,10 @@ jobs:
           chmod -R 777 tmp log  
 
       - name: データベースをセットアップ
-        run: docker compose exec web bin/rails db:prepare
+        run: docker compose run --rm web bin/rails db:prepare
 
       - name: RSpecテストを実行
-        run: docker compose exec web bundle exec rspec
+        run: docker compose run --rm web bundle exec rspec
 
       - name: RuboCopを実行
-        run: docker compose exec web bundle exec rubocop
+        run: docker compose run --rm web bundle exec rubocop
