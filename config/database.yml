@@ -13,3 +13,7 @@ development:
 test:
   <<: *default
   database: myapp_test
+  host: db
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+

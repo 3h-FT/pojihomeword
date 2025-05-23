@@ -57,7 +57,6 @@ jobs:
           echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" >> .env
           echo "OPENAI_ACCESS_TOKEN=${{ secrets.OPENAI_ACCESS_TOKEN }}" >> .env
           echo "SELENIUM_DRIVER_URL=http://selenium-hub:4444/wd/hub" >> .env
-          echo "CI=true" >> .env
 
       - name: Docker Compose プロジェクトを起動
         run: docker compose up -d --build
@@ -65,7 +64,7 @@ jobs:
       - name: tmp と log ディレクトリを作成＆権限付与
         run: |
           mkdir -p tmp log
-          chmod -R 777 tmp log  
+          chmod -R 777 tmp log
 
       - name: データベースをセットアップ
         run: docker compose exec -T web bin/rails db:prepare
