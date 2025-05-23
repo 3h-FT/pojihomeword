@@ -27,14 +27,14 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-      selenium:
+      selenium-hub:
         image: selenium/standalone-chrome
         ports:
           - 4444:4444
         options: --shm-size="2g"
 
     env:
-      SELENIUM_DRIVER_URL: http://selenium:4444/wd/hub
+      SELENIUM_DRIVER_URL: http://selenium-hub:4444/wd/hub
 
     steps:
       - name: コードをチェックアウト
@@ -54,6 +54,9 @@ jobs:
           bin/rails db:create
           bin/rails db:schema:load
           bin/rails db:test:prepare
+
+      - name: SELENIUM_DRIVER_URL を確認
+        run: echo "SELENIUM_DRIVER_URL=$SELENIUM_DRIVER_URL"
 
       - name: テストを実行
         run: bundle exec rspec

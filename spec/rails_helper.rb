@@ -47,15 +47,12 @@ RSpec.configure do |config|
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
-
+  # Capybara設定: リモートのChromeブラウザを使用するように設定
   config.before(:each, type: :system) do
-    driven_by :remote_chrome
-
-    Capybara.server_host = '0.0.0.0' # アプリケーションサーバを全てのIPにバインド
-    Capybara.server_port = 3001
-
-    # CIではSeleniumからアプリへのURLにhost.docker.internalを使う
-    capybara_host = ENV['CI'] ? 'http://host.docker.internal:3001' : "http://#{Capybara.server_host}:#{Capybara.server_port}"
-    Capybara.app_host = capybara_host
+    driven_by :remote_chrome  # :remote_chrome ドライバを使用
+    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)  # サーバーのホスト名を取得
+    Capybara.server_port = 4444  # ポート番号
+    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"  # アプリケーションのホストを設定
+    Capybara.ignore_hidden_elements = false  # 非表示要素も無視しない
   end
 end
