@@ -60,7 +60,7 @@ jobs:
           echo "CI=true" >> .env
 
       - name: Docker Compose プロジェクトを起動
-        run: docker compose up -d
+        run: docker compose up -d --build
 
       - name: tmp と log ディレクトリを作成＆権限付与
         run: |
@@ -68,10 +68,10 @@ jobs:
           chmod -R 777 tmp log  
 
       - name: データベースをセットアップ
-        run: docker compose run --rm web bin/rails db:prepare
+        run: docker compose exec -T web bin/rails db:prepare
 
       - name: RSpecテストを実行
-        run: docker compose run --rm web bundle exec rspec
+        run: docker compose exe web bundle exec rspec
 
       - name: RuboCopを実行
-        run: docker compose run --rm web bundle exec rubocop
+        run: docker compose exe web bundle exec rubocop
