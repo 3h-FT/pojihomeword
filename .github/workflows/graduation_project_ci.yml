@@ -49,17 +49,14 @@ jobs:
       - name: Gemをインストール
         run: bundle install --jobs 4 --retry 3
 
+      - name: Dockerコンテナを起動
+        run: docker-compose up -d
+
       - name: データベースをセットアップ
-        run: |
-          bin/rails db:create
-          bin/rails db:schema:load
-          bin/rails db:test:prepare
+        run: docker-compose run --rm web bin/rails db:prepare
 
-      - name: SELENIUM_DRIVER_URL を確認
-        run: echo "SELENIUM_DRIVER_URL=$SELENIUM_DRIVER_URL"
-
-      - name: テストを実行
-        run: bundle exec rspec
+      - name: RSpecテストを実行
+        run: docker-compose run --rm web bundle exec rspec
 
       - name: RuboCopを実行
-        run: bundle exec rubocop
+        run: docker-compose run --rm web bundle exec rubocop
