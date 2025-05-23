@@ -58,7 +58,6 @@ jobs:
           echo "OPENAI_ACCESS_TOKEN=${{ secrets.OPENAI_ACCESS_TOKEN }}" >> .env
           echo "SELENIUM_DRIVER_URL=http://selenium-hub:4444/wd/hub" >> .env
 
-<<<<<<< HEAD
       - name: Docker Compose プロジェクトを起動
         run: docker compose up -d --build
 
@@ -72,13 +71,7 @@ jobs:
 
       - name: RSpecテストを実行
         run: docker compose exec web bundle exec rspec
-=======
-      - name: SELENIUM_DRIVER_URL を確認
-        run: echo "SELENIUM_DRIVER_URL=$SELENIUM_DRIVER_URL"
-
-      - name: テストを実行
-        run: bundle exec rspec
->>>>>>> 245a7ce (add:接続先の統一)
 
       - name: RuboCopを実行
         run: docker compose exec web bundle exec rubocop
+
