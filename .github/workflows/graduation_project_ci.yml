@@ -62,6 +62,11 @@ jobs:
       - name: Docker Compose プロジェクトを起動
         run: docker compose up -d
 
+      - name: tmp と log ディレクトリを作成＆権限付与
+        run: |
+          mkdir -p tmp log
+          chmod -R 777 tmp log  
+
       - name: データベースをセットアップ
         run: docker compose run --rm web bin/rails db:prepare
 
