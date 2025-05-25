@@ -80,3 +80,8 @@ gem "ruby-openai"        # OpenAIのAPIラッパー
 gem "ransack", "4.3.0"
 gem "kaminari"
 gem "high_voltage"
+
+
+gem 'omniauth-line'
+gem 'omniauth-rails_csrf_protection' #CSRF（Cross-Site Request Forgery）攻撃からアプリケーションを保護するためのGem
+gem 'omniauth-google-oauth2'
