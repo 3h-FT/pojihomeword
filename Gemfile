@@ -71,9 +71,9 @@ gem "pry"
 
 gem "sentry-ruby"
 gem "sentry-rails"
-gem "tailwindcss-ruby"
+gem "tailwindcss-ruby", "3.4.17"
 
-gem "tailwindcss-rails", "~> 4.2"
+gem "tailwindcss-rails"
 gem "dotenv-rails"       # APIキーの.env管理に
 gem "ruby-openai"        # OpenAIのAPIラッパー
 
@@ -81,7 +81,9 @@ gem "ransack", "4.3.0"
 gem "kaminari"
 gem "high_voltage"
 
-
 gem 'omniauth-line'
 gem 'omniauth-rails_csrf_protection' #CSRF（Cross-Site Request Forgery）攻撃からアプリケーションを保護するためのGem
 gem 'omniauth-google-oauth2'
+
+gem 'net-imap', '>= 0.5.7'
+

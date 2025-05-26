@@ -51,8 +51,9 @@ RSpec.configure do |config|
   config.before(:each, type: :system) do
     driven_by :remote_chrome  # :remote_chrome ドライバを使用
     Capybara.server_host = IPSocket.getaddress(Socket.gethostname)  # サーバーのホスト名を取得
-    Capybara.server_port = 4444  # ポート番号（Selenium Gridでの標準ポート）
+    Capybara.server_port = 3001  # ポート番号
     Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"  # アプリケーションのホストを設定
     Capybara.ignore_hidden_elements = false  # 非表示要素も無視しない
+    Capybara.default_max_wait_time = 5 #デフォルトの待機時間を5秒に
   end
 end
