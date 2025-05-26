@@ -28,7 +28,9 @@ jobs:
           --health-retries 5
 
       selenium-hub:
-        image: selenium/standalone-chrome
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
         options: --shm-size="2g"
 
     env:
@@ -44,34 +46,32 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
 
-      - name: Gemをインストール
-        run: bundle install --jobs 4 --retry 3
-
-      - name: .env を作成
+      - name: 環境変数を設定
         run: |
-          echo "RAILS_ENV=test" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "POSTGRES_HOST=db" >> .env
-          echo "GMAIL_USERNAME=${{ secrets.GMAIL_USERNAME }}" >> .env
-          echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" >> .env
-          echo "OPENAI_ACCESS_TOKEN=${{ secrets.OPENAI_ACCESS_TOKEN }}" >> .env
-          echo "SELENIUM_DRIVER_URL=http://selenium-hub:4444/wd/hub" >> .env
-
-      - name: Docker Compose プロジェクトを起動
-        run: docker compose up -d --build
-
-      - name: tmp と log ディレクトリを作成＆権限付与
+          echo "RAILS_ENV=test" >> $GITHUB_ENV
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+          echo "POSTGRES_DB=myapp_test" >> $GITHUB_ENV
+          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV 
+          echo "GMAIL_USERNAME=${{ secrets.GMAIL_USERNAME }}" >> $GITHUB_ENV
+          echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "OPENAI_ACCESS_TOKEN=${{ secrets.OPENAI_ACCESS_TOKEN }}" >> $GITHUB_ENV
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> $GITHUB_ENV
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> $GITHUB_ENV
+ 
+      - name: PostgreSQLの起動を待機
         run: |
-          mkdir -p tmp log
-          chmod -R 777 tmp log  
+          for i in `seq 1 10`; do
+            nc -z localhost 5432 && echo "PostgreSQL is up!" && break
+            echo "Waiting for PostgreSQL..."
+            sleep 5
+          done
 
-      - name: データベースをセットアップ
-        run: docker compose exec -T web bin/rails db:prepare
+      - name: データベースを準備
+        run: bundle exec rails db:prepare RAILS_ENV=test
 
       - name: RSpecテストを実行
-        run: docker compose exec web bundle exec rspec
+        run: bundle exec rspec
 
       - name: RuboCopを実行
-        run: docker compose exec web bundle exec rubocop
+        run: bundle exec rubocop
