@@ -17,12 +17,11 @@ jobs:
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DB: myapp_test
-      POSTGRES_HOST: localhost 
+      POSTGRES_HOST: localhost
       GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
       GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
       OPENAI_ACCESS_TOKEN: ${{ secrets.OPENAI_ACCESS_TOKEN }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       LINE_LOGIN_KEY: ${{ secrets.LINE_LOGIN_KEY }}
@@ -32,14 +31,14 @@ jobs:
     services:
       db:
         image: postgres:15
-        env: 
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword 
           POSTGRES_DB: myapp_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }}" # ここもSecretsから取得
+          --health-cmd "pg_isready -U myuser"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -49,7 +48,6 @@ jobs:
         ports:
           - 4444:4444
         options: --shm-size="2g"
- 
 
     steps:
       - name: コードをチェックアウト
@@ -64,12 +62,13 @@ jobs:
       - name: PostgreSQLの起動を待機
         run: |
           for i in `seq 1 10`; do
+            nc -z localhost 5432 && echo "PostgreSQL is up!" && break
             echo "Waiting for PostgreSQL..."
             sleep 5
           done
 
       - name: データベースを準備
-        run: bundle exec rails db:prepare 
+        run: bundle exec rails db:prepare
 
       - name: RSpecテストを実行
         run: bundle exec rspec
