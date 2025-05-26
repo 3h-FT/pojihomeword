@@ -33,6 +33,7 @@ jobs:
         ports:
           - 4444:4444
         options: >-
+          --shm-size="2g"
           --health-cmd "curl http://localhost:4444/wd/hub/status || exit 1"
           --health-interval 10s
           --health-timeout 5s
@@ -40,9 +41,9 @@ jobs:
         env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PORT: 4444
-        shm_size: '2g' # ← ここは8スペース
 
-    steps: # ← ここは4スペース（services: と同じインデントレベル）
+
+    steps:
       - name: コードをチェックアウト
         uses: actions/checkout@v4
 
