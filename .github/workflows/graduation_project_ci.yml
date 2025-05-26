@@ -40,6 +40,7 @@ jobs:
         env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PORT: 4444
+        shm_size: '2g' 
 
     steps:
       - name: コードをチェックアウト
