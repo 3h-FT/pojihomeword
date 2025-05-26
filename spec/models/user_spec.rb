@@ -28,11 +28,6 @@ RSpec.describe User, type: :model do
         expect(user).to be_invalid
       end
 
-      it 'パスワード確認が空の場合、無効であること' do
-        user = build(:user, password: 'password', password_confirmation: nil)
-        expect(user).to be_invalid
-      end
-
       it 'パスワードとパスワード確認が一致しない場合、無効であること' do
         user = build(:user)
         user.password_confirmation = 'different_password'

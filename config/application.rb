@@ -8,6 +8,9 @@ Bundler.require(*Rails.groups)
 
 module Myapp
   class Application < Rails::Application
+    config.time_zone = 'Asia/Tokyo' # アプリの内部処理タイムゾーン
+    config.active_record.default_timezone = :local # DB保存タイムゾーン（ローカルならTokyo）
+    config.active_support.to_time_preserves_timezone = :zone
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 

@@ -33,9 +33,9 @@ class UserpagesController < ApplicationController
 
             success = if @positive_word.is_custom?
       @positive_word.update(positive_word_params)
-    else
+                      else
       @positive_word.update(positive_word_params.except(:is_custom))
-    end
+                      end
 
     if success
       notice_message = @positive_word.is_custom? ? "カスタムワードを編集しました" : "お気に入りワードを編集しました"
