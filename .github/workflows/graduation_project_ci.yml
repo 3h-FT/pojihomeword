@@ -12,17 +12,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      RAILS_ENV: test
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: myapp_test
+      POSTGRES_HOST: localhost 
+      GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+      GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+      OPENAI_ACCESS_TOKEN: ${{ secrets.OPENAI_ACCESS_TOKEN }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      LINE_LOGIN_KEY: ${{ secrets.LINE_LOGIN_KEY }}
+      LINE_LOGIN_SECRET: ${{ secrets.LINE_LOGIN_SECRET }}
+      SELENIUM_DRIVER_URL: http://selenium-hub:4444/wd/hub
+
     services:
       db:
         image: postgres:15
-        env:
-          POSTGRES_USER: myuser
-          POSTGRES_PASSWORD: mypassword
+        env: 
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: myapp_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U myuser"
+          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }}" # ここもSecretsから取得
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -32,9 +49,7 @@ jobs:
         ports:
           - 4444:4444
         options: --shm-size="2g"
-
-    env:
-      SELENIUM_DRIVER_URL: http://selenium-hub:4444/wd/hub
+ 
 
     steps:
       - name: コードをチェックアウト
@@ -46,28 +61,15 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
 
-      - name: 環境変数を設定
-        run: |
-          echo "RAILS_ENV=test" >> $GITHUB_ENV
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> $GITHUB_ENV
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
-          echo "POSTGRES_DB=myapp_test" >> $GITHUB_ENV
-          echo "POSTGRES_HOST=localhost" >> $GITHUB_ENV 
-          echo "GMAIL_USERNAME=${{ secrets.GMAIL_USERNAME }}" >> $GITHUB_ENV
-          echo "GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}" >> $GITHUB_ENV
-          echo "OPENAI_ACCESS_TOKEN=${{ secrets.OPENAI_ACCESS_TOKEN }}" >> $GITHUB_ENV
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> $GITHUB_ENV
- 
       - name: PostgreSQLの起動を待機
         run: |
           for i in `seq 1 10`; do
-            nc -z localhost 5432 && echo "PostgreSQL is up!" && break
             echo "Waiting for PostgreSQL..."
             sleep 5
           done
 
       - name: データベースを準備
-        run: bundle exec rails db:prepare RAILS_ENV=test
+        run: bundle exec rails db:prepare 
 
       - name: RSpecテストを実行
         run: bundle exec rspec
