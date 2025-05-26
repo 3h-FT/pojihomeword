@@ -57,8 +57,9 @@ jobs:
       - name: データベースをセットアップ
         run: |
           cp config/database.ci.yml config/database.yml
-          bin/rails db:create
-          bin/rails db:migrate
+          cp config/database.ci.yml config/database.yml
+          RAILS_ENV=test bundle exec rails db:create
+          RAILS_ENV=test bundle exec rails db:migrate
 
       
       - name: テストを実行
