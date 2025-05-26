@@ -27,6 +27,20 @@
            --health-interval 10s
            --health-timeout 5s
            --health-retries 5
+
+       selenium-hub: # ここから追加
+         image: selenium/standalone-chrome:latest
+         ports:
+           - 4444:4444
+         options: >-
+           --health-cmd "curl http://localhost:4444/wd/hub/status || exit 1"
+           --health-interval 10s
+           --health-timeout 5s
+           --health-retries 5
+         environment:
+           - SE_EVENT_BUS_HOST=selenium-hub
+           - SE_EVENT_BUS_PORT=4444   
+
      steps:
        - name: コードをチェックアウト
          uses: actions/checkout@v4
