@@ -68,3 +68,10 @@ jobs:
       
       - name: RuboCopを実行
         run: bundle exec rubocop
+
+      - name: 失敗した場合スクリーンショットをアップ
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: tmp/capybara # スクリーンショットが保存されるパス  

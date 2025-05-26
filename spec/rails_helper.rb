@@ -54,5 +54,6 @@ RSpec.configure do |config|
     Capybara.server_port = 3001  # ポート番号
     Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"  # アプリケーションのホストを設定
     Capybara.ignore_hidden_elements = false  # 非表示要素も無視しない
+    Capybara.default_max_wait_time = 5 #デフォルトの待機時間を5秒に
   end
 end
