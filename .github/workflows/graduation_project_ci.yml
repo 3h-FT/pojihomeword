@@ -37,7 +37,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        env: # ここを 'environment' から 'env' に修正しました
+        env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PORT: 4444
 
@@ -56,7 +56,10 @@ jobs:
 
       - name: データベースをセットアップ
         run: |
-          bin/rails db:test:prepare
+          cp config/database.ci.yml config/database.yml
+          bin/rails db:create
+          bin/rails db:migrate
+
       
       - name: テストを実行
         run: bundle exec rspec
