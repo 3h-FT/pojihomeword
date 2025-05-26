@@ -1,65 +1,65 @@
- name: graduation_project CI
+name: graduation_project CI
 
- on:
-   push:
-     branches:
-       - main
+on:
+  push:
+    branches:
+      - main
 
-   pull_request:
-     branches:
-       - main
+  pull_request:
+    branches:
+      - main
 
- jobs:
-   test:
-     runs-on: ubuntu-latest
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-     services:
-       postgres:
-         image: postgres:15
-         env:
-           POSTGRES_USER: myuser
-           POSTGRES_PASSWORD: mypassword
-           POSTGRES_DB: myapp_test
-         ports:
-           - 5432:5432
-         options: >-
-           --health-cmd "pg_isready -U myuser"
-           --health-interval 10s
-           --health-timeout 5s
-           --health-retries 5
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: myapp_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U myuser"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-       selenium-hub: # ここから追加
-         image: selenium/standalone-chrome:latest
-         ports:
-           - 4444:4444
-         options: >-
-           --health-cmd "curl http://localhost:4444/wd/hub/status || exit 1"
-           --health-interval 10s
-           --health-timeout 5s
-           --health-retries 5
-         environment:
-           - SE_EVENT_BUS_HOST=selenium-hub
-           - SE_EVENT_BUS_PORT=4444   
+      selenium-hub:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+        options: >-
+          --health-cmd "curl http://localhost:4444/wd/hub/status || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env: # ここを 'environment' から 'env' に修正しました
+          SE_EVENT_BUS_HOST: selenium-hub
+          SE_EVENT_BUS_PORT: 4444
 
-     steps:
-       - name: コードをチェックアウト
-         uses: actions/checkout@v4
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v4
 
-       - name: Ruby をセットアップ
-         uses: ruby/setup-ruby@v1
-         with:
-           ruby-version: 3.2.2
-           bundler-cache: true
+      - name: Ruby をセットアップ
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+          bundler-cache: true
 
-       - name: Gemをインストール
-         run: bundle install --jobs 4 --retry 3
+      - name: Gemをインストール
+        run: bundle install --jobs 4 --retry 3
 
-       - name: データベースをセットアップ
-         run: |
-           bin/rails db:test:prepare
-       
-       - name: テストを実行
-         run: bundle exec rspec
-     
-       - name: RuboCopを実行
-         run: bundle exec rubocop
+      - name: データベースをセットアップ
+        run: |
+          bin/rails db:test:prepare
+      
+      - name: テストを実行
+        run: bundle exec rspec
+      
+      - name: RuboCopを実行
+        run: bundle exec rubocop
