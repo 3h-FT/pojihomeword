@@ -5,7 +5,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :line]
-         :recoverable, :rememberable, :validatable
 
   validates :username, presence: true
   has_many :positive_words, dependent: :destroy
