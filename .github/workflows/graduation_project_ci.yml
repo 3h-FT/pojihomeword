@@ -58,14 +58,12 @@ jobs:
       - name: データベースをセットアップ
         run: |
           cp config/database.ci.yml config/database.yml
-          cp config/database.ci.yml config/database.yml
           RAILS_ENV=test bundle exec rails db:create
           RAILS_ENV=test bundle exec rails db:migrate
     
       - name: アセットをプリコンパイル
-        run: RAILS_ENV=test bundle exec rails assets:precompile # <-- この行を追加
+        run: RAILS_ENV=test bundle exec rails assets:precompile
 
-      
       - name: テストを実行
         run: bundle exec rspec
       
