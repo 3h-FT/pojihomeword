@@ -40,9 +40,9 @@ jobs:
         env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PORT: 4444
-        shm_size: '2g' 
+        shm_size: '2g' # ← ここは8スペース
 
-    steps:
+    steps: # ← ここは4スペース（services: と同じインデントレベル）
       - name: コードをチェックアウト
         uses: actions/checkout@v4
 
@@ -57,7 +57,7 @@ jobs:
 
       - name: データベースをセットアップ
         run: |
-          cp config/database.ci.yml config/database.yml
+          cp config/database.ci.yml config/database.yml # ← ここは1回だけ
           RAILS_ENV=test bundle exec rails db:create
           RAILS_ENV=test bundle exec rails db:migrate
     
