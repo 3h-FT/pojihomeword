@@ -63,6 +63,9 @@ jobs:
       - name: アセットをプリコンパイル
         run: RAILS_ENV=test bundle exec rails assets:precompile
 
+      - name: Create tmp/capybara directory
+        run: mkdir -p tmp/capybara
+
       - name: テストを実行
         run: bundle exec rspec
       
