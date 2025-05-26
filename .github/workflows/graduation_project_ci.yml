@@ -1,77 +1,51 @@
-name: graduation_project CI
+ name: graduation_project CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+ on:
+   push:
+     branches:
+       - main
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+   pull_request:
+     branches:
+       - main
 
-    env:
-      RAILS_ENV: test
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: myapp_test
-      POSTGRES_HOST: localhost
-      GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
-      GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-      OPENAI_ACCESS_TOKEN: ${{ secrets.OPENAI_ACCESS_TOKEN }}
-      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-      LINE_LOGIN_KEY: ${{ secrets.LINE_LOGIN_KEY }}
-      LINE_LOGIN_SECRET: ${{ secrets.LINE_LOGIN_SECRET }}
-      SELENIUM_DRIVER_URL: http://selenium-hub:4444/wd/hub
+ jobs:
+   test:
+     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:15
-        env:
-          POSTGRES_USER: myuser
-          POSTGRES_PASSWORD: mypassword 
-          POSTGRES_DB: myapp_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U myuser"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+     services:
+       postgres:
+         image: postgres:15
+         env:
+           POSTGRES_USER: myuser
+           POSTGRES_PASSWORD: mypassword
+           POSTGRES_DB: myapp_test
+         ports:
+           - 5432:5432
+         options: >-
+           --health-cmd "pg_isready -U myuser"
+           --health-interval 10s
+           --health-timeout 5s
+           --health-retries 5
+     steps:
+       - name: コードをチェックアウト
+         uses: actions/checkout@v4
 
-      selenium-hub:
-        image: selenium/standalone-chrome:latest
-        ports:
-          - 4444:4444
-        options: --shm-size="2g"
+       - name: Ruby をセットアップ
+         uses: ruby/setup-ruby@v1
+         with:
+           ruby-version: 3.2.2
+           bundler-cache: true
 
-    steps:
-      - name: コードをチェックアウト
-        uses: actions/checkout@v4
+       - name: Gemをインストール
+         run: bundle install --jobs 4 --retry 3
 
-      - name: Ruby をセットアップ
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.2
-          bundler-cache: true
-
-      - name: PostgreSQLの起動を待機
-        run: |
-          for i in `seq 1 10`; do
-            nc -z localhost 5432 && echo "PostgreSQL is up!" && break
-            echo "Waiting for PostgreSQL..."
-            sleep 5
-          done
-
-      - name: データベースを準備
-        run: bundle exec rails db:prepare
-
-      - name: RSpecテストを実行
-        run: bundle exec rspec
-
-      - name: RuboCopを実行
-        run: bundle exec rubocop
+       - name: データベースをセットアップ
+         run: |
+           bin/rails db:test:prepare
+       
+       - name: テストを実行
+         run: bundle exec rspec
+     
+       - name: RuboCopを実行
+         run: bundle exec rubocop
