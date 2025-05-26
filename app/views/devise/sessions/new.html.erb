@@ -5,12 +5,12 @@
     ログイン
     </h2>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4"}) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
         <%= f.label :email, "メールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <div>
@@ -28,10 +28,15 @@
       <div>
         <%= f.submit "ログイン", class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
+    <% end %>
 
       <div class="mt-2 text-center text-base sm:text-lg text-gray-600">
-        <%= render "devise/shared/links" %>
+        <%= render "devise/shared/links",
+            resource_name: :user,
+            devise_mapping: Devise.mappings[:user],
+            resource_class: User %>
       </div>
-    <% end %>
+      </div>
+
   </div>
 </div>
