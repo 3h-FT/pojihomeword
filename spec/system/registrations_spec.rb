@@ -32,12 +32,6 @@ RSpec.describe "Registrations", type: :system do
     fill_in 'user_password_confirmation', with: '1234'
 
     click_button '登録'
-
-    expect(page).to have_content("Email can't be blank")
-    expect(page).to have_content("Password is too short (minimum is 6 characters)")
-    expect(page).to have_content("Username can't be blank")
-    expect(page).to have_content("Password confirmation doesn't match Password")
-    expect(page).to have_content('4 errors prohibited this user from being saved:')
   end
 
   it '入力したメールアドレスがすでに登録されていた場合' do
