@@ -1,69 +1,73 @@
-<header>
-  <div class="max-w-full bg-pink-200 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-15">
+<header class="bg-pink-200">
+  <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
     <a href="/" class="flex items-center">
       <%= image_tag 'pojihome_logo.png', size: "32x32", alt: "ポジほめワード ロゴ" %>
     </a>
 
     <!-- ハンバーガーボタン（モバイル用） -->
-    <button id="hamburger-button" class="md:hidden focus:outline-none  p-2 rounded">
+    <button id="hamburger-button" class="md:hidden focus:outline-none p-2 rounded">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
 
     <!-- デスクトップメニュー -->
-    <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-500 select-none">
+    <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-500">
       <% if user_signed_in? %>
         <!-- ポジティブワード ドロップダウン -->
         <div class="relative" id="positive-dropdown">
-          <button id="positive-dropdown-button" class="flex items-center space-x-1 hover:bg-yellow-100 focus:outline-none" aria-expanded="false" aria-controls="positive-dropdown-menu" type="button">
+          <button id="positive-dropdown-button" class="flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" type="button">
             <span>ポジティブワード</span>
             <i class="bi bi-chevron-down text-xs"></i>
           </button>
-          <div id="positive-dropdown-menu" class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-md border border-pink-200 hidden z-20" role="menu" aria-labelledby="positive-dropdown-button">
-            <a href="/ai_messages/new" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100" role="menuitem" tabindex="-1">
+          <div id="positive-dropdown-menu" class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-md border border-pink-200 hidden z-20">
+            <a href="/ai_messages/new" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
               <i class="bi bi-lightbulb"></i>
               <span>ワードを知る</span>
             </a>
-            <a href="/userpages" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100" role="menuitem" tabindex="-1">
+            <a href="/userpages" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
               <i class="bi bi-journals"></i>
               <span>ワードをためる</span>
             </a>
             <!-- 共有サブメニュー -->
             <div class="relative" id="share-dropdown-desktop">
-              <button id="share-dropdown-button-desktop" class="flex items-center justify-between w-full px-4 py-2 text-gray-500 hover:bg-yellow-100 focus:outline-none" aria-expanded="false" aria-controls="share-dropdown-menu-desktop" type="button">
+              <button id="share-dropdown-button-desktop" class="flex items-center justify-between w-full px-4 py-2 text-gray-500 hover:bg-yellow-100" type="button">
                 <div class="flex items-center space-x-2">
                   <i class="bi bi-share-fill"></i>
                   <span>ワードを共有する</span>
                 </div>
                 <i class="bi bi-chevron-down text-xs"></i>
               </button>
-              <div id="share-dropdown-menu-desktop" class="absolute top-9 w-44 bg-white rounded-md shadow-md border border-pink-200 hidden z-30" role="menu" aria-labelledby="share-dropdown-button-desktop">
-                <a href="/posts" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100" role="menuitem" tabindex="-1">投稿一覧</a>
-                <a href="/posts/post_favorites" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100" role="menuitem" tabindex="-1">お気に入り登録の投稿一覧</a>
-                <a href="/posts/new" class="block px-4 py-2 hover:bg-yellow-100 w-full text-gray-500" role="menuitem">新規投稿</a>
+              <div id="share-dropdown-menu-desktop" class="absolute top-9 w-44 bg-white rounded-md shadow-md border border-pink-200 hidden z-30">
+                <a href="/posts" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">投稿一覧</a>
+                <a href="/posts/post_favorites" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">お気に入り登録の投稿一覧</a>
+                <a href="/posts/new" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">新規投稿</a>
               </div>
             </div>
           </div>
         </div>
 
-        <%= link_to edit_user_registration_path, class: "hover:bg-yellow-100 text-gray-500 flex items-center space-x-1" do %>
+        <%= link_to new_contact_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
+          <i class="bi bi-envelope-fill text-sm"></i>
+          <span>お問い合わせ</span>
+        <% end %>
+
+        <%= link_to edit_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-gray-500" do %>
           <i class="bi bi-gear-fill text-sm"></i>
           <span>アカウント編集</span>
         <% end %>
 
-        <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-desktop", class: "hover:bg-yellow-100 text-red-700 flex items-center space-x-1" do %>
+        <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-desktop", class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-red-700" do %>
           <i class="bi bi-box-arrow-right text-sm"></i>
           <span>ログアウト</span>
         <% end %>
-
       <% else %>
-        <%= link_to new_user_registration_path, class: "hover:bg-yellow-100 text-gray-500 flex items-center space-x-1" do %>
+        <%= link_to new_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
           <i class="bi bi-person-plus-fill text-sm"></i>
           <span>サインイン</span>
         <% end %>
 
-        <%= link_to new_user_session_path, class: "hover:bg-yellow-100 text-gray-500 flex items-center space-x-1" do %>
+        <%= link_to new_user_session_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
           <i class="bi bi-box-arrow-in-right text-sm"></i>
           <span>ログイン</span>
         <% end %>
@@ -72,50 +76,55 @@
   </div>
 
   <!-- モバイルメニュー -->
-  <div id="mobile-menu" class="bg-pink-200 md:hidden hidden px-4 pb-4 space-y-2 font-semibold text-gray-500 select-none">
+  <div id="mobile-menu" class="bg-pink-200 md:hidden hidden px-4 pb-4 space-y-2 font-semibold text-gray-500">
     <% if user_signed_in? %>
-      <a href="/ai_messages/new" class="flex items-center space-x-2 hover:bg-yellow-100">
+      <a href="/ai_messages/new" class="flex items-center space-x-2 hover:bg-yellow-100 px-2 py-1 rounded">
         <i class="bi bi-lightbulb text-base"></i>
         <span>ワードを知る</span>
       </a>
-      <a href="/userpages" class="flex items-center space-x-2 hover:bg-yellow-100">
+      <a href="/userpages" class="flex items-center space-x-2 hover:bg-yellow-100 px-2 py-1 rounded">
         <i class="bi bi-journals text-base"></i>
         <span>ワードをためる</span>
       </a>
       <div class="relative">
-        <button id="share-dropdown-button-mobile" class="flex items-center justify-between w-full space-x-2 hover:bg-yellow-100 focus:outline-none" aria-expanded="false" aria-controls="share-dropdown-menu-mobile" type="button">
+        <button id="share-dropdown-button-mobile" class="flex items-center justify-between w-full hover:bg-yellow-100 px-2 py-1 rounded" type="button">
           <div class="flex items-center space-x-2">
             <i class="bi bi-share-fill text-base"></i>
             <span>ワードを共有する</span>
           </div>
           <i class="bi bi-chevron-down text-xs"></i>
         </button>
-        <div id="share-dropdown-menu-mobile" class="absolute left-0 w-full bg-gray-100 rounded-md shadow-md border border-pink-200 mt-1 hidden z-30" role="menu" aria-labelledby="share-dropdown-button-mobile">
-          <a href="/posts" class="block px-4 py-2 hover:bg-yellow-100 w-full text-gray-700" role="menuitem">投稿一覧</a>
-          <a href="/posts/post_favorites" class="block px-4 py-2 hover:bg-yellow-100 w-full text-gray-700" role="menuitem">お気に入り登録の投稿一覧</a>
-          <a href="/posts/new" class="block px-4 py-2 hover:bg-yellow-100 w-full text-gray-700" role="menuitem">新規投稿</a>
-          </div>
+        <div id="share-dropdown-menu-mobile" class="absolute left-0 w-full bg-white rounded-md shadow-md border border-pink-200 mt-1 hidden z-30">
+          <a href="/posts" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">投稿一覧</a>
+          <a href="/posts/post_favorites" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">お気に入り登録の投稿一覧</a>
+          <a href="/posts/new" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">新規投稿</a>
+        </div>
       </div>
 
-      <%= link_to edit_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 w-full" do %>
+      <%= link_to new_contact_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
+        <i class="bi bi-envelope-fill text-sm"></i>
+        <span>お問い合わせ</span>
+      <% end %>
+
+      <%= link_to edit_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-gear-fill text-sm"></i>
         <span>アカウント編集</span>
       <% end %>
 
-      <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-mobile", class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 w-full" do %>
+      <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-mobile", class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-box-arrow-right text-sm"></i>
         <span>ログアウト</span>
       <% end %>
-
     <% else %>
-      <%= link_to new_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 w-full" do %>
+      <%= link_to new_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-person-plus-fill text-sm"></i>
         <span>サインイン</span>
       <% end %>
 
-      <%= link_to new_user_session_path, class: "flex items-center space-x-1 hover:bg-yellow-100 w-full" do %>
+      <%= link_to new_user_session_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-box-arrow-in-right text-sm"></i>
         <span>ログイン</span>
       <% end %>
     <% end %>
   </div>
+</header>

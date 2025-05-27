@@ -1,5 +1,6 @@
-<%= form_with model: @positive_word, url: ai_messages_generate_path, method: :post, class: 'space-y-6', local: true do |f| %>
-    <div>
+<%= form_with model: @positive_word, url: ai_messages_generate_path, method: :post, class: 'space-y-6',id: "ai-message-form", local: true do |f| %>
+    
+  <div>
       <%= f.label :target, '誰に送りますか', class: 'block mb-2 text-lg font-medium text-gray-700' %>
       <%= f.text_field :target, value: @target, placeholder: "例：友達、家族、自分", class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
     </div>
@@ -10,6 +11,9 @@
     </div>
   
     <div>
-      <%= f.submit 'ワードを作る', class: "w-full bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer" %>
-    </div>
-  <% end %>
+    <%= f.submit 'ワードを作る', class: "w-full bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-8 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer", id: "submit-button" %>
+<div id="loading-spinner" class="hidden mt-4 text-center">
+ <div class="bg-blue-400 text-white p-4">生成中...</div>
+</div>
+  </div>
+<% end %>

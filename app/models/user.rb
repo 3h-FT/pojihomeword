@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2, :line]
+         :omniauthable, omniauth_providers: [ :google_oauth2, :line ]
 
   validates :username, presence: true
   has_many :positive_words, dependent: :destroy
@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :favorite_posts,  through: :post_favorites,  source: :post
 
   validates :username, presence: true
-  #uidが存在する場合のみ、その一意性をproviderのスコープ内で確認する
+  # uidが存在する場合のみ、その一意性をproviderのスコープ内で確認する
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
   def bookmark(positive_word)
@@ -48,7 +48,7 @@ class User < ApplicationRecord
     id == object&.user_id
   end
 
-    #ユニークな文字列（UUID）を生成する。
+  # ユニークな文字列（UUID）を生成する。
   def self.create_unique_string
     SecureRandom.uuid
   end
