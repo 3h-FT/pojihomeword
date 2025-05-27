@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     end
   end
   resources :post_favorites, only: %i[create destroy]
-
+  
+  resources :contacts, only: [:new, :create]
+  
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
