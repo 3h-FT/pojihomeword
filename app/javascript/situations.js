@@ -33,3 +33,17 @@ document.addEventListener('turbo:load', () => {
     updateSituationsForTarget(e.target.value);
   });
 });
+
+document.addEventListener('turbo:load', () => {
+  const form = document.getElementById('ai-message-form');
+  const submitButton = document.getElementById('submit-button');
+  const spinner = document.getElementById('loading-spinner');
+
+  if (form) {
+    form.addEventListener('submit', () => {
+        console.log("ローディング表示中！");
+      submitButton.disabled = true;
+      spinner.classList.remove('hidden');
+    });
+  }
+});
