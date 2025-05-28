@@ -19,13 +19,38 @@
     
     <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
       <% if current_user.own?(post) %>
+            
+      <!-- 編集 -->
         <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700', data: { turbo: false } do %>
           <i class="bi bi-pencil-fill"></i>
         <% end %>
+
+      <!-- 削除 -->  
         <%= link_to post_path(post), id: "button-delete-#{post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しました', turbo: true }, class: 'text-red-500 hover:text-red-700' do %>
-          <i class="bi bi-trash-fill"></i>
+          <i class="bi bi-trash-fill"></i> 
         <% end %>
+        
       <% else %>
+      <!-- LINEシェア -->
+        <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(post_url(post)) %>" 
+          target="_blank" rel="noopener" class="text-white hover:text-white">
+          <img 
+            src="<%= asset_path('btn_base.png') %>" 
+            alt="LINEでシェア" 
+            style="height: 20px;" 
+            onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
+            onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
+        </a>
+
+      <!-- X（旧Twitter）シェア -->
+        <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(post))}&text=#{ERB::Util.url_encode("【#{post.post_word}】\n\n#{post.caption}")}", 
+              target: '_blank', 
+              rel: 'noopener', 
+              class: "text-black hover:text-gray-500" do %>
+        <i class="bi bi-twitter-x"></i>
+        <% end %>
+      
+      <!-- ブックマーク -->
         <%= render 'shared/post_favorites_button', post: post %>
       <% end %>
     </div>

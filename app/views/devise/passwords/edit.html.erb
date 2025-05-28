@@ -14,12 +14,12 @@
         <% if @minimum_password_length %>
           <em class="text-sm text-gray-500">(<%= @minimum_password_length %> 文字以上)</em>
         <% end %>
-        <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.password_field :password, placeholder: "6文字以上のパスワードを入力", autofocus: true, autocomplete: "new-password", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <div>
         <%= f.label :password_confirmation, "新しいパスワードの確認", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.password_field :password_confirmation, placeholder: "パスワードを再入力", autocomplete: "new-password", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <div>
