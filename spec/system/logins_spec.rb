@@ -9,6 +9,7 @@ RSpec.describe "ログイン機能", type: :system do
     describe 'ログイン' do
       it '正しいタイトルが表示されていること' do
         visit '/users/sign_in'
+        Capybara.assert_current_path("/users/sign_in", ignore_query: true)
         expect(page).to have_title("ログイン | ポジほめワード"), 'タイトル「ログイン | ポジほめワード」が表示されていません'
       end
     end

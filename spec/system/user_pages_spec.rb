@@ -157,8 +157,7 @@ RSpec.describe "UserPages", type: :system do
         new_word = PositiveWord.order(created_at: :desc).first
         
         find('[data-testid="menu-toggle"]', wait: 5).click
-        expect(page).to have_selector("#bookmark-button-for-word-#{new_word.id}")
-        find(:css, "#bookmark-button-for-word-#{new_word.id} a").click
+        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']").click
 
 
         visit userpages_path(tab: 'favorite')
