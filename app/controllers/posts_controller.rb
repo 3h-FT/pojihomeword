@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
-  
+  before_action :authenticate_user!, except: [ :show ]
+
 
   def index
     @q = Post.ransack(params[:q])

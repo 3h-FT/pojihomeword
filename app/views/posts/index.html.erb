@@ -28,7 +28,8 @@
           <%= render partial: 'posts/card', collection: @posts, as: :post %>
         </ul>
         <%= paginate @posts, param_name: :page %>
-      <% else %>
+      <% end %>  
+      <% if @posts.blank? %>
         <p class="text-gray-600 italic text-center">まだ投稿はありません。</p>
       <% end %>
     </div>

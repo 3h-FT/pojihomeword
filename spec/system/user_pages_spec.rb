@@ -105,7 +105,8 @@ RSpec.describe "UserPages", type: :system do
         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
 
         within("[data-tab-content='custom']") do
-          find("[data-testid='edit-button-#{positive_word.id}']", wait: 5).click
+          find('[data-testid="menu-toggle"]').click
+          expect(page).to have_selector("a[href='/userpages/#{positive_word.id}/edit']", wait: 5)
         end
 
         visit "/userpages/#{positive_word.id}/edit"
@@ -120,11 +121,11 @@ RSpec.describe "UserPages", type: :system do
 
       it 'カスタムワードが削除できること', js: true do
         visit '/userpages?tab=custom'
-        find("[data-tab='custom']", wait: 5).click
         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
 
         within("[data-tab-content='custom']") do
-          find("[data-testid='delete-button-#{positive_word.id}']", wait: 5).click
+          find('[data-testid="menu-toggle"]', wait: 5).click
+          find("button", text: '削除', wait: 5).click
         end
 
         expect(page).to have_text('ワードを削除しました')
@@ -154,7 +155,8 @@ RSpec.describe "UserPages", type: :system do
 
         expect(page).to have_content('ポジティブワード生成結果')
         new_word = PositiveWord.order(created_at: :desc).first
-
+        
+        find('[data-testid="menu-toggle"]', wait: 5).click
         expect(page).to have_selector("#bookmark-button-for-word-#{new_word.id}")
         find(:css, "#bookmark-button-for-word-#{new_word.id} a").click
 
@@ -189,6 +191,7 @@ RSpec.describe "UserPages", type: :system do
 
         visit userpages_path(tab: 'favorite')
         within "[data-tab-content='favorite']" do
+          find('[data-testid="menu-toggle"]', wait: 5).click
           find("a[href='/ai_messages/#{word.id}/edit?from=userpages']").click
         end
 

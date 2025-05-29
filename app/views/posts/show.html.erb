@@ -23,6 +23,7 @@
           <span><%= l @post.created_at, format: :long %></span>
         </div>
       </div>
+    <% if user_signed_in? %>
       <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
         <% if current_user.own?(@post) %>
           <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200', data: { turbo: false } do %>
@@ -61,5 +62,6 @@
             <%= render @comments %>
         </tbody>
       </table>
+    <% end %>
   </div>
 </div>

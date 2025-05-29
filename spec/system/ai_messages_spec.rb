@@ -67,7 +67,7 @@ RSpec.describe 'AiMessages', type: :system do
           expect(page).to have_content('ポジティブワード生成結果')
 
           new_word = PositiveWord.order(created_at: :desc).first
-
+          find('[data-testid="menu-toggle"]').click
           expect(page).to have_selector("#bookmark-button-for-word-#{new_word.id}")
           find(:css, "#bookmark-button-for-word-#{new_word.id} a").click
         end
