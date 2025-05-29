@@ -20,43 +20,29 @@
 
 <% if devise_mapping.omniauthable? %>
   <% resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to omniauth_authorize_path(resource_name, provider),
-          data: { turbo: false },
-          class:
-            if provider.to_s == 'google_oauth2'
-              "flex items-center justify-center w-full gap-2 mb-2 py-2 px-4 border border-gray-300 rounded-lg bg-white text-black hover:bg-gray-100 transition"
-            elsif provider.to_s == 'line'
-              "flex items-center justify-center w-full gap-2 mb-2 py-2 px-4 rounded-lg bg-[#00c300] text-white hover:bg-[#00b000] transition"
-            else
-              "flex items-center justify-center w-full gap-2 mb-2 py-2 px-4 rounded-lg bg-gray-500 text-white hover:bg-gray-600 transition"
-            end do %>
+    <% if provider.to_s == 'google_oauth2' %>
+      <!-- Googleログイン -->
+      <%= button_to omniauth_authorize_path(resource_name, :google_oauth2),
+                    data: { turbo: false },
+                    class: "inline-block p-0 border-0 bg-transparent", method: :post do %>
+        <img src="<%= asset_path('web_light_sq_SI@4x.png') %>" alt="Googleでログイン" style="height: 40px;" />
+    <% end %>
 
-      <% if provider.to_s == 'google_oauth2' %>
-        <!-- Googleアカウント -->
-        <svg aria-label="Google logo" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <g>
-            <path fill="#fff" d="M0 0h512v512H0z"/>
-            <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"/>
-            <path fill="#4285f4" d="M386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"/>
-            <path fill="#fbbc02" d="M90 341a208 200 0 010-171l63 49q-12 37 0 73"/>
-            <path fill="#ea4335" d="M153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"/>
-          </g>
-        </svg>
-        Googleアカウントでログイン
+    <% elsif provider.to_s == 'line' %>
+      <!-- LINEログイン -->
+      <%= button_to user_line_omniauth_authorize_path,
+                    data: { turbo: false },
+                    class: "inline-block p-0 border-0 bg-transparent", method: :post do %>
+        <img src="<%= asset_path('btn_login_base.png') %>" alt="LINEでログイン" style="height: 40px;" />
+    <% end %>
 
-      <% elsif provider.to_s == 'line' %>
-        <!-- LINEアカウント -->
-        <svg aria-label="Line logo" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-          <g fill-rule="evenodd" stroke-linejoin="round" fill="white">
-            <path fill-rule="nonzero" d="M12.91 6.57c.232 0 .42.19.42.42 0 .23-.188.42-.42.42h-1.17v.75h1.17a.42.42 0 1 1 0 .84h-1.59a.42.42 0 0 1-.418-.42V5.4c0-.23.188-.42.42-.42h1.59a.42.42 0 0 1-.002.84h-1.17v.75h1.17zm-2.57 2.01a.421.421 0 0 1-.757.251l-1.63-2.217V8.58a.42.42 0 0 1-.42.42.42.42 0 0 1-.418-.42V5.4a.418.418 0 0 1 .755-.249L9.5 7.366V5.4c0-.23.188-.42.42-.42.23 0 .42.19.42.42v3.18zm-3.828 0c0 .23-.188.42-.42.42a.42.42 0 0 1-.418-.42V5.4c0-.23.188-.42.42-.42.23 0 .418.19.418.42v3.18zM4.868 9h-1.59c-.23 0-.42-.19-.42-.42V5.4c0-.23.19-.42.42-.42.232 0 .42.19.42.42v2.76h1.17a.42.42 0 1 1 0 .84M16 6.87C16 3.29 12.41.376 8 .376S0 3.29 0 6.87c0 3.208 2.846 5.896 6.69 6.405.26.056.615.172.705.394.08.2.053.518.026.722 0 0-.092.565-.113.685-.035.203-.16.79.693.432.854-.36 4.607-2.714 6.285-4.646C15.445 9.594 16 8.302 16 6.87"></path>
-          </g>
-        </svg>
-        LINEアカウントでログイン
-
-      <% else %>
-        <%= OmniAuth::Utils.camelize(provider) %>でログイン
+    <% else %>
+      <!-- その他のプロバイダー -->
+      <%= button_to omniauth_authorize_path(resource_name, provider),
+                    data: { turbo: false },
+                    class: "flex items-center justify-center w-full gap-2 mb-2 py-2 px-4 rounded-lg bg-gray-500 text-white hover:bg-gray-600 transition" do %>
+        <%= "#{OmniAuth::Utils.camelize(provider)}でログイン" %>
       <% end %>
-
     <% end %>
   <% end %>
 <% end %>

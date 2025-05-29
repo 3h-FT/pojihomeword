@@ -118,9 +118,6 @@ class AiMessagesController < ApplicationController
     end
   end
 
-  def word_favorites
-    @favorited_words = current_user.favorited_words.includes(:positive_word)
-  end
 
   private
 

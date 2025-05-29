@@ -10,7 +10,7 @@
 
       <div>
         <%= f.label :email, class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.email_field :email,
+        <%= f.email_field :email, placeholder: "example@example.com",
                       autofocus: true,
                       autocomplete: "email",
                       value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),

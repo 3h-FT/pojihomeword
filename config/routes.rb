@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   post "ai_messages/generate", to: "ai_messages#generate", as: :ai_messages_generate
   resources :ai_messages, only: %i[ new create edit update ]
-
+  
   resources :word_favorites, only: %i[create destroy]
 
   resources :posts do

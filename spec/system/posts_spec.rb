@@ -79,10 +79,12 @@ RSpec.describe 'PostsPosts', type: :system do
 
     describe '投稿の詳細' do
       context 'ログインしていない場合' do
-        it 'ログインページにリダイレクトされること' do
+        it '投稿詳細が閲覧できること' do
           visit post_path(post)
-          expect(current_path).to eq('/users/sign_in')
-          expect(page).to have_content('You need to sign in or sign up before continuing.')
+          expect(page).to have_content('投稿詳細')
+          expect(page).to have_content(post.post_word)
+          expect(page).to have_content(post.caption)
+          expect(page).to have_content(post.user.username)
         end
       end
 
