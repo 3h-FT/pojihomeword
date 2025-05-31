@@ -158,6 +158,7 @@ RSpec.describe "UserPages", type: :system do
         
         find('[data-testid="menu-toggle"]', wait: 5).click
         find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']").click
+        puts "生成されたワード: #{new_word.word}"
 
         visit userpages_path(tab: 'favorite')
         expect(page).to have_content(new_word.word, wait: 5)
