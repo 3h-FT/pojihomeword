@@ -8,6 +8,7 @@ RSpec.describe "Registrations", type: :system do
 
     expect(page).to have_content('新規登録')
     expect(page).to have_selector('form')
+    expect(page).to have_title("新規登録 | ポジほめワード"), 'タイトル「新規登録 | ポジほめワード」が表示されていません'
   end
 
   it '新規登録が成功すること' do
@@ -20,7 +21,7 @@ RSpec.describe "Registrations", type: :system do
 
     click_button '登録'
     Capybara.assert_current_path("/", ignore_query: true)
-    expect(page).to have_content('Welcome! You have signed up successfully.')
+    expect(page).to have_content('アカウント登録が完了しました。'), 'フラッシュメッセージ「アカウント登録が完了しました。」が表示されていません'
   end
 
   it 'エラーメッセージが表示されること（無効なデータで登録）' do
@@ -45,6 +46,6 @@ RSpec.describe "Registrations", type: :system do
     fill_in 'user_password_confirmation', with: "password123"
 
     click_button '登録'
-    expect(page).to have_content("Email has already been taken")
+    expect(page).to have_content("Eメールはすでに存在します"), 'フラッシュメッセージ「Eメールはすでに存在します」が表示されていません'
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe "UserPages", type: :system do
         visit '/userpages'
         Capybara.assert_current_path("/users/sign_in", ignore_query: true)
         expect(current_path).to eq('/users/sign_in')
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+        expect(page).to have_content('ログインもしくはアカウント登録してください。'), 'フラッシュメッセージ「ログインもしくはアカウント登録してください。」が表示されていません'
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe "UserPages", type: :system do
 
       it 'ページタイトルが表示される', js: true do
         visit '/userpages'
-        expect(page).to have_title('ユーザーページ | ポジほめワード')
+        expect(page).to have_title('ユーザーページ | ポジほめワード'), 'タイトル「新規登録 | ポジほめワード」が表示されていません'
       end
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe "UserPages", type: :system do
       it '何もない旨のメッセージが表示される', js: true do
         visit '/userpages?tab=all'
         expect(page).to have_selector("[data-tab-content='all']", visible: true)
-        expect(page).to have_content('登録されたワードはありません')
+        expect(page).to have_content('登録されたワードはありません'), 'ページ内に「登録されたワードはありません」が表示されていません'
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe "UserPages", type: :system do
         within '[data-tab-content="all"]' do
           fill_in 'ワードを入力', with: 'カスタムワード'
           click_button '追加'
-          expect(page).to have_content('カスタムワード')
+          expect(page).to have_content('カスタムワード'), 'ページ内に「カスタムワード」が表示されていません'
         end
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe "UserPages", type: :system do
         visit '/userpages?tab=custom'
         find("[data-tab='custom']", wait: 5).click
         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
-        expect(page).to have_content('カスタムワードはありません')
+        expect(page).to have_content('カスタムワードはありません'), 'ページ内に「カスタムワードはありません」が表示されていません'
       end
     end
 
@@ -115,8 +115,8 @@ RSpec.describe "UserPages", type: :system do
 
         Capybara.assert_current_path("/userpages", ignore_query: true)
         expect(current_path).to eq('/userpages')
-        expect(page).to have_text('カスタムワードを編集しました')
-        expect(page).to have_content('編集カスタムワード')
+        expect(page).to have_text('カスタムワードを編集しました'), 'フラッシュメッセージ「カスタムワードを編集しました」が表示されていません'
+        expect(page).to have_content('編集カスタムワード'), 'ページ内に「編集カスタムワード」が表示されていません'
       end
 
       it 'カスタムワードが削除できること', js: true do
@@ -128,8 +128,8 @@ RSpec.describe "UserPages", type: :system do
           find("button", text: '削除', wait: 5).click
         end
 
-        expect(page).to have_text('ワードを削除しました')
-        expect(page).not_to have_content('削除対象')
+        expect(page).to have_text('ワードを削除しました'), 'フラッシュメッセージ「ワードを削除しました」が表示されていません'
+        expect(page).not_to have_content('削除対象'), 'ページ内に「削除対象」が表示されていません'
       end
     end
   end
@@ -141,7 +141,7 @@ RSpec.describe "UserPages", type: :system do
       it 'メッセージが表示される', js: true do
         visit userpages_path(tab: 'favorite')
         find("[data-tab='favorite']", wait: 5).click
-        expect(page).to have_content('お気に入り登録はありません')
+        expect(page).to have_content('お気に入り登録はありません'), 'ページ内に「お気に入り登録はありません」が表示されていません'
       end
     end
 
@@ -153,15 +153,15 @@ RSpec.describe "UserPages", type: :system do
         fill_in 'どんな時', with: '励ましたい時'
         click_button 'ワードを作る'
 
-        expect(page).to have_content('ポジティブワード生成結果')
+        expect(page).to have_content('ポジティブワード生成結果'), 'ページ内に「ポジティブワード生成結果」が表示されていません'
         new_word = PositiveWord.order(created_at: :desc).first
         
         find('[data-testid="menu-toggle"]', wait: 5).click
         find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']").click
-
+        puts "生成されたワード: #{new_word.word}"
 
         visit userpages_path(tab: 'favorite')
-        expect(page).to have_content(new_word.word)
+        expect(page).to have_content(new_word.word, wait: 5)
         expect(page).not_to have_selector('.pagination'),'10件以下はページネーションが表示されない'
       end
 
@@ -198,8 +198,8 @@ RSpec.describe "UserPages", type: :system do
         click_button '更新'
 
         Capybara.assert_current_path("/userpages", ignore_query: true)
-        expect(page).to have_text('ワードを編集しました')
-        expect(page).to have_content('編集後のワード')
+        expect(page).to have_text('ワードを編集しました'), 'フラッシュメッセージ「ワードを編集しました」が表示されていません'
+        expect(page).to have_content('編集後のワード'), 'ページ内に「編集後のワード」が表示されていません'
       end
     end
   end

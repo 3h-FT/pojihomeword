@@ -12,7 +12,7 @@ RSpec.describe 'AiMessages', type: :system do
         visit '/ai_messages/new'
         Capybara.assert_current_path("/users/sign_in", ignore_query: true)
         expect(current_path).to eq('/users/sign_in'), 'ログインページにリダイレクトされていません'
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+        expect(page).to have_content('ログインもしくはアカウント登録してください。'), 'フラッシュメッセージ「ログインもしくはアカウント登録してください。」が表示されていません'
       end
     end
 
@@ -29,7 +29,7 @@ RSpec.describe 'AiMessages', type: :system do
         login_as(user)
         visit '/'
         click_on 'ポジティブワードを知る'
-        expect(page).to have_title("ワード生成 | ポジほめワード")
+        expect(page).to have_title("ワード生成 | ポジほめワード"), 'タイトル「ワード生成 | ポジほめワード」が表示されていません'
       end
 
       it 'メッセージの作成' do
@@ -38,7 +38,7 @@ RSpec.describe 'AiMessages', type: :system do
         fill_in '誰に送りますか', with: '自分自身'
         fill_in 'どんな時', with: '自分の成功を祝う'
         click_on 'ワードを作る'
-        expect(page).to have_content('ポジティブワード生成結果')
+        expect(page).to have_content('ポジティブワード生成結果'), 'ページ内に「ポジティブワード生成結果」が表示されていません'
       end
     end  
 
@@ -53,8 +53,8 @@ RSpec.describe 'AiMessages', type: :system do
           click_button '更新'
 
           Capybara.assert_current_path("/ai_messages/new", ignore_query: true)
-          expect(page).to have_text('ワードを編集しました')
-          expect(page).to have_content('編集ワード')
+          expect(page).to have_text('ワードを編集しました'), 'フラッシュメッセージ「ログインもしくはアカウント登録してください。」が表示されていません'
+          expect(page).to have_content('編集ワード'), 'ページ内に「編集ワード」が表示されていません'
         end
 
         it 'お気に入り登録・解除ができること' do
@@ -64,7 +64,7 @@ RSpec.describe 'AiMessages', type: :system do
           fill_in 'どんな時', with: '自分の成功を祝う'
           click_on 'ワードを作る'
 
-          expect(page).to have_content('ポジティブワード生成結果')
+          expect(page).to have_content('ポジティブワード生成結果'), 'ページ内に「ポジティブワード生成結果」が表示されていません'
 
           new_word = PositiveWord.order(created_at: :desc).first
           find('[data-testid="menu-toggle"]').click

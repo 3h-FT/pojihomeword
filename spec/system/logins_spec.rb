@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "ログイン機能", type: :system do
   let(:user) { create(:user) }
-
-  before { login(user) }
   
   describe '通常画面' do
     describe 'ログイン' do
@@ -21,6 +19,7 @@ RSpec.describe "ログイン機能", type: :system do
           click_button 'ログイン'
           Capybara.assert_current_path("/", ignore_query: true)
           expect(current_path).to eq '/'
+          expect(page).to have_content('ログインしました。'), 'フラッシュメッセージ「ログインしました。」が表示されていません'
         end
       end
 
@@ -41,10 +40,11 @@ RSpec.describe "ログイン機能", type: :system do
         login_as(user)
       end
       it 'ログアウトできること' do
-        find('#logout-button-desktop').click
+        visit '/'
+        find('#logout-button-desktop', match: :first).click
         Capybara.assert_current_path("/", ignore_query: true)
         expect(current_path).to eq root_path
-        expect(page).to have_content('Signed out successfully.'), 'フラッシュメッセージ「Signed out successfully.」が表示されていません'
+        expect(page).to have_content('ログアウトしました。'), 'フラッシュメッセージ「ログアウトしました。」が表示されていません'
       end
     end
   end
