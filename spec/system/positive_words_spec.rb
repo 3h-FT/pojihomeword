@@ -15,6 +15,6 @@ RSpec.describe "PositiveWords", type: :system do
     select '自分の成功を祝う', from: 'situation_id'
     click_button '表示'
 
-    expect(page).to have_content('よく頑張ったね、これからが楽しみだ！')
+    expect(page).to have_content('よく頑張ったね、これからが楽しみだ！'), 'ページ内に「よく頑張ったね、これからが楽しみだ！」が表示されていません'
   end
 end

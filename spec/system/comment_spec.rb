@@ -15,8 +15,8 @@ RSpec.describe 'Comments', type: :system do
   describe 'コメント一覧表示' do
     it '自分のコメントが表示される' do
       within '#table-comment' do
-        expect(page).to have_text(comment_by_me.body)
-        expect(page).to have_text(comment_by_me.user.username)
+        expect(page).to have_text(comment_by_me.body), 'コメントに「コメント内容」が表示されていません'
+        expect(page).to have_text(comment_by_me.user.username), 'コメントに「投稿者」が表示されていません'
       end
     end
   end
@@ -27,16 +27,16 @@ RSpec.describe 'Comments', type: :system do
         fill_in 'comment_body', with: '新規コメント'
         click_on '投稿'
 
-        expect(page).to have_text('コメントを投稿しました')
+        expect(page).to have_text('コメントを投稿しました'), 'フラッシュメッセージ「コメントを投稿しました」が表示されていません'
 
         comment = Comment.last
-        expect(comment.body).to eq('新規コメント')
-        expect(comment.user).to eq(user)
-        expect(comment.post).to eq(post)
+        expect(comment.body).to eq('新規コメント'), 'ページ内に「編集ワード」が表示されていません'
+        expect(comment.user).to eq(user), 'ページ内に「編集ワード」が表示されていません'
+        expect(comment.post).to eq(post), 'ページ内に「編集ワード」が表示されていません'
 
         within "#comment-#{comment.id}" do
-          expect(page).to have_text('新規コメント')
-          expect(page).to have_text(user.username)
+          expect(page).to have_text('新規コメント'), 'ページ内に「編集ワード」が表示されていません'
+          expect(page).to have_text(user.username), 'ページ内に「編集ワード」が表示されていません'
         end
       end
     end
@@ -47,7 +47,7 @@ RSpec.describe 'Comments', type: :system do
           fill_in 'comment_body', with: ''
           click_on '投稿'
         }.not_to change { Comment.count }
-        expect(page).to have_text('コメントを投稿できません')
+        expect(page).to have_text('コメントを投稿できません'), 'フラッシュメッセージ「コメントを投稿できません」が表示されていません'
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe 'Comments', type: :system do
 
         expect(page).to have_current_path(post_path(post))
         within "#comment-#{editable_comment.id}" do
-          expect(page).to have_text('更新されたコメント')
+          expect(page).to have_text('更新されたコメント'), 'ページ内に「編集ワード」が表示されていません'
         end
       end
 
@@ -78,7 +78,7 @@ RSpec.describe 'Comments', type: :system do
           click_button class: 'delete-comment-button'
         end
 
-        expect(page).to have_text('コメントを削除しました')
+        expect(page).to have_text('コメントを削除しました'), 'フラッシュメッセージ「コメントを削除しました」が表示されていません'
         expect(page).not_to have_selector("#comment-#{editable_comment.id}")
       end
     end

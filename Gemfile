@@ -87,3 +87,5 @@ gem 'omniauth-google-oauth2'
 
 gem 'net-imap', '>= 0.5.7'
 
+gem 'devise-i18n'
+gem 'rails-i18n'

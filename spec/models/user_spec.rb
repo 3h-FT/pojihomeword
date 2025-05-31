@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
         user2 = build(:user)
         user2.email = user1.email
         user2.valid?
-        expect(user2.errors[:email]).to include('has already been taken')
+        expect(user2.errors[:email]).to include('はすでに存在します')
       end
 
       it '無効なメール形式の場合、無効であること' do
@@ -52,7 +52,7 @@ RSpec.describe User, type: :model do
       it 'パスワードが6文字未満の場合、無効であること' do
         user = build(:user, password: 'short', password_confirmation: 'short')
         user.valid?
-        expect(user.errors[:password]).to include('is too short (minimum is 6 characters)')
+        expect(user.errors[:password]).to include('は6文字以上で入力してください')
       end
     end  
   end
