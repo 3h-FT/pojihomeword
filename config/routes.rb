@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :comments, only: %i[create edit update destroy], shallow: true
     collection do
       get :post_favorites, as: :favorites
+      get :autocomplete
+      get :favorites_autocomplete
     end
   end
   resources :post_favorites, only: %i[create destroy]

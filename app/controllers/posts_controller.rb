@@ -6,11 +6,27 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
   end
-
+ 
   def post_favorites
     @q = current_user.favorite_posts.ransack(params[:q])
     @post_favorites = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
     @post_favorites_count = current_user.favorite_posts.count
+  end
+
+  def autocomplete
+    keyword = params[:q].to_s.strip
+    @posts = Post.where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%").limit(10)
+
+    render partial: "autocomplete_results", locals: { posts: @posts }
+  end
+
+  def favorites_autocomplete
+    keyword = params[:q].to_s.strip
+    @posts = current_user.favorite_posts
+                        .where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%")
+                        .limit(10)
+
+    render partial: "autocomplete_results", locals: { posts: @posts }
   end
 
   def new
