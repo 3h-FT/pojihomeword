@@ -15,7 +15,7 @@
     <span class="text-yellow-500"><%= @known_word_count %></span> 個のワード
   </div>
 
-  <%= render 'search', q: @q %>
+  <%= render 'search', q: @q, autocomplete_url: autocomplete_userpages_path %>
 
   <div class="flex justify-center space-x-4 mb-4">
     <button data-tab="all" class="tab-button py-2 px-6 font-semibold transition duration-300 ease-in-out focus:outline-none border-b-2 border-transparent"

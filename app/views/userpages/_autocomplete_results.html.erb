@@ -1,0 +1,14 @@
+<% if positive_words.any? %>
+  <% positive_words.each do |positive_word| %>
+    <li
+      class="py-2 px-3 hover:bg-red-100 cursor-pointer"
+      role="option"
+      data-autocomplete-value="<%= positive_word.word %>"
+      data-autocomplete-label="<%= positive_word.word %>"
+    >
+      <%= positive_word.word %>
+    </li>
+  <% end %>
+<% else %>
+  <li class="py-2 px-3 text-gray-500 italic">該当なし</li>
+<% end %>

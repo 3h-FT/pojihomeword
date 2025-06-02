@@ -6,7 +6,10 @@ Rails.application.routes.draw do
 
   root "top#index"
 
-  resources :userpages, only: %i[ index new create edit update destroy ]
+  resources :userpages, only: %i[ index new create edit update destroy ] do
+      get :autocomplete, on: :collection
+  end    
+
   resources :positive_words, only: %i[index]
 
   post "ai_messages/generate", to: "ai_messages#generate", as: :ai_messages_generate
