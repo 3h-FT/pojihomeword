@@ -156,11 +156,12 @@ RSpec.describe "UserPages", type: :system do
         expect(page).to have_content('ポジティブワード生成結果'), 'ページ内に「ポジティブワード生成結果」が表示されていません'
         new_word = PositiveWord.order(created_at: :desc).first
         
-        find('[data-testid="menu-toggle"]', wait: 5).click
-        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']").click
-        puts "生成されたワード: #{new_word.word}"
+        find('[data-testid="menu-toggle"]', wait: 10).click
+        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']", wait: 10).click
+        expect(page).to have_content(new_word.word, wait: 5)
 
         visit userpages_path(tab: 'favorite')
+        expect(page).to have_current_path(userpages_path(tab: 'favorite'), wait: 5)
         expect(page).to have_content(new_word.word, wait: 5)
         expect(page).not_to have_selector('.pagination'),'10件以下はページネーションが表示されない'
       end

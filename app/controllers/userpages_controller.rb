@@ -22,6 +22,29 @@ class UserpagesController < ApplicationController
     @active_tab = params[:tab] || "all"
   end
 
+  def autocomplete
+    keyword = params[:q].to_s.strip
+
+    # 検索用のransackオブジェクト
+    @q = current_user.positive_words.ransack(word_cont: keyword)
+    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+
+    # お気に入りワードのIDリストを取得
+    favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
+
+    # お気に入り登録済みワードだけ抽出
+    favorited_words = @searched_words.where(id: favorited_ids)
+
+    # カスタムワード（お気に入り登録以外）を抽出
+    custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
+
+    # お気に入り優先でマージし10件までに絞る
+    @results = (favorited_words + custom_words).uniq.first(10)
+
+    # partialに渡す変数名はpositive_wordsに合わせる（partialの変数名に依存）
+    render partial: "autocomplete_results", locals: { positive_words: @results }
+  end
+
   def edit
     @positive_word = current_user.positive_words.find(params[:id])
     @active_tab = params[:tab] || "all"  # タブを保持するため

@@ -1,0 +1,14 @@
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+    <li
+      class="py-2 px-3 hover:bg-red-100 cursor-pointer"
+      role="option"
+      data-autocomplete-value="<%= post.post_word %>"
+      data-autocomplete-label="<%= post.post_word %> - <%= truncate(post.caption, length: 10) %>"
+    >
+      <%= post.post_word %> - <%= truncate(post.caption, length: 10) %>
+    </li>
+  <% end %>
+<% else %>
+  <li class="py-2 px-3 text-gray-500 italic">該当なし</li>
+<% end %>

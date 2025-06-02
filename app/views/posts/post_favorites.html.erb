@@ -9,7 +9,7 @@
     </div>
 
     <div class="p-6">
-      <%= render 'search', q: @q, url: favorites_posts_path %>
+      <%= render 'search', q: @q, url: favorites_posts_path, autocomplete_url: favorites_autocomplete_posts_path %>
 
       <div class="mt-8">
         <% if @post_favorites.present? %>

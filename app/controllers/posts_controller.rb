@@ -13,6 +13,22 @@ class PostsController < ApplicationController
     @post_favorites_count = current_user.favorite_posts.count
   end
 
+  def autocomplete
+    keyword = params[:q].to_s.strip
+    @posts = Post.where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%").limit(10)
+
+    render partial: "autocomplete_results", locals: { posts: @posts }
+  end
+
+  def favorites_autocomplete
+    keyword = params[:q].to_s.strip
+    @posts = current_user.favorite_posts
+                        .where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%")
+                        .limit(10)
+
+    render partial: "autocomplete_results", locals: { posts: @posts }
+  end
+
   def new
     @post = Post.new
   end
