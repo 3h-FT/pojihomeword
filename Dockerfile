@@ -43,5 +43,4 @@ USER rails:rails
 ENTRYPOINT ["/bin/sh", "/myapp/bin/docker-entrypoint"]
 
 EXPOSE 3000
-
-CMD ["bin/dev"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
