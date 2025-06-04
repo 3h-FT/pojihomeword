@@ -2,6 +2,8 @@ class AiMessagesController < ApplicationController
   before_action :authenticate_user!
 
   def new
+    set_meta_tags title: "ワード生成"
+
     @word_id = params[:word_id]
     @target = params[:target]
     @situation = params[:situation]
@@ -84,6 +86,7 @@ class AiMessagesController < ApplicationController
   end
 
   def edit
+    set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
     @from = params[:from]
   end

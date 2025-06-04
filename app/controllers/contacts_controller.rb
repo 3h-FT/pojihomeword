@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
   def new
+    set_meta_tags title: "お問い合わせ"
     @contact = Contact.new
   end
 

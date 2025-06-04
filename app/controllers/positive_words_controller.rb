@@ -1,5 +1,6 @@
 class PositiveWordsController < ApplicationController
   def index
+    set_meta_tags title: "サンプルページ"
     @targets = Target.all
     @situations = params[:target_id].present? ? Situation.where(target_id: params[:target_id]) : []
 

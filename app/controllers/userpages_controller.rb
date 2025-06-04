@@ -2,6 +2,7 @@ class UserpagesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    set_meta_tags title: "ユーザーページ"
     @q = current_user.positive_words.ransack(params[:q])
     @searched_words = @q.result(distinct: true).includes(:situation, :target)
 
@@ -46,6 +47,7 @@ class UserpagesController < ApplicationController
   end
 
   def edit
+    set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
     @active_tab = params[:tab] || "all"  # タブを保持するため
   end

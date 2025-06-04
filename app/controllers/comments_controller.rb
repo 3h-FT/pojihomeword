@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   def edit
+    set_meta_tags title: "コメント編集"
     @comment = current_user.comments.find(params[:id])
     @post = @comment.post
   end
