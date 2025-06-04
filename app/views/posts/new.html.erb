@@ -1,4 +1,4 @@
-<%= content_for :title, "新規投稿" %>
+<% set_meta_tags title: "新規投稿作成" %>
   <% if params[:alert].present? %>
     <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md">
       <strong>エラー:</strong> <%= params[:alert] %>

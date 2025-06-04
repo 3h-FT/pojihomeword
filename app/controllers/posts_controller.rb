@@ -3,11 +3,13 @@ class PostsController < ApplicationController
 
 
   def index
+    set_meta_tags title: "みんなのポジほめワード"
     @q = Post.ransack(params[:q])
     @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
   end
 
   def post_favorites
+    set_meta_tags title: "お気に入り登録ページ"
     @q = current_user.favorite_posts.ransack(params[:q])
     @post_favorites = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
     @post_favorites_count = current_user.favorite_posts.count
@@ -30,6 +32,7 @@ class PostsController < ApplicationController
   end
 
   def new
+    set_meta_tags title: "新規投稿作成"
     @post = Post.new
   end
 
@@ -44,6 +47,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    set_meta_tags title: "投稿詳細"
     @post = Post.find(params[:id])
     @comment = Comment.new
     @comments = @post.comments.includes(:user).order(created_at: :desc)
@@ -60,6 +64,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    set_meta_tags title: "投稿の編集"
     @post = current_user.posts.find(params[:id])
   end
 

@@ -5,6 +5,27 @@
     あなたの心を彩る、ポジティブな言葉と出会おう。 
   </p>
 
+  <div class="flex space-x-4 justify-center mt-4">
+    <!-- LINEシェア -->
+    <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(root_url) %>"
+       target="_blank" rel="noopener" class="text-white hover:text-white">
+      <img 
+        src="<%= asset_path('btn_base.png') %>" 
+        alt="LINEでシェア" 
+        style="height: 28px;" 
+        onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
+        onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
+    </a>
+
+    <!-- X（旧Twitter）シェア -->
+    <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(root_url)}",
+              target: '_blank',
+              rel: 'noopener',
+              class: "text-black hover:text-gray-500 text-2xl" do %>
+    <i class="bi bi-twitter-x"></i>
+    <% end %>
+  </div>
+
   <div class="flex flex-col items-center space-y-4 mt-6">
     <% if !user_signed_in? %>
       <%= link_to "ログインして始める", new_user_session_path, class: 'inline-block text-lg font-medium text-white bg-indigo-300 hover:bg-indigo-400 px-6 py-3 min-w-[200px] rounded-full shadow-md' %>
@@ -19,6 +40,7 @@
 
     <%= link_to "まずはサンプルをチェック", positive_words_path, class: "inline-block bg-yellow-300 hover:bg-yellow-400 text-white font-semibold py-3 px-8 min-w-[200px] rounded-full shadow-md text-lg" %>
   </div>
+
 </div>
 
 

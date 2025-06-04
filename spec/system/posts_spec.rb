@@ -109,7 +109,7 @@ RSpec.describe 'PostsPosts', type: :system do
           visit '/'
           click_on 'ポジティブワードを共有する'
           first(:css, "#post-id-#{post.id} a", text: post.post_word).click
-          expect(page).to have_title("#{post.post_word} | ポジほめワード"), 'タイトル「#{post.post_word} | ポジほめワード」が表示されていません'
+          expect(page).to have_title("投稿詳細 | ポジほめワード"), 'タイトル「投稿詳細 | ポジほめワード」が表示されていません'
         end
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe 'PostsPosts', type: :system do
           click_on '+ 新規投稿'
           Capybara.assert_current_path("/posts/new", ignore_query: true)
           expect(current_path).to eq('/posts/new')      
-          expect(page).to have_title("新規投稿 | ポジほめワード"), 'タイトル「新規投稿 | ポジほめワード」が表示されていません'
+          expect(page).to have_title("新規投稿作成 | ポジほめワード"), 'タイトル「新規投稿作成 | ポジほめワード」が表示されていません'
         end
 
         it '投稿できること' do
