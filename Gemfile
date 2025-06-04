@@ -71,7 +71,7 @@ gem "pry"
 
 gem "sentry-ruby"
 gem "sentry-rails"
-gem "tailwindcss-ruby", "3.4.17"
+gem "tailwindcss-ruby", "4.1.8"
 
 gem "tailwindcss-rails"
 gem "dotenv-rails"       # APIキーの.env管理に
