@@ -90,4 +90,5 @@ gem 'net-imap', '>= 0.5.7'
 gem 'devise-i18n'
 gem 'rails-i18n'
 
-gem "meta-tags"
+gem "mini_magick"
+gem "meta-tags", require: 'meta_tags'

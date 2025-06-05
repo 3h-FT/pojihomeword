@@ -10,6 +10,11 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y \
 
 WORKDIR /myapp
 
+# Install base packages
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client libyaml-dev imagemagick && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs=4 --retry=3 && rm -rf ~/.bundle
 
@@ -24,6 +29,7 @@ RUN apt-get update -qq && apt-get install --no-install-recommends -y \
     libpq5 \
     chromium \
     chromium-driver \
+    imagemagick \  
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --system --gid 1000 rails && \

@@ -85,6 +85,11 @@ class AiMessagesController < ApplicationController
     end
   end
 
+  def show
+    set_meta_tags title: "ワード詳細"    
+    @positive_word = PositiveWord.find(params[:id])
+  end
+
   def edit
     set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
