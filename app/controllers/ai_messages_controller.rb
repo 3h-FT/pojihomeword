@@ -85,6 +85,14 @@ class AiMessagesController < ApplicationController
     end
   end
 
+  def show
+    set_meta_tags title: "ワード詳細"
+    @positive_word = PositiveWord.find(params[:id])
+    prepare_meta_tags(@positive_word) # メタタグを設定する。
+    if params[:from] == "userpages"  # 編集時のリダイレクト先を分岐のため
+    end
+  end
+
   def edit
     set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
@@ -126,5 +134,23 @@ class AiMessagesController < ApplicationController
 
   def user_reached_limit?
     current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 3
+  end
+
+  def prepare_meta_tags(positive_word)
+    # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(positive_word.word)}"
+    set_meta_tags og: {
+                    site_name: "ポジほめワード",
+                    title: positive_word.word,
+                    description: "ユーザーによるポジティブなワード",
+                    type: "website",
+                    url: request.original_url,
+                    image: image_url,
+                    locale: "ja-JP"
+                  },
+                  twitter: {
+                    card: "summary_large_image",
+                    image: image_url
+                  }
   end
 end

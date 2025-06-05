@@ -3,7 +3,10 @@
 <% end %>
 
 <div class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2">
-  <span class="flex-grow break-words min-w-0"><%= positive_word.word %></span>
+  <% path = local_assigns[:from].present? ? ai_message_path(positive_word, from: local_assigns[:from]) : ai_message_path(positive_word) %>
+  <%= link_to path, class: "flex-grow break-words min-w-0" do %>
+    <%= positive_word.word %>
+  <% end %>
 
   <% if user_signed_in? %>
     <div
@@ -29,7 +32,7 @@
       >
 
         <% path = local_assigns[:from].present? ? edit_ai_message_path(positive_word, from: local_assigns[:from]) : edit_ai_message_path(positive_word) %>
-        <%= link_to path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+        <%= link_to path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline" do %>
           <i class="bi bi-pencil-fill mr-1"></i> 編集
         <% end %>
 
@@ -37,7 +40,7 @@
           <%= render 'shared/word_favorites_button', positive_word: positive_word %>
         </div>        
 
-        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button" data-word="<%= positive_word.word %>">
+        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline copy-button" data-word="<%= positive_word.word %>">
           <i class="bi bi-copy mr-1 text-blue-500"></i> コピー
         </button>
       </div>

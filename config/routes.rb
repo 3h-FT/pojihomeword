@@ -5,15 +5,14 @@ Rails.application.routes.draw do
   }
 
   root "top#index"
-
-  resources :userpages, only: %i[ index new create edit update destroy ] do
+  resources :userpages, only: %i[ index new create edit update show destroy ] do
       get :autocomplete, on: :collection
   end    
-
+  get 'images/ogp.png', to: 'images#ogp', as: 'images_ogp'
   resources :positive_words, only: %i[index]
 
   post "ai_messages/generate", to: "ai_messages#generate", as: :ai_messages_generate
-  resources :ai_messages, only: %i[ new create edit update ]
+  resources :ai_messages, only: %i[ new create edit update show ]
   
   resources :word_favorites, only: %i[create destroy]
 

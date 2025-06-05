@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :show ]
+  # 設定したprepare_meta_tagsをprivateにあってもpostコントローラー以外にも使えるようにする
+  helper_method :prepare_meta_tags
 
 
   def index
@@ -49,6 +51,8 @@ class PostsController < ApplicationController
   def show
     set_meta_tags title: "投稿詳細"
     @post = Post.find(params[:id])
+    prepare_meta_tags(@post) # メタタグを設定する。
+
     @comment = Comment.new
     @comments = @post.comments.includes(:user).order(created_at: :desc)
   end
@@ -78,5 +82,23 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:post_word, :caption)
+  end
+
+  def prepare_meta_tags(post)
+    # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(post.post_word)}"
+    set_meta_tags og: {
+                    site_name: "ポジほめワード",
+                    title: post.post_word,
+                    description: "ユーザーによるポジティブなワードの投稿",
+                    type: "website",
+                    url: request.original_url,
+                    image: image_url,
+                    locale: "ja-JP"
+                  },
+                  twitter: {
+                    card: "summary_large_image",
+                    image: image_url
+                  }
   end
 end
