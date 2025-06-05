@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   }
 
   root "top#index"
-  resources :userpages, only: %i[ index new create edit update destroy ] do
+  resources :userpages, only: %i[ index new create edit update show destroy ] do
       get :autocomplete, on: :collection
   end    
   get 'images/ogp.png', to: 'images#ogp', as: 'images_ogp'

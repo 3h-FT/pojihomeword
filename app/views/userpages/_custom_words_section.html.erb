@@ -4,7 +4,9 @@
 <ul class="mb-8 space-y-2 text-gray-700">
   <% words.each do |word| %>
     <li class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-wrap">
-      <%= word.word %>
+      <%= link_to userpage_path(word), class: "flex-grow break-words min-w-0" do %>
+        <%= word.word %>
+      <% end %>
 
       <% if user_signed_in? %>
         <div
