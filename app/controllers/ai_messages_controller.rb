@@ -40,8 +40,9 @@ class AiMessagesController < ApplicationController
       return
     end
 
-    target = Target.find_or_create_by(name: target_name)
-    situation = Situation.find_or_create_by(name: situation_name)
+    # ユーザーが入力した Target は is_seeded: false で作成または取得
+    target = Target.find_or_create_by(name: target_name, is_seeded: false)
+    situation = Situation.find_or_create_by(name: situation_name, is_seeded: false)
 
     @positive_word = PositiveWord.new(
       target: target,
@@ -51,7 +52,7 @@ class AiMessagesController < ApplicationController
 
     if @positive_word.valid?
       # --- AIメッセージ生成用プロンプトとAPI呼び出し (将来的に有効化予定) ---
-      # prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージを1つ考えてください。出力はそのメッセージ本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージと重複しないようにしてください。"
+      # prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
       #
       # client = OpenAI::Client.new
       # response = client.chat(

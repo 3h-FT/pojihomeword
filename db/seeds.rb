@@ -10,7 +10,7 @@
 
 targets = [ "自分自身", "友達", "家族", "恋人・パートナー", "学生", "職場" ]
 targets.each do |target_name|
-  Target.find_or_create_by!(name: target_name)
+  Target.find_or_create_by!(name: target_name, is_seeded: true)
 end
 
 situations = [
@@ -65,11 +65,11 @@ situations = [
 
 # シチュエーションの登録と対応するポジティブメッセージの登録
 situations.each do |target_data|
-    target = Target.find_or_create_by!(name: target_data[:target_name])
+    target = Target.find_or_create_by!(name: target_data[:target_name], is_seeded: true)
 
 # シチュエーションを対象人物ごとに登録
 target_data[:situations].each do |situation_name|
-    situation = Situation.find_or_create_by!(name: situation_name, target_id: target.id)
+    situation = Situation.find_or_create_by!(name: situation_name, target_id: target.id, is_seeded: true)
 
     positive_words = {
         # 自分自身に対するシチュエーション
