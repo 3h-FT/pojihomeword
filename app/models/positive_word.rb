@@ -9,6 +9,7 @@ class PositiveWord < ApplicationRecord
 
   validates :situation, presence: true, unless: :is_custom?
   validates :target, presence: true, unless: :is_custom?
+  validates :word, presence: true, if: -> { is_custom? || persisted? }
 
   def self.ransackable_attributes(auth_object = nil)
     [ "word" ]

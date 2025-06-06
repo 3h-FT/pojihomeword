@@ -161,6 +161,7 @@ RSpec.describe "UserPages", type: :system do
         expect(page).to have_content(new_word.word, wait: 5)
 
         visit userpages_path(tab: 'favorite')
+        find("[data-tab='favorite']", wait: 5).click
         expect(page).to have_current_path(userpages_path(tab: 'favorite'), wait: 5)
         expect(page).to have_content(new_word.word, wait: 5)
         expect(page).not_to have_selector('.pagination'),'10件以下はページネーションが表示されない'
