@@ -1,5 +1,6 @@
 class AiMessagesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [ :show ]
+  helper_method :prepare_meta_tags
 
   def new
     set_meta_tags title: "ワード生成"
