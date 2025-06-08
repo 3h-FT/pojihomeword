@@ -1,19 +1,12 @@
-<% set_meta_tags title: "コメント編集" %>
-<div class="bg-red-50 py-10">
-  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-    <div class="bg-red-100 py-6 px-6 rounded-t-2xl border-b border-red-200">
-      <h2 class="text-center text-2xl font-bold text-red-600">
-        <i class="fas fa-comment-dots text-red-400 mr-2"></i> コメント編集
-      </h2>
-    </div>
+<turbo-frame id="comment-form-<%= @comment.id %>">
+  <%= form_with model: @comment, url: comment_path(@comment), method: :patch, class: "space-y-2" do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <%= f.text_area :body, rows: 3, class: "w-full resize-none p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-300" %>
 
-      <div class="p-6">
-          <%= render "form", comment: @comment, post: @post %>
-      </div>
-
-      <div class="mt-2 mb-6 text-center">
-        <%= link_to "投稿詳細に戻る", post_path(@post), class: 'inline-block text-lg font-semibold text-blue-500 hover:text-blue-700 hover:underline transition duration-200' %>
+      <div class="flex justify-end mt-2 space-x-2">
+        <%= f.submit "更新", class: "text-sm px-4 py-1.5 bg-red-400 hover:bg-red-500 text-white rounded-md shadow-sm transition" %>
+        <%= link_to "戻る", post_path(@post), data: { turbo_frame: "comment-form-#{@comment.id}" }, class: "text-sm px-4 py-1.5 border border-gray-700 text-gray-700 rounded-md  hover:bg-gray-100 transition" %>
       </div>
     </div>
-  </div>
-</div>
+  <% end %>
+</turbo-frame>

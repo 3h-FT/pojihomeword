@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   def edit
-    set_meta_tags title: "コメント編集"
     @comment = current_user.comments.find(params[:id])
     @post = @comment.post
   end
@@ -8,33 +7,28 @@ class CommentsController < ApplicationController
   def update
     @comment = current_user.comments.find(params[:id])
     if @comment.update(comment_update_params)
-      redirect_to post_path(@comment.post), notice: "コメントを編集しました"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to post_path(@comment.post), notice: "コメントを更新しました" }
+      end
     else
       @post = @comment.post
-      flash.now[:alert] = "コメントを編集できません"
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("comment-form-#{@comment.id}", partial: "comments/form", locals: { comment: @comment, post: @post }) }
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
   def create
     @comment = current_user.comments.build(comment_create_params)
-    @post = Post.find(params[:post_id])
-    @comments = @post.comments.includes(:user)
-
-    if @comment.save
-      redirect_to post_path(@comment.post), notice: "コメントを投稿しました"
-    else
-      flash.now[:alert] = "コメントを投稿できません"
-      render "posts/show", status: :unprocessable_entity
-    end
+    @comment.save
   end
 
   def destroy
     @comment = current_user.comments.find(params[:id])
-    post = @comment.post
-    @comment.destroy
-    redirect_to post_path(post), alert: "コメントを削除しました"
- end
+    @comment.destroy!
+  end
 
   private
 

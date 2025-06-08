@@ -4,9 +4,9 @@ class OgpCreator
   GRAVITY = "center"
   TEXT_POSITION = "0,0"
   FONT = "./app/assets/fonts/MPLUSRounded1c-Regular.ttf"
-  FONT_SIZE = 65
-  INDENTION_COUNT = 16
-  ROW_LIMIT = 8
+  FONT_SIZE = 50
+  INDENTION_COUNT = 10
+  ROW_LIMIT = 5
 
   def self.build(text)
     text = prepare_text(text)
