@@ -1,7 +1,7 @@
 <turbo-frame id="comment-form-<%= @comment.id %>">
   <%= form_with model: @comment, url: comment_path(@comment), method: :patch, class: "space-y-2" do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
-      <%= f.text_area :body, rows: 3, class: "w-full resize-none p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-300" %>
+
+      <%= f.text_area :body, rows: 3, required: true, class: "w-full resize-none p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-red-300" %>
 
       <div class="flex justify-end mt-2 space-x-2">
         <%= f.submit "更新", class: "text-sm px-4 py-1.5 bg-red-400 hover:bg-red-500 text-white rounded-md shadow-sm transition" %>

@@ -28,7 +28,7 @@
             <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200', data: { turbo: false } do %>
               <i class="bi bi-pencil-fill"></i>
             <% end %>
-            <%= link_to post_path(@post), id: "button-delete-#{@post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しました', turbo: true}, class: 'text-red-500 hover:text-red-700 transition duration-200' do %>
+            <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-red-500" do %>
               <i class="bi bi-trash-fill"></i>
             <% end %>
           <% else %>          
