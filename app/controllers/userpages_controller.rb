@@ -54,27 +54,16 @@ class UserpagesController < ApplicationController
   end
 
   def edit
-    set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
-    @active_tab = params[:tab] || "all"  # タブを保持するため
+    render partial: "edit_form", locals: { positive_word: @positive_word }
   end
 
   def update
     @positive_word = current_user.positive_words.find(params[:id])
-    original_tab = params[:tab] || "all"
-
-            success = if @positive_word.is_custom?
-      @positive_word.update(positive_word_params)
-                      else
-      @positive_word.update(positive_word_params.except(:is_custom))
-                      end
-
-    if success
-      notice_message = @positive_word.is_custom? ? "カスタムワードを編集しました" : "お気に入りワードを編集しました"
-      redirect_to userpages_path(tab: original_tab), notice: notice_message
+    if @positive_word.update(positive_word_params)
+      render partial: "word_updata", locals: { positive_word: @positive_word }
     else
-      flash.now[:alert] = "ワードを編集できませんでした"
-      render :edit, status: :unprocessable_entity
+      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
     end
   end
 

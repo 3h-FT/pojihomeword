@@ -10,12 +10,12 @@
 
     <div>
       <%= f.label :username, "ユーザー名", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-      <%= f.text_field :username, placeholder: "ユーザー名", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      <%= f.text_field :username, placeholder: "ユーザー名", required: true, autofocus: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
     </div>
 
     <div>
       <%= f.label :email, "メールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-      <%= f.email_field :email, placeholder: "example@example.com", autofocus: true, autocomplete: "email", required: true,  class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      <%= f.email_field :email, placeholder: "example@example.com", autocomplete: "email", required: true,  class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
     </div>
 
     <div>
