@@ -91,14 +91,12 @@ class AiMessagesController < ApplicationController
     set_meta_tags title: "ワード詳細"
     @positive_word = PositiveWord.find(params[:id])
     prepare_meta_tags(@positive_word) # メタタグを設定する。
-    if params[:from] == "userpages"  # 編集時のリダイレクト先を分岐のため
-    end
+    @show_edit_form = params[:edit].present?
   end
 
   def edit
-    set_meta_tags title: "ワードを編集"
     @positive_word = current_user.positive_words.find(params[:id])
-    @from = params[:from]
+    render partial: "edit_form", locals: { positive_word: @positive_word  }
   end
 
   def update
@@ -116,21 +114,11 @@ class AiMessagesController < ApplicationController
         situation: situation
       )
       # リダイレクト先を分岐
-      if params[:from] == "userpages"
-        redirect_to userpages_path(anchor: "favorited_words"), notice: "ワードを編集しました"
-      else
-        redirect_to new_ai_message_path(
-        word_id: @positive_word.id,
-        target: target.name,
-        situation: situation.name
-        ), notice: "ワードを編集しました"
-      end
+      render partial: "word_updata", locals: { positive_word: @positive_word }
     else
-      flash.now[:alert] = "ワードを編集できません"
-      render :edit, status: :unprocessable_entity
+      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードを編集できません"
     end
   end
-
 
   private
 

@@ -1,0 +1,40 @@
+<turbo-frame id="word_<%= @positive_word.id %>">
+  <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-2xl bg-red-100 px-8 py-4 break-words">
+    <%= @positive_word.word %>
+  </h4>
+
+  <% if user_signed_in? %>
+    <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+      <%= link_to edit_userpage_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline" do %>
+        <i class="bi bi-pencil-fill mr-1"></i> 編集
+      <% end %>
+
+      <%= button_to userpage_path(@positive_word), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } },  class: "px-2 py-2 text-sm text-red-600 hover:underline" do %>
+        <i class="bi bi-trash-fill mr-1 text-red-500 hover:text-red-700"></i> 削除
+      <% end %>
+
+      <button class="px-1 py-1 text-sm text-gray-700 hover:underline copy-button" data-word="<%= @positive_word.word %>">
+        <i class="bi bi-copy mr-1 text-blue-500 mr-1 hover:text-blue-700"></i> コピー
+      </button>
+
+      <!-- LINEシェア -->
+      <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(userpage_url(@positive_word)) %>"
+        target="_blank" rel="noopener" class="text-white hover:text-white">
+        <img 
+          src="<%= asset_path('btn_base.png') %>" 
+          alt="LINEでシェア" 
+          style="height: 20px;" 
+          onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
+          onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
+      </a>
+
+      <!-- Twitter/X シェア -->
+      <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(userpage_url(@positive_word))}&text=#{ERB::Util.url_encode("【#{@positive_word.word}】")}", 
+          target: '_blank', 
+          rel: 'noopener', 
+          class: "text-black hover:text-gray-500" do %>
+        <i class="bi bi-twitter-x"></i>
+      <% end %>
+    </div>
+  <% end %>
+</turbo-frame>

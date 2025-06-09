@@ -3,8 +3,7 @@
 <% end %>
 
 <div class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2">
-  <% path = local_assigns[:from].present? ? ai_message_path(positive_word, from: local_assigns[:from]) : ai_message_path(positive_word) %>
-  <%= link_to path, class: "flex-grow break-words min-w-0" do %>
+  <%= link_to ai_message_path(positive_word), class: "flex-grow break-words min-w-0" do %>
     <%= positive_word.word %>
   <% end %>
 
@@ -31,8 +30,7 @@
         class="absolute right-0 z-50 w-48 origin-top-right bg-white border border-gray-200 rounded-lg shadow-lg py-2"
       >
 
-        <% path = local_assigns[:from].present? ? edit_ai_message_path(positive_word, from: local_assigns[:from]) : edit_ai_message_path(positive_word) %>
-        <%= link_to path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline" do %>
+        <%= link_to ai_message_path(positive_word, edit: true), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline" do %>
           <i class="bi bi-pencil-fill mr-1"></i> 編集
         <% end %>
 

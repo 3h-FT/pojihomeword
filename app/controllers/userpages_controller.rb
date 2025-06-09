@@ -55,14 +55,14 @@ class UserpagesController < ApplicationController
   end
 
   def edit
-    @positive_word = current_user.positive_words.find(params[:id])
-    render partial: "edit_form", locals: { positive_word: @positive_word }
+   @positive_word = current_user.positive_words.find(params[:id])
+    render partial: "edit_form", locals: { positive_word: @positive_word  }
   end
 
   def update
     @positive_word = current_user.positive_words.find(params[:id])
     if @positive_word.update(positive_word_params)
-      render partial: "word_updata", locals: { positive_word: @positive_word }
+      render partial: "userpages/custom_words/word_updata", locals: { positive_word: @positive_word }
     else
       render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
     end
@@ -79,11 +79,15 @@ class UserpagesController < ApplicationController
     end
   end
 
-  def destroy
-    @custom_word = current_user.positive_words.find(params[:id])
-    @custom_word.delete
-    redirect_to userpages_path, alert: "ワードを削除しました"
+def destroy
+  @custom_word = current_user.positive_words.find(params[:id])
+  @custom_word.destroy
+
+  respond_to do |format|
+    format.turbo_stream
+    format.html { redirect_to userpages_path, alert: "ワードを削除しました" }
   end
+end
 
   private
 

@@ -6,7 +6,7 @@
   <% if @show_edit_form && user_signed_in? %>
     <%= render partial: "edit_form", locals: { positive_word: @positive_word } %>
   <% else %>
-    <%= render partial: "word_updata", locals: { positive_word: @positive_word } %>
+    <%= render partial: "userpages/custom_words/word_updata", locals: { positive_word: @positive_word } %>
   <% end %>
 
     </div>        
