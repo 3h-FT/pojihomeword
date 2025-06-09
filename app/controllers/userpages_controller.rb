@@ -51,6 +51,7 @@ class UserpagesController < ApplicationController
     set_meta_tags title: "ワード詳細"
     @positive_word = PositiveWord.find(params[:id])
     prepare_meta_tags(@positive_word) # メタタグを設定する。
+    @show_edit_form = params[:edit].present?
   end
 
   def edit

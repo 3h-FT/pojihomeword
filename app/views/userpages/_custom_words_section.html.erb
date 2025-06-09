@@ -31,7 +31,7 @@
             class="absolute right-0 z-50 w-48 origin-top-right bg-white border border-gray-200 rounded-lg shadow-lg py-2"
             style="display: none;"
           >
-            <%= link_to edit_userpage_path(word), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+            <%= link_to userpage_path(word, edit: true), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
               <i class="bi bi-pencil-fill mr-1"></i> 編集
             <% end %>
 
