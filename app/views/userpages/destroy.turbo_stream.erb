@@ -1,0 +1,35 @@
+<turbo-stream action="remove" targets=".custom-word-<%= @custom_word.id %>"></turbo-stream>
+
+<turbo-stream action="replace" target="no-words-message-all">
+  <template>
+    <div id="no-words-message-all">
+      <% if current_user.positive_words.where(is_custom: true).blank? && current_user.favorited_words.blank? %>
+        <p class="text-center text-lg text-gray-600 py-8 bg-yellow-100 rounded-md">カスタムワードはありません</p>
+        <p class="text-center text-lg text-gray-600 mt-6 py-8 bg-red-100 rounded-md">お気に入り登録はありません</p>
+      <% end %>
+    </div>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="no-words-message-custom">
+  <template>
+    <div id="no-words-message-custom">
+      <% if current_user.positive_words.where(is_custom: true).blank? %>
+        <p class="text-center text-lg text-gray-600 py-8 bg-yellow-100 rounded-md">カスタムワードはありません</p>
+      <% end %>
+    </div>
+  </template>
+</turbo-stream>
+
+
+<turbo-stream action="replace" target="word-summary-header">
+  <template>
+    <div id="word-summary-header" class="text-center text-4xl font-semibold text-gray-700 mb-6">
+      <%= render partial: "userpages/header", formats: [:html], locals: {
+        total_count: current_user.positive_words.where(is_custom: true).count + current_user.favorited_words.count,
+        custom_count: current_user.positive_words.where(is_custom: true).count,
+        favorite_count: current_user.favorited_words.count
+      } %>
+    </div>
+  </template>
+</turbo-stream>

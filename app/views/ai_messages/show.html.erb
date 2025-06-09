@@ -1,48 +1,14 @@
 <div id="positive-word-id-<%= @positive_word.id %>">
   <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
     <div class="p-6">
-      <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ワード詳細</h3>
+      <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ポジティブワード</h3>
 
-      <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-2xl bg-red-100 px-8 py-4 max-w-full break-words overflow-hidden leading-relaxed tracking-wide min-h-16">
-        <%= @positive_word.word %>
-      </h4>
+  <% if @show_edit_form && user_signed_in? %>
+    <%= render partial: "edit_form", locals: { positive_word: @positive_word } %>
+  <% else %>
+    <%= render partial: "word_updata", locals: { positive_word: @positive_word } %>
+  <% end %>
 
-    <% if user_signed_in? %>
-      <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
-        <!-- 編集 -->
-        <% path = local_assigns[:from].present? ? edit_ai_message_path(@positive_word, from: local_assigns[:from]) : edit_ai_message_path(@positive_word) %>
-        <%= link_to path, class: "px-1 py-1 text-sm text-gray-700 hover:underline" do %>
-          <i class="bi bi-pencil-fill mr-1"></i> 編集
-        <% end %>
-       
-        <!-- ブックマーク -->
-        <%= render 'shared/word_favorites_button', positive_word: @positive_word %>
-
-        <!-- コピー -->        
-        <button class="px-1 py-1 text-sm text-gray-700 hover:underline copy-button" data-word="<%= @positive_word.word %>">
-          <i class="bi bi-copy mr-1 text-blue-500 hover:text-blue-700"></i> コピー
-        </button>
-
-        <!-- LINEシェア -->
-        <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(ai_message_url(@positive_word)) %>"
-          target="_blank" rel="noopener" class="text-white hover:text-white">
-          <img 
-            src="<%= asset_path('btn_base.png') %>" 
-            alt="LINEでシェア" 
-            style="height: 20px;" 
-            onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
-            onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
-        </a>
-
-        <!-- X（旧Twitter）シェア -->
-        <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(ai_message_url(@positive_word))}&text=#{ERB::Util.url_encode("【#{@positive_word.word}】")}", 
-            target: '_blank', 
-            rel: 'noopener', 
-            class: "text-black hover:text-gray-500" do %>
-          <i class="bi bi-twitter-x"></i>
-        <% end %>
-
-      </div>
-    <% end %>
+    </div>        
   </div>
 </div>

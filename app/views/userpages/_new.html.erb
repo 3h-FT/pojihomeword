@@ -2,7 +2,7 @@
   <h3 class="text-xl font-semibold text-yellow-700 text-center mb-4">自分でポジティブワードを追加</h3>
   <%= form_with model: PositiveWord.new, url: userpages_path, local: true do |f| %>
     <div class="mb-4">
-      <%= f.text_field :word, placeholder: 'ワードを入力', class: "w-full p-3 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700" %>
+      <%= f.text_field :word, placeholder: 'ワードを入力', required: true, class: "w-full p-3 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700" %>
     </div>
 
     <%= f.hidden_field :is_custom, value: true %>

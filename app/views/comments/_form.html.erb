@@ -1,14 +1,10 @@
 <div id="comment-form" class="bg-white rounded-lg shadow-md p-4 mt-6 border border-gray-200">
-  <%= form_with(model: comment, url: comment.persisted? ? comment_path(comment) : post_comments_path(post),
-                method: comment.persisted? ? :patch : :post,
-                data: { turbo: true },
-                class: 'space-y-3') do |f| %>
+  <%= form_with model: comment, url: post_comments_path(post), class: 'space-y-3' do |f| %>
 
     <div>
       <%= f.label :'コメント', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-      <%= f.text_area :body, placeholder: "コメントを入力", class: "w-full p-3 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
+      <%= f.text_area :body, placeholder: "コメントを入力", required: true, class: "w-full p-3 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
     </div>
-    <%= f.hidden_field :post_id, value: comment.post_id %>
-    <%= f.submit comment.persisted? ? "更新" : "投稿", class: "bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-6 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 cursor-pointer transition duration-200 w-full" %>
+    <%= f.submit "投稿", class: "bg-red-400 hover:bg-red-500 text-white font-semibold py-3 px-6 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 cursor-pointer transition duration-200 w-full" %>
   <% end %>
 </div>

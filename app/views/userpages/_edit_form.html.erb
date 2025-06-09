@@ -1,0 +1,17 @@
+<turbo-frame id="word_<%= positive_word.id %>">
+  <div>
+    <%= form_with model: positive_word, url: userpage_path(positive_word), method: :patch, data: { turbo_frame: "word_#{positive_word.id}" }, class: 'space-y-6' do |f| %>
+
+      <div>
+        <%= f.text_field :word, required: true, autofocus: true, class: "w-full p-4 rounded-md border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+      </div>
+
+      <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+        <%= f.submit "更新", class: "px-4 py-2 text-sm bg-red-400 hover:bg-red-500 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+
+        <%= link_to "キャンセル", userpage_path(positive_word), data: { turbo_frame: "word_#{positive_word.id}" }, class: "text-sm px-4 py-2 border border-gray-700 text-gray-700 rounded-md bg-white hover:bg-gray-100 transition" %>
+      </div>
+
+    <% end %>
+  </div>
+</turbo-frame>

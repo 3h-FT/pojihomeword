@@ -1,20 +1,20 @@
 <%= search_form_for q, url: url, method: :get, html: { class: 'w-full' } do |f| %>
-  <div class="relative mb-6 w-full sm:max-w-md md:max-w-lg"
+  <div class="relative mb-6 w-full"
        data-controller="autocomplete"
        data-autocomplete-url-value="<%= autocomplete_url %>"
        role="combobox">
     
-    <div class="flex space-x-2">
+    <div class="flex flex-col sm:flex-row space-y-0 sm:space-y-0 sm:space-x-2">
       <%= f.text_field :post_word_or_caption_cont,
-        class: 'flex-grow bg-white p-2 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md',
+        class: 'flex-grow bg-white p-2 mb-2 mr-1 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md',
         placeholder: 'ポジティブワードまたはキャプションで検索',
         data: { autocomplete_target: "input" } %>
 
       <%= f.submit '検索',
-        class: 'whitespace-nowrap text-white bg-red-400 hover:bg-red-500 py-2 px-4 rounded-md shadow-md' %>
+        class: 'whitespace-nowrap text-white bg-red-400 hover:bg-red-500 mb-2 py-2 px-4 rounded-md shadow-md w-full sm:w-auto' %>
     </div>
 
-    <ul class="absolute z-50 mt-1 bg-white  w-full sm:max-w-md md:max-w-lg  rounded-md text-sm"
+    <ul class="absolute z-50 mt-1 bg-white w-full rounded-md text-sm"
         data-autocomplete-target="results">
     </ul>
 
