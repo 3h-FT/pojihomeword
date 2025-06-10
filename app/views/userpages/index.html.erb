@@ -46,17 +46,21 @@
     <%= render 'new' %>
 
     <% if @custom_words.present? %>
-      <div class="mt-6 bg-yellow-100 rounded-md p-4">
-        <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
-        <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'all' } %>
-      </div>
+      <%= turbo_frame_tag "custom_words" do %>
+        <div class="mt-6 bg-yellow-100 rounded-md p-4">
+          <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
+          <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'all' } %>
+        </div>
+      <% end %>  
     <% end %>
 
     <% if @favorited_words.present? %>
-      <div class="mt-6 bg-red-100  rounded-md p-4">
-        <%= render 'favorited_words_section', words: @favorited_words_page %>
-        <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'all' } %>
-      </div>
+      <%= turbo_frame_tag "favorited_words" do %>
+        <div class="mt-6 bg-red-100  rounded-md p-4">
+          <%= render 'favorited_words_section', words: @favorited_words_page %>
+          <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'all' } %>
+        </div>
+      <% end %>        
     <% end %>
 
     <div id="no-words-message-all">
@@ -72,11 +76,13 @@
     <%= render 'new' %>
 
     <% if @custom_words.present? %>
-      <div class="mt-6 bg-yellow-100  rounded-md p-4">
-        <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
-        <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'custom' } %>
-      </div>
-    <% end %> 
+      <%= turbo_frame_tag "custom_words" do %>
+        <div class="mt-6 bg-yellow-100  rounded-md p-4">
+          <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
+          <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'custom' } %>
+        </div>
+      <% end %>        
+    <% end %>
 
     <div id="no-words-message-custom">
       <% if @custom_words.blank? %>
@@ -88,10 +94,12 @@
   <!-- Favorite tab -->
   <div data-tab-content="favorite" class="<%= 'hidden' unless @active_tab == 'favorite' %>">
     <% if @favorited_words.present? %>
-      <div class="mt-6 bg-red-100 rounded-md p-4">
-        <%= render 'favorited_words_section', words: @favorited_words_page %>
-        <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'favorite' } %>
-      </div>
+      <%= turbo_frame_tag "favorited_words" do %>
+        <div class="mt-6 bg-red-100 rounded-md p-4">
+          <%= render 'favorited_words_section', words: @favorited_words_page %>
+          <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'favorite' } %>
+        </div>
+      <% end %>       
     <% else %>
       <p class="text-center text-lg text-gray-600 py-8 bg-red-100 rounded-md">お気に入り登録はありません</p>
     <% end %>

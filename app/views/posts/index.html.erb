@@ -24,10 +24,7 @@
 
     <div class="mt-8">
       <% if @posts.present? %>
-        <ul class="space-y-4">
-          <%= render partial: 'posts/card', collection: @posts, as: :post %>
-        </ul>
-        <%= paginate @posts, param_name: :page %>
+        <%= render partial: 'posts/posts_list', locals: { posts: @posts } %>
       <% end %>  
       <% if @posts.blank? %>
         <p class="text-gray-600 italic text-center">まだ投稿はありません。</p>

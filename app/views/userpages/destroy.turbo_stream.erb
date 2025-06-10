@@ -1,4 +1,15 @@
 <turbo-stream action="remove" targets=".custom-word-<%= @custom_word.id %>"></turbo-stream>
+<%=
+  turbo_stream.replace "custom_words" do
+    render partial: "userpages/custom_words/word_section_with_pagination",
+           locals: {
+             words: current_user.positive_words
+                     .where(is_custom: true)
+                     .where.not(id: current_user.favorited_words.pluck(:positive_word_id))
+                     .page(params[:custom_page])
+           }
+  end
+%>
 
 <turbo-stream action="replace" target="no-words-message-all">
   <template>

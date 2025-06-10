@@ -7,16 +7,24 @@ class PostsController < ApplicationController
   def index
     set_meta_tags title: "みんなのポジほめワード"
     @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
+    @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
+
+    if @posts.out_of_range? && @posts.total_pages > 0
+      redirect_to posts_path(page: @posts.total_pages)
+    end
   end
 
   def post_favorites
     set_meta_tags title: "お気に入り登録ページ"
     @q = current_user.favorite_posts.ransack(params[:q])
-    @post_favorites = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page]).per(10)
+    @post_favorites = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
     @post_favorites_count = current_user.favorite_posts.count
-  end
 
+    if @post_favorites.out_of_range? && @post_favorites.total_pages > 0
+      redirect_to favorites_posts_path(page: @post_favorites.total_pages)
+    end
+  end
+  
   def autocomplete
     keyword = params[:q].to_s.strip
     @posts = Post.where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%").limit(10)
@@ -76,9 +84,17 @@ class PostsController < ApplicationController
     @post = current_user.posts.find(params[:id])
     @post.destroy!
 
+    @q = Post.ransack(params[:q])
+    @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
+
+    # ページ数が減って、現在のページが存在しない場合は最後のページへ
+    if @posts.out_of_range? && @posts.total_pages > 0
+      @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(@posts.total_pages)
+    end
+    
     respond_to do |format|
-      format.html { redirect_to posts_path, alert: "投稿を削除しました", status: :see_other }
       format.turbo_stream
+      format.html { redirect_to posts_path, alert: "削除しました" }
     end
   end
 

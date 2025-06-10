@@ -1,5 +1,5 @@
 <div id="post-id-<%= post.id %>">
-  <%= link_to post_path(post), class: "block group" do %>
+  <%= link_to post_path(post), data: { turbo: false }, class: "block group" do %>
   <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 mb-4 transition hover:shadow-lg">
     <div class="p-6">
       <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-2xl bg-red-100 px-8 py-4 max-w-full break-words overflow-hidden leading-relaxed tracking-wide min-h-16">
