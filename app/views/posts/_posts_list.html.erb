@@ -2,5 +2,5 @@
   <ul class="space-y-4">
     <%= render partial: 'posts/card', collection: posts, as: :post %>
   </ul>
-    <%= paginate posts, param_name: :page %>
+    <%= paginate posts, param_name: :page, params: { controller: "posts", action: "index" } %>
 <% end %>
