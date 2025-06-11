@@ -52,9 +52,9 @@
         カスタムワード一覧
       </h3>
     
-<div id="custom_words">
-  <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-</div>
+      <div id="custom_words">
+        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+      </div>
     </div>
 
   <% elsif params[:filter] == "favorite" %>
@@ -63,7 +63,7 @@
         お気に入りのワード一覧
       </h3>
       <%= render 'favorited_words_section', words: @favorited_words_page %>
-      <%= paginate @favorited_words_page, param_name: :page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page %>
     </div>
 
   <% else %> <%# all の場合 %>
@@ -76,9 +76,9 @@
         カスタムワード一覧
       </h3>
   
-<div id="custom_words">
-  <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-</div>
+      <div id="custom_words">
+        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+      </div>
     </div>
 
     <div class="mt-6 bg-red-100 rounded-md p-4">
@@ -86,7 +86,7 @@
         お気に入りのワード一覧
       </h3>
       <%= render 'favorited_words_section', words: @favorited_words_page %>
-      <%= paginate @favorited_words_page, param_name: :page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page %>
     </div>
   <% end %>
 </div>

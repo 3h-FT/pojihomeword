@@ -1,9 +1,7 @@
 <turbo-stream action="remove" targets=".custom-word-<%= @custom_word.id %>"></turbo-stream>
 
 <%= turbo_stream.replace "custom_words" do %>
-  <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: {
-    words: @custom_words_page
-  } %>
+  <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
 <% end %>
 
 <turbo-stream action="replace" target="word-summary-header">

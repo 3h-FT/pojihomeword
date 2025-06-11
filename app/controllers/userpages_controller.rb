@@ -31,12 +31,12 @@ class UserpagesController < ApplicationController
 
     @favorited_words_page = @favorited_words.page(params[:favorited_page])
     if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
-      redirect_to userpages_path(tab: "favorite", favorited_page: @favorited_words_page.total_pages)
+      redirect_to userpages_path(favorited_page: @favorited_words_page.total_pages)
     end
 
     @custom_words_page = @custom_words.page(params[:custom_page])
     if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
-      redirect_to userpages_path(tab: "custom", custom_page: @custom_words_page.total_pages)
+      redirect_to userpages_path(custom_page: @custom_words_page.total_pages)
     end
   end    
 
@@ -107,7 +107,7 @@ class UserpagesController < ApplicationController
     # ページ計算
     @custom_words_page = @custom_words.page(params[:custom_page])
     if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
-      @custom_words_page = @custom_words.page(@custom_words.total_pages) # 最後のページに戻す
+      @custom_words_page = @custom_words.page(@custom_words_page.total_pages) # 最後のページに戻す
     end
 
     respond_to do |format|
