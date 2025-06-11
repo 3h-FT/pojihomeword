@@ -1,7 +1,11 @@
 <div class="space-y-2">
-  <%= render partial: 'ai_messages/result', collection: @favorited_words_page, as: :positive_word,
-             locals: {
-               show_header_and_button: false,
-               favorited_word_ids: @favorited_word_ids,
-             } %>
+  <% if words.any? %>
+    <%= render partial: 'ai_messages/result', collection: words, as: :positive_word,
+               locals: {
+                 show_header_and_button: false,
+                 favorited_word_ids: @favorited_word_ids,
+               } %>
+  <% else %>
+    <p class="py-2 px-4 text-gray-500 text-center list-none">ワードがありません</p>
+  <% end %>
 </div>

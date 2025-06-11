@@ -3,8 +3,9 @@ class UserpagesController < ApplicationController
   helper_method :prepare_meta_tags
 
   def index
-    filter = params[:filter] || "all"
     set_meta_tags title: "ユーザーページ"
+    filter = params[:filter] || "all"
+
     @q = current_user.positive_words.ransack(params[:q])
     @searched_words = @q.result(distinct: true).includes(:situation, :target)
 
