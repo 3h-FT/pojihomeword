@@ -29,7 +29,6 @@ class UserpagesController < ApplicationController
     @favorited_words = @searched_words.where(id: favorited_ids)
   end
 
-
     @favorited_words_page = @favorited_words.page(params[:favorited_page])
     if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
       redirect_to userpages_path(favorited_page: @favorited_words_page.total_pages)

@@ -26,10 +26,10 @@
         <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
           <% if current_user.own?(@post) %>
             <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200',data: { turbo_frame: "_top" } do %>
-              <i class="bi bi-pencil-fill"></i>
+              <i class="bi bi-pencil-fill"></i>編集        
             <% end %>
             <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-red-500" do %>
-              <i class="bi bi-trash-fill"></i>
+              <i class="bi bi-trash-fill"></i>削除
             <% end %>
           <% else %>          
             <%= render 'shared/post_favorites_button', post: @post %>

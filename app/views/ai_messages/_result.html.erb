@@ -31,15 +31,25 @@
       >
 
         <%= link_to ai_message_path(positive_word, edit: true), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline" do %>
-          <i class="bi bi-pencil-fill mr-1"></i> 編集
+          <i class="bi bi-pencil-fill mr-1"></i>編集
         <% end %>
 
         <div class="px-4 py-2">
           <%= render 'shared/word_favorites_button', positive_word: positive_word %>
         </div>        
 
-        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline copy-button" data-word="<%= positive_word.word %>">
-          <i class="bi bi-copy mr-1 text-blue-500"></i> コピー
+        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button"
+          data-word="<%= positive_word.word %>"
+          x-init="$el.addEventListener('click', () => {
+          navigator.clipboard.writeText($el.dataset.word)
+              .then(() => {
+                alert('コピーしました');
+                $data.open = false;
+                })
+              .catch(err => console.error('コピーに失敗しました: ', err));
+          })"
+        >
+          <i class="bi bi-copy mr-1 text-blue-500 mr-1"></i> コピー
         </button>
       </div>
     </div>

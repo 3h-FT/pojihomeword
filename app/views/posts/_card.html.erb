@@ -1,59 +1,60 @@
-<div id="post-id-<%= post.id %>">
-  <%= link_to post_path(post), data: { turbo: false }, class: "block group" do %>
+<div id="post-id-<%= post.id %>" class="group">
   <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 mb-4 transition hover:shadow-lg">
-    <div class="p-6">
-      <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-2xl bg-red-100 px-8 py-4 max-w-full break-words overflow-hidden leading-relaxed tracking-wide min-h-16">
-        <%= post.post_word %>
-      </h4>
-      <% if post.caption.present? %>
-        <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
-          <%= post.caption %>
-        </p>
-      <% end %>
- 
-      <div class="flex items-center justify-between text-sm text-gray-600">
-        <span>投稿者: <span class="font-medium text-blue-500 group-hover:text-blue-700"><%= post.user.username %></span></span>
-        <span><%= l post.created_at, format: :short %></span>
-      </div>
-    </div>
     
-    <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
-      <% if current_user.own?(post) %>
-            
-      <!-- 編集 -->
-        <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700', data: { turbo: false } do %>
-          <i class="bi bi-pencil-fill"></i>
+    <!-- 投稿本文全体をリンクにする -->
+    <%= link_to post_path(post), data: { turbo: false }, class: "block" do %>
+      <div class="p-6">
+        <h4 class="text-xl font-semibold text-red-500 mb-3 rounded-2xl bg-red-100 px-8 py-4 max-w-full break-words overflow-hidden leading-relaxed tracking-wide min-h-16">
+          <%= post.post_word %>
+        </h4>
+        <% if post.caption.present? %>
+          <p class="text-gray-700 leading-relaxed mb-4 rounded-lg bg-yellow-50 p-3">
+            <%= post.caption %>
+          </p>
         <% end %>
 
-      <!-- 削除 -->  
+        <div class="flex items-center justify-between text-sm text-gray-600">
+          <span>投稿者: <span class="font-medium text-blue-500 group-hover:text-blue-700"><%= post.user.username %></span></span>
+          <span><%= l post.created_at, format: :short %></span>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+      <% if current_user.own?(post) %>
+        <!-- 編集 -->
+        <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700', data: { turbo: false } do %>
+          <i class="bi bi-pencil-fill"></i>編集
+        <% end %>
+
+        <!-- 削除 -->  
         <%= link_to post_path(post, page: params[:page]), id: "button-delete-#{post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しますか', turbo: true }, class: 'text-red-500 hover:text-red-700' do %>
-          <i class="bi bi-trash-fill"></i> 
+          <i class="bi bi-trash-fill"></i> 削除
         <% end %>
         
       <% else %>      
         <!-- ブックマーク -->
-          <%= render 'shared/post_favorites_button', post: post %>
+        <%= render 'shared/post_favorites_button', post: post %>
       <% end %>
-    
+
       <!-- LINEシェア -->
-        <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(post_url(post)) %>" 
-          target="_blank" rel="noopener" class="text-white hover:text-white">
-          <img 
-            src="<%= asset_path('btn_base.png') %>" 
-            alt="LINEでシェア" 
-            style="height: 20px;" 
-            onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
-            onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
-        </a>
+      <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(post_url(post)) %>" 
+        target="_blank" rel="noopener" class="text-white hover:text-white">
+        <img 
+          src="<%= asset_path('btn_base.png') %>" 
+          alt="LINEでシェア" 
+          class="h-5 w-auto sm:h-[20px]"
+          onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
+          onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
+      </a>
 
       <!-- X（旧Twitter）シェア -->
-        <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(post))}&text=#{ERB::Util.url_encode("【#{post.post_word}】")}", 
-              target: '_blank', 
-              rel: 'noopener', 
-              class: "text-black hover:text-gray-500" do %>
+      <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(post))}&text=#{ERB::Util.url_encode("【#{post.post_word}】")}", 
+          target: '_blank', 
+          rel: 'noopener', 
+          class: "text-black hover:text-gray-500" do %>
         <i class="bi bi-twitter-x"></i>
-        <% end %>
+      <% end %>
     </div>
   </div>
-<% end %>
-</div> 
+</div>
