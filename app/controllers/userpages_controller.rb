@@ -38,7 +38,7 @@ class UserpagesController < ApplicationController
     if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
       redirect_to userpages_path(custom_page: @custom_words_page.total_pages)
     end
-  end    
+  end
 
   def autocomplete
     keyword = params[:q].to_s.strip

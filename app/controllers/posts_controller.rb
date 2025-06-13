@@ -24,7 +24,7 @@ class PostsController < ApplicationController
       redirect_to favorites_posts_path(page: @post_favorites.total_pages)
     end
   end
-  
+
   def autocomplete
     keyword = params[:q].to_s.strip
     @posts = Post.where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%").limit(10)
@@ -91,7 +91,7 @@ class PostsController < ApplicationController
     if @posts.out_of_range? && @posts.total_pages > 0
       @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(@posts.total_pages)
     end
-    
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to posts_path, alert: "削除しました" }
