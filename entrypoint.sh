@@ -1,8 +1,5 @@
 #!/bin/sh
 set -e
-
-echo "🔥 entrypoint.sh is running!"
-
 # Secret Filesの.envをコピーして環境変数として使う
 if [ -f /etc/secrets/.env ]; then
   echo "📦 Copying .env from /etc/secrets"
@@ -19,13 +16,17 @@ fi
 echo "🧹 Removing tmp/pids/server.pid"
 rm -f tmp/pids/server.pid
 
-# データベースマイグレーション
+# データベースマイグレーション+シード
 if [ "$RAILS_ENV" = "production" ]; then
   echo "🛠 Running migrations in production"
   bundle exec rails db:migrate
+  echo "🌱 Running seeds in production"  
+  bundle exec rails db:seed  
 else
   echo "🛠 Running migrations in development"
   bundle exec rails db:migrate
+  echo "🌱 Running seeds in development"  
+  bundle exec rails db:seed    
 fi
 
 # 指定されたコマンドを実行

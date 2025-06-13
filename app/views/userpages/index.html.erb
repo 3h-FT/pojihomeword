@@ -5,9 +5,9 @@
     <div class="flex items-center bg-yellow-100 text-yellow-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
       <i class="bi bi-journals mr-2"></i> ためる
     </div>
-  </div> 
+  </div>
 
-  <h2 class="text-center text-2xl font-semibold text-yellow-700 mb-2">
+  <h2 class="text-center text-3xl font-semibold text-yellow-700 mb-2">
     <%= current_user.username %> さんのページ
   </h2>
 
@@ -20,80 +20,73 @@
   </div>
 
   <%= render 'search', q: @q, autocomplete_url: autocomplete_userpages_path %>
-
-  <div class="flex justify-center space-x-4 mb-4">
-    <button data-tab="all" class="tab-button py-2 px-6 font-semibold transition duration-300 ease-in-out focus:outline-none border-b-2 border-transparent"
-            data-default-class="text-gray-700 hover:text-yellow-600 whitespace-nowrap"
-            aria-selected="<%= @active_tab == 'all' %>">
-      すべて
-    </button>
-
-    <button data-tab="custom" class="tab-button py-2 px-6 font-semibold transition duration-300 ease-in-out focus:outline-none border-b-2 border-transparent"
-            data-default-class="text-gray-700 hover:text-yellow-600 whitespace-nowrap"
-            aria-selected="<%= @active_tab == 'custom' %>">
-      カスタム
-    </button>
-
-    <button data-tab="favorite" class="tab-button py-2 px-6 font-semibold transition duration-300 ease-in-out focus:outline-none border-b-2 border-transparent"
-            data-default-class="text-gray-700 hover:text-yellow-600 whitespace-nowrap"
-            aria-selected="<%= @active_tab == 'favorite' %>">
-      お気に入り
-    </button>
+  
+  <div class="w-full sm:w-3/4 mx-auto mb-6">
+    <div class="flex items-center space-x-2">
+      <h3 class="text-yellow-700 whitespace-nowrap text-md ">
+        カテゴリー別:
+      </h3>
+      <div class="flex-grow">
+        <%= form_with url: userpages_path, method: :get, local: true, class: "w-full" do %>
+          <%= select_tag :filter,
+              options_for_select(
+                [["すべて", "all"], ["カスタム", "custom"], ["お気に入り", "favorite"]],
+                selected: params[:filter] || "all"
+              ),
+              class: "w-full bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300",
+              onchange: "this.form.submit()" %>
+          <button type="submit" class="hidden"></button>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <!-- All tab -->
-  <div data-tab-content="all" class="<%= 'hidden' unless @active_tab == 'all' %>">
-    <%= render 'new' %>
 
-    <% if @custom_words.present? %>
-      <div class="mt-6 bg-yellow-100 rounded-md p-4">
-        <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
-        <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'all' } %>
+  <% if params[:filter] == "custom" %>
+    <div class="mt-6">
+      <%= render 'new' %>
+    </div>
+
+    <div class="mt-6 bg-yellow-100 rounded-md p-4">
+      <h3 class="text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
+        カスタムワード一覧
+      </h3>
+    
+      <div id="custom_words">
+        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
       </div>
-    <% end %>
+    </div>
 
-    <% if @favorited_words.present? %>
-      <div class="mt-6 bg-red-100  rounded-md p-4">
-        <%= render 'favorited_words_section', words: @favorited_words_page %>
-        <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'all' } %>
+  <% elsif params[:filter] == "favorite" %>
+    <div class="mt-6 bg-red-100 rounded-md p-4">
+      <h3 class="text-center text-2xl font-semibold text-red-700 mt-2 mb-2">
+        お気に入りのワード一覧
+      </h3>
+      <%= render 'favorited_words_section', words: @favorited_words_page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page %>
+    </div>
+
+  <% else %> <%# all の場合 %>
+    <div class="mt-6">
+      <%= render 'new' %>
+    </div>
+
+    <div class="mt-6 bg-yellow-100 rounded-md p-4">
+      <h3 class="text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
+        カスタムワード一覧
+      </h3>
+  
+      <div id="custom_words">
+        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
       </div>
-    <% end %>
+    </div>
 
-    <div id="no-words-message-all">
-      <% if @custom_words.blank? && @favorited_words.blank? %>
-        <p class="text-center text-lg text-gray-600 py-8 bg-yellow-100 rounded-md">カスタムワードはありません</p>
-        <p class="text-center text-lg text-gray-600 mt-6 py-8 bg-red-100 rounded-md">お気に入り登録はありません</p>
-      <% end %>
-    </div>  
-  </div>
-
-  <!-- Custom tab -->
-  <div data-tab-content="custom" class="<%= 'hidden' unless @active_tab == 'custom' %>">
-    <%= render 'new' %>
-
-    <% if @custom_words.present? %>
-      <div class="mt-6 bg-yellow-100  rounded-md p-4">
-        <%= render 'userpages/custom_words/word_section', words: @custom_words_page %>
-        <%= paginate @custom_words_page, param_name: :custom_page, params: { tab: 'custom' } %>
-      </div>
-    <% end %> 
-
-    <div id="no-words-message-custom">
-      <% if @custom_words.blank? %>
-      <p class="text-center text-lg text-gray-600 py-8 bg-yellow-100 rounded-md">カスタムワードはありません</p>
-      <% end %>
-    </div>  
-  </div>
-
-  <!-- Favorite tab -->
-  <div data-tab-content="favorite" class="<%= 'hidden' unless @active_tab == 'favorite' %>">
-    <% if @favorited_words.present? %>
-      <div class="mt-6 bg-red-100 rounded-md p-4">
-        <%= render 'favorited_words_section', words: @favorited_words_page %>
-        <%= paginate @favorited_words_page, param_name: :favorited_page, params: { tab: 'favorite' } %>
-      </div>
-    <% else %>
-      <p class="text-center text-lg text-gray-600 py-8 bg-red-100 rounded-md">お気に入り登録はありません</p>
-    <% end %>
-  </div>
+    <div class="mt-6 bg-red-100 rounded-md p-4">
+      <h3 class="text-center text-2xl font-semibold text-red-700 mt-2 mb-2">
+        お気に入りのワード一覧
+      </h3>
+      <%= render 'favorited_words_section', words: @favorited_words_page %>
+      <%= paginate @favorited_words_page, param_name: :favorited_page %>
+    </div>
+  <% end %>
 </div>

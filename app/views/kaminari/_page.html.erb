@@ -1,0 +1,6 @@
+<%#個別のページ番号のリンク表示。現在のページはリンクではなく強調表示されます。%>
+<% if page.current? %>
+  <span class="bg-red-200 text-white px-4 py-2 rounded font-semibold"><%= page %></span>
+<% else %>
+  <%= link_to page, url, remote: remote, rel: page.rel, class: "px-4 py-2 text-gray-700 hover:bg-red-100 rounded" %>
+<% end %>

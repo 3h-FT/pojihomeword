@@ -6,13 +6,21 @@
   <% if user_signed_in? %>
     <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
       <%= link_to edit_ai_message_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline" do %>
-        <i class="bi bi-pencil-fill mr-1"></i> 編集
+        <i class="bi bi-pencil-fill mr-1"></i>編集
+  
       <% end %>
 
-      <%= render 'shared/word_favorites_button', positive_word: positive_word %>
+      <%= render 'shared/word_favorites_button', positive_word: positive_word, hide_text_on_small: true %>
 
-      <button class="px-1 py-1 text-sm text-gray-700 hover:underline copy-button" data-word="<%= @positive_word.word %>">
-        <i class="bi bi-copy mr-1 text-blue-500 mr-1 hover:text-blue-700"></i> コピー
+      <button class=" text-sm text-gray-700 hover:underline copy-button"
+        data-word="<%= positive_word.word %>"
+        x-init="$el.addEventListener('click', () => {
+        navigator.clipboard.writeText($el.dataset.word)
+          .then(() => alert('コピーしました'))
+          .catch(err => console.error('コピーに失敗しました: ', err));
+        })"
+      >
+        <i class="bi bi-copy mr-1 text-blue-500"></i>コピー       
       </button>
 
       <!-- LINEシェア -->
@@ -21,7 +29,7 @@
         <img 
           src="<%= asset_path('btn_base.png') %>" 
           alt="LINEでシェア" 
-          style="height: 20px;" 
+          class="h-5 w-auto sm:h-[20px]"
           onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
           onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
       </a>

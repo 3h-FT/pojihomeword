@@ -1,0 +1,8 @@
+<%#「最初へ」リンクのパーツ。ページの最初に戻るリンクです。%>
+<% if current_page.first? %>
+  <span class="bg-gray-200 text-gray-400 font-light py-2 px-4 border border-gray-300 rounded shadow cursor-not-allowed">
+    <%= t('views.pagination.first').html_safe %>
+  </span>
+<% else %>
+  <%= link_to t('views.pagination.first').html_safe, url, remote: remote, class: "bg-white hover:bg-gray-100 text-gray-800 font-light py-2 px-4 border border-gray-400 rounded shadow" %>
+<% end %>

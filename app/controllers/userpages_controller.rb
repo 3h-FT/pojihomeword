@@ -4,6 +4,8 @@ class UserpagesController < ApplicationController
 
   def index
     set_meta_tags title: "ユーザーページ"
+    filter = params[:filter] || "all"
+
     @q = current_user.positive_words.ransack(params[:q])
     @searched_words = @q.result(distinct: true).includes(:situation, :target)
 
@@ -16,12 +18,26 @@ class UserpagesController < ApplicationController
     @custom_words_count = @custom_words.count
     @known_word_count = @favorited_words_count + @custom_words_count
 
-    @favorited_words_page = @favorited_words.page(params[:favorited_page]).per(10)
+  case filter
+  when "favorite"
+    @words = @searched_words.where(id: favorited_ids)
+  when "custom"
+    @words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
+  else
+    # all
+    @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
+    @favorited_words = @searched_words.where(id: favorited_ids)
+  end
+
+    @favorited_words_page = @favorited_words.page(params[:favorited_page])
     if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
-      redirect_to userpages_path(tab: "favorite", favorited_page: @favorited_words_page.total_pages)
+      redirect_to userpages_path(favorited_page: @favorited_words_page.total_pages)
     end
-    @custom_words_page = @custom_words.page(params[:custom_page]).per(10)
-    @active_tab = params[:tab] || "all"
+
+    @custom_words_page = @custom_words.page(params[:custom_page])
+    if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
+      redirect_to userpages_path(custom_page: @custom_words_page.total_pages)
+    end
   end
 
   def autocomplete
@@ -79,15 +95,26 @@ class UserpagesController < ApplicationController
     end
   end
 
-def destroy
-  @custom_word = current_user.positive_words.find(params[:id])
-  @custom_word.destroy
+  def destroy
+    @custom_word = current_user.positive_words.find(params[:id])
+    @custom_word.destroy!
 
-  respond_to do |format|
-    format.turbo_stream
-    format.html { redirect_to userpages_path, alert: "ワードを削除しました" }
+    favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
+    @q = current_user.positive_words.ransack(params[:q])
+    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+    @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
+
+    # ページ計算
+    @custom_words_page = @custom_words.page(params[:custom_page])
+    if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
+      @custom_words_page = @custom_words.page(@custom_words_page.total_pages) # 最後のページに戻す
+    end
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to userpages_path, notice: "ワードを削除しました" }
+    end
   end
-end
 
   private
 

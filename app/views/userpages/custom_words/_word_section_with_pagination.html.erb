@@ -1,0 +1,2 @@
+  <%= render partial: "userpages/custom_words/word_section", locals: { words: words } %>
+  <%= paginate words, param_name: :custom_page,params: { controller: "userpages", action: "index" } %>

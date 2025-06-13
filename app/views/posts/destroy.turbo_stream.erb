@@ -1,1 +1,5 @@
 <%= turbo_stream.remove "post-id-#{@post.id}" %>
+
+<%= turbo_stream.replace "posts" do %>
+  <%= render partial: "posts/posts_list", locals: { posts: @posts } %>
+<% end %>
