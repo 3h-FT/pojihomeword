@@ -1,33 +1,36 @@
 <% set_meta_tags title: "サンプルページ" %>
 
-<div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-  <div class="p-8">
-    <h2 class="text-3xl font-semibold text-red-400 text-center mb-6">
-      ポジティブワードを作ろう:サンプル
-    </h2>
+<div class="mt-8 max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+  <div class="bg-pink-100/70 py-8 px-6 rounded-t-2xl border-b border-pink-200">
+    <div class="flex justify-center mb-4">
+      <div class="flex items-center bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+        <i class="bi bi-lightbulb mr-2"></i> サンプル
+      </div>
+    </div>
+    <h1 class="text-3xl font-bold text-red-400 text-center mb-4">
+      ポジティブワードを作ろう！: サンプル
+    </h1>
+    <p class="text-lg text-gray-600 text-center">まず誰にメッセージを届けたい気分？</p>
+    <p class="text-lg text-gray-600 text-center">次に、どんなシチュエーションか選んでみて♪</p>
+  </div>
 
-    <div class="text-center mb-8 space-y-3">
-      <p class="text-lg text-gray-600">
-        まず誰にメッセージを届けたい気分？
-      </p>
-      <p class="text-lg text-gray-600">
-        次に、どんなシチュエーションか選んでみて♪
-      </p>
+  <div class="p-6">
+    <div class="text-center mb-6 space-y-2">
       <% if user_signed_in? %>
         <%= link_to "自分で作ってみる？", new_ai_message_path, class: 'inline-block text-sm sm:text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full shadow-md' %>
       <% else %>
         <%= link_to "自分で作ってみる？(ログイン)", new_user_session_path, class: 'inline-block text-sm sm:text-base font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-full shadow-md' %>
       <% end %>
-      </div>
+    </div>
 
     <%= form_tag positive_words_path, method: :get, class: "space-y-6" do %>
       <div>
         <%= label_tag :target_id, '誰に送りますか？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-        <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '誰に送りたいか選んでね', class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 " %>
+        <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '誰に送りたいか選んでね', class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
       </div>
 
       <% if params[:target_id].present? %>
-        <div id="situation-container">
+        <div>
           <%= label_tag :situation_id, 'どんな時？', class: 'block mb-2 text-lg font-medium text-gray-700' %>
           <%= select_tag :situation_id, options_from_collection_for_select(@situations, :id, :name, params[:situation_id]), prompt: 'どんなシチュエーションか選んでね', class: "w-full p-4 rounded-full border border-gray-300 text-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
         </div>
@@ -37,25 +40,28 @@
         <%= submit_tag '表示', class: 'w-full bg-red-400 hover:bg-red-500 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md cursor-pointer' %>
       </div>
     <% end %>
-  </div>
 
-  <% if @positive_words.present? %>
-    <div class="bg-pink-50 py-8 px-8 mb-4">
-      <h2 class="text-2xl font-semibold text-red-400 text-center mb-6">
-        サンプルワード
-      </h2>
-      <ul class="py-3 px-6 mt-4 space-y-3 text-lg text-gray-700">
-        <% @positive_words.each do |word| %>
-          <li class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-wrap"">
-            <%= word.word %>
-          </li>
-        <% end %>
-      </ul>
+    <% if @positive_words.present? %>
+
+      <div class="mt-10 bg-pink-50 border-l-4 border-pink-400  py-8 px-8 mb-4 rounded-xl shadow-sm">
+        <h2 class="text-2xl font-semibold text-red-400 text-center mb-4">
+          サンプルワード
+        </h2>
+        <ul class="space-y-3 text-lg text-gray-700">
+          <% @positive_words.each do |word| %>
+            <li class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold flex items-center justify-between gap-x-2 flex-wrap">
+              <%= word.word %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+    <% end %>
+
+    <div class="mt-6 mb-6 text-center">
+      <%= link_to "トップに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
     </div>
-  <% end %>
-    <div class="mt-6 mb-6 space-y-3 text-center">
-        <%= link_to "トップに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
-        </div>
+  </div>
 </div>
 
 <div id="situations-data" data-situations="<%= @situations.to_json %>"></div>

@@ -1,92 +1,84 @@
 <% set_meta_tags title: "ユーザーページ" %>
 
-<div class="max-w-3xl mx-auto bg-yellow-50 p-6 rounded-lg shadow-lg">
-  <div class="flex justify-center mb-4">
-    <div class="flex items-center bg-yellow-100 text-yellow-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
-      <i class="bi bi-journals mr-2"></i> ためる
+<div class="mt-8 max-w-3xl mx-auto bg-yellow-50/50 rounded-2xl shadow-lg overflow-hidden">
+  <div class="bg-amber-100 py-8 px-6 rounded-t-2xl border-b border-yellow-200 mb-4">
+    <div class="flex justify-center mb-4">
+      <div class="flex items-center bg-yellow-100 text-yellow-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+        <i class="bi bi-journals mr-2"></i> ためる
+      </div>
     </div>
-  </div>
-
-  <h2 class="text-center text-3xl font-semibold text-yellow-700 mb-2">
-    <%= current_user.username %> さんのページ
-  </h2>
-
-  <div id="word-summary-header" class="text-center text-4xl font-semibold text-gray-700 mb-6">
-    <%= render partial: 'userpages/header', locals: {
-      total_count: @known_word_count,
-      custom_count: @custom_words.count,
-      favorite_count: @favorited_words.count
-    } %>
+    <h1 class="text-3xl font-bold text-yellow-700 text-center mb-4">
+      <i class="bi bi-person-fill text-yellow-500 mr-2"></i> <%= current_user.username %> さんのページ
+    </h1>
+    
+    <p class="text-lg text-gray-700 text-center">  
+      あなただけの「ポジティブワード集」を作成・管理しよう
+    </p>
   </div>
 
   <%= render 'search', q: @q, autocomplete_url: autocomplete_userpages_path %>
-  
-  <div class="w-full sm:w-3/4 mx-auto mb-6">
-    <div class="flex items-center space-x-2">
-      <h3 class="text-yellow-700 whitespace-nowrap text-md ">
-        カテゴリー別:
-      </h3>
-      <div class="flex-grow">
-        <%= form_with url: userpages_path, method: :get, local: true, class: "w-full" do %>
-          <%= select_tag :filter,
-              options_for_select(
-                [["すべて", "all"], ["カスタム", "custom"], ["お気に入り", "favorite"]],
-                selected: params[:filter] || "all"
-              ),
-              class: "w-full bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300",
-              onchange: "this.form.submit()" %>
-          <button type="submit" class="hidden"></button>
-        <% end %>
-      </div>
+
+    <div id="word-summary-dashboard" >
+      <%= render partial: "userpages/header", locals: {
+        total_count: @known_word_count,
+        custom_count: @custom_words_count,
+        favorite_count: @favorited_words_count
+      } %>
     </div>
+
+
+  <div class="p-6">
+    <div class="flex border-b border-gray-400 mb-6 mt-2">
+      <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-yellow-500 <%= 'border-yellow-500 text-yellow-700' if params[:filter].blank? || params[:filter] == 'all' %>" onclick="location.href='<%= userpages_path(filter: 'all') %>'">すべて</button>
+      <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-red-500 <%= 'border-red-500 text-red-700' if params[:filter] == 'favorite' %>" onclick="location.href='<%= userpages_path(filter: 'favorite') %>'">お気に入り</button>
+      <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-yellow-500 <%= 'border-yellow-500 text-yellow-700' if params[:filter] == 'custom' %>" onclick="location.href='<%= userpages_path(filter: 'custom') %>'">カスタムワード</button>
+    </div>
+
+    <% if params[:filter].blank? || params[:filter] == "all" %>
+      <div class="mt-6 bg-pink-50 rounded-md p-4">
+        <h3 class="flex justify-between items-center text-center text-2xl font-semibold text-pink-600 mt-2 mb-2">
+          <span>お気に入りのワード一覧</span>
+        </h3>
+        <%= render 'favorited_words_section', words: @favorited_words_page %>
+        <%= paginate @favorited_words_page, param_name: :favorited_page %>
+      </div>
+      
+      <div class="flex border-b border-gray-400 mb-6 mt-6">
+      </div>
+      
+      <div class="mt-6 bg-yellow-100 rounded-md p-4 ">
+        <h3 class="flex justify-between items-center text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
+          <span>カスタムワード一覧</span>
+          <%= link_to new_userpage_path, class: 'inline-flex items-center text-lg font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-4 py-1 rounded-full shadow-md transition duration-200' do %>
+            <i class="bi bi-plus mr-1"></i> 作成
+          <% end %>
+        </h3>
+        <div id="custom_words">
+          <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+        </div>
+      </div>
+
+    <% elsif params[:filter] == "custom" %>
+      <div class="mt-6 bg-yellow-100 rounded-md p-4">
+        <h3 class="flex justify-between items-center text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
+          <span>カスタムワード一覧</span>
+          <%= link_to new_userpage_path, class: 'inline-flex items-center text-lg font-medium text-white bg-yellow-400 hover:bg-yellow-500 px-4 py-1 rounded-full shadow-md transition duration-200' do %>
+            <i class="bi bi-plus mr-1"></i> 作成
+          <% end %>
+        </h3>
+        <div id="custom_words">
+          <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+        </div>
+      </div>
+
+    <% elsif params[:filter] == "favorite" %>
+      <div class="mt-6 bg-pink-50 rounded-md p-4">
+        <h3 class="flex justify-between items-center text-center text-2xl font-semibold text-pink-700 mt-2 mb-2">
+          <span>お気に入りのワード一覧</span>
+        </h3>
+        <%= render 'favorited_words_section', words: @favorited_words_page %>
+        <%= paginate @favorited_words_page, param_name: :favorited_page %>
+      </div>
+    <% end %>
   </div>
-
-
-  <% if params[:filter] == "custom" %>
-    <div class="mt-6">
-      <%= render 'new' %>
-    </div>
-
-    <div class="mt-6 bg-yellow-100 rounded-md p-4">
-      <h3 class="text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
-        カスタムワード一覧
-      </h3>
-    
-      <div id="custom_words">
-        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-      </div>
-    </div>
-
-  <% elsif params[:filter] == "favorite" %>
-    <div class="mt-6 bg-red-100 rounded-md p-4">
-      <h3 class="text-center text-2xl font-semibold text-red-700 mt-2 mb-2">
-        お気に入りのワード一覧
-      </h3>
-      <%= render 'favorited_words_section', words: @favorited_words_page %>
-      <%= paginate @favorited_words_page, param_name: :favorited_page %>
-    </div>
-
-  <% else %> <%# all の場合 %>
-    <div class="mt-6">
-      <%= render 'new' %>
-    </div>
-
-    <div class="mt-6 bg-yellow-100 rounded-md p-4">
-      <h3 class="text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">
-        カスタムワード一覧
-      </h3>
-  
-      <div id="custom_words">
-        <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-      </div>
-    </div>
-
-    <div class="mt-6 bg-red-100 rounded-md p-4">
-      <h3 class="text-center text-2xl font-semibold text-red-700 mt-2 mb-2">
-        お気に入りのワード一覧
-      </h3>
-      <%= render 'favorited_words_section', words: @favorited_words_page %>
-      <%= paginate @favorited_words_page, param_name: :favorited_page %>
-    </div>
-  <% end %>
 </div>

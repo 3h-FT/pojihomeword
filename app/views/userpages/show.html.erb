@@ -1,8 +1,11 @@
 <div id="positive-word-id-<%= @positive_word.id %>">
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <div class="p-6">
-      <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ポジティブワード</h3>
-
+<div class="mt-8 max-w-3xl mx-auto bg-rose-50 rounded-2xl shadow-lg overflow-hidden">
+  <div class="bg-pink-100 py-8 px-6 rounded-t-2xl border-b border-red-200">
+    <h2 class="text-center text-2xl font-bold text-pink-600">
+     ポジティブワード
+    </h2>
+  </div>
+  
   <% if @show_edit_form && user_signed_in? %>
     <%= render partial: "edit_form", locals: { positive_word: @positive_word } %>
   <% else %>

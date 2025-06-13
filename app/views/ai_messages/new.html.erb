@@ -1,34 +1,37 @@
 <% set_meta_tags title: "ワード生成" %>
 
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-lg overflow-hidden">
+<div class="mt-8 max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+  <div class="bg-pink-100/70 py-8 px-6 rounded-t-2xl border-b border-pink-200">
     <div class="flex justify-center mb-4">
       <div class="flex items-center bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
-        <i class="bi bi-lightbulb  mr-2"></i> 知る
+        <i class="bi bi-lightbulb mr-2"></i> 知る
       </div>
     </div> 
+    <h1 class="text-3xl font-bold text-pink-600 text-center mb-4">
+      ポジティブワードを作ろう！
+    </h1>
+      <p class="text-lg text-gray-600 text-center">誰に、どんな気持ちを伝えたいですか？</p>
+      <p class="text-lg text-gray-600 text-center">下のフォームに自由に書いてみてくださいね！</p>
 
-      <h2 class="text-3xl font-semibold text-red-400 text-center mb-6">ポジティブワードを作ろう！</h2>
+    <p class="text-lg text-red-600 text-center mt-2 font-semibold">
+      ※作成は1日5回まで
+    </p>
+  </div>
 
-      <div class="text-center mb-8 space-y-3">
-        <p class="text-lg text-gray-600">誰に、どんな気持ちを伝えたいですか？</p>
-        <p class="text-lg text-gray-600">下のフォームに自由に書いてみてくださいね！</p>
-        <p class="text-lg text-red-600">※作成は1日3回まで</p>
+  <div class="p-6">
+    
+    <% if params[:error].present? %>
+      <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md">
+        <strong>エラー:</strong> <%= params[:error] %>
       </div>
-      
-      <% if params[:error].present? %>
-        <div class="mt-6 bg-red-100 text-red-600 p-4 rounded-md">
-          <strong>エラー:</strong> <%= params[:error] %>
-        </div>
-      <% end %>
+    <% end %>
 
-      <%= render 'form' %>
+    <%= render 'form' %>
 
-      <% if @positive_word&.persisted? %>
-        <div class="mt-6 bg-pink-50 border-l-4 border-pink-400 py-8 px-8 rounded-xl shadow-sm">
+    <% if @positive_word&.persisted? %>
+      <div class="mt-6 bg-pink-50 border-l-4 border-pink-400 py-8 px-8 rounded-xl shadow-sm">
         <%= render 'result', positive_word: @positive_word %>
-        </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>
-

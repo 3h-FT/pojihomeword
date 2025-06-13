@@ -1,12 +1,12 @@
-<%= form_with model: post, class: 'space-y-6 p-6 bg-white rounded-lg shadow-md', local: true do |f| %>
+<%= form_with model: post, class: 'space-y-6  rounded-lg ', local: true do |f| %>
   <div>
     <%= f.label :post_word, '投稿したいワード', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-    <%= f.text_area :post_word, placeholder: "例：おめでとう、ありがとう", autofocus: true, class: "w-full p-3 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
+    <%= f.text_area :post_word, placeholder: "例：おめでとう、ありがとう", autofocus: true, class: "w-full p-3 bg-white border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
   </div>
 
   <div>
     <%= f.label :caption, 'ワードの説明', class: 'block mb-2 text-lg font-medium text-gray-700' %>
-    <%= f.text_area :caption, placeholder: "例：家族にお祝いしてもらったときの言葉です", class: "w-full p-3 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
+    <%= f.text_area :caption, placeholder: "例：家族にお祝いしてもらったときの言葉です", class: "w-full p-3 bg-white border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-300 rounded-md" %>
   </div>
 
   <div>

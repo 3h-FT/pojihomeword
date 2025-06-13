@@ -7,7 +7,7 @@ class UserpagesController < ApplicationController
     filter = params[:filter] || "all"
 
     @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
 
     favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
     @favorited_words = @searched_words.where(id: favorited_ids)
@@ -72,7 +72,7 @@ class UserpagesController < ApplicationController
 
   def edit
    @positive_word = current_user.positive_words.find(params[:id])
-    render partial: "edit_form", locals: { positive_word: @positive_word  }
+    render partial: "positive_words/edit_form", locals: { positive_word: @positive_word  }
   end
 
   def update
@@ -80,7 +80,7 @@ class UserpagesController < ApplicationController
     if @positive_word.update(positive_word_params)
       render partial: "userpages/custom_words/word_updata", locals: { positive_word: @positive_word }
     else
-      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
+      render partial: "positive_words/edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
     end
   end
 

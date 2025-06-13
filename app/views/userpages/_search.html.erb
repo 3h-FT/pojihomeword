@@ -1,21 +1,22 @@
-<%= search_form_for @q, url: userpages_path, method: :get, html: { class: 'w-full sm:w-3/4 mx-auto mb-6' } do |f| %>
-  <div class="relative mb-6 w-full sm:max-w-md md:max-w-lg"
+<%= search_form_for @q, url: userpages_path, method: :get, html: { class: 'w-full p-4' } do |f| %>
+  <div class="relative mb-6 w-full"
        data-controller="autocomplete"
        data-autocomplete-url-value="<%= autocomplete_url %>"
        role="combobox">
-  
-    <div class="flex flex-col sm:flex-row space-y-0 sm:space-y-0 sm:space-x-2">
+    
+    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
       <%= f.text_field :word_cont,
-            class: 'flex-grow bg-white p-2 mb-2 mr-1 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-300 rounded-md',
-            placeholder: 'ワード検索',
-            data: { autocomplete_target: "input" } %>
-      
+        class: 'flex-grow bg-white p-2  mr-1 border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-300 rounded-md',
+        placeholder: 'ワード検索',
+        data: { autocomplete_target: "input" } %>
+
       <%= f.submit '検索',
-            class: 'whitespace-nowrap text-white bg-yellow-500 hover:bg-yellow-600 mb-2 py-2 px-4 rounded-md shadow-md' %>
+        class: 'whitespace-nowrap text-white bg-yellow-500 hover:bg-yellow-600 mb-2 px-4 py-2 rounded-md shadow-md w-full sm:w-auto' %>
     </div>
-  
-    <ul class="absolute z-50 mt-1 bg-white  w-full sm:max-w-md md:max-w-lg  rounded-md text-sm"
+
+    <ul class="absolute z-50 mt-1 bg-white w-full rounded-md text-sm"
         data-autocomplete-target="results">
-    </ul>    
-  </div>  
+    </ul>
+
+  </div>
 <% end %>
