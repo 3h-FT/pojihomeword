@@ -1,0 +1,82 @@
+<% set_meta_tags title: "使い方:ワードを知る" %>
+
+<div class="mt-8 flex items-center justify-center px-4">
+  <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-pink-100/70 py-4 px-6 rounded-t-2xl border-b border-pink-200">
+      <div class="flex justify-center mb-4">
+        <div class="flex items-center bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+          <i class="bi bi-question-circle-fill text-xl mr-1"></i> 使い方
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-red-400 text-center mb-4">
+        ワードを作る
+      </h2>
+      <p class="text-md text-gray-600 text-center">
+        「誰に」「どんな気持ちを」伝えたいですか？<br>
+        シチュエーションに合わせて、ポジティブなワードをAIが作成します。
+      </p>
+    </div>
+
+
+    <div class="p-6">
+      <div class="divide-y divide-dotted divide-gray-300">
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-4">1. ワードを作る</h3>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <p>
+                ワードを送りたい <strong>対象人物</strong> を「誰に送りますか？」、<strong>シチュエーション</strong> を「どんな時？」のフォームに入力してください。
+              </p>
+              <p>
+                その後、<strong>「ワードを作る」</strong> ボタンを選択すると、対象人物とシチュエーションに合わせたポジティブなワードがAIによって生成されます。
+              </p>
+              <p>
+                <strong class="text-red-600">作成は一日5回までとなります</strong>
+              </p>              
+            </div>
+
+            <div class="md:w-1/2 flex items-start">
+              <%= image_tag "ai_messages/ai_messages_index.png", alt: "ワードを作る画面の例", class: "rounded-lg shadow-md w-full max-w-xs h-auto" %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex border-b border-gray-400 mb-6 mt-6">
+        </div>
+ 
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-2">2. ワードの保存・共有・編集</h3>
+          <p class="font-semibold text-lg mb-4">
+            生成されたワードは、以下の方法で活用できます。
+          </p>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <ul class="list-disc pl-5 space-y-2">
+                <li>
+                  生成されたワードをクリックすると詳細画面が開きます。また左側の三点リーダー（<i class="bi bi-three-dots"></i>）をクリックすると、メニューが開きます。ここでは、生成されたワードを自由に編集・お気に入り登録解除・コピーができます。
+                </li>
+                <li>
+                  <strong>共有:</strong> 詳細画面からSNSに共有することも可能です。
+                </li>
+                <li>
+                  <strong>保存:</strong> 気に入ったワードは「★いいね」ボタンを押すと、あなたのユーザーページに保存されます。
+                </li>
+              </ul>
+            </div>
+
+            <div class="md:w-1/2 flex items-start">
+              <%= image_tag "ai_messages/ai_messages_show_edit.png", alt: "ワードの詳細・編集画面の例", class: "rounded-lg  w-full max-w-xs h-auto" %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-8 text-center space-y-4">
+        <%= link_to "ポジティブワードを作るへ", new_ai_message_path, class: 'inline-block text-lg sm:text-xl font-semibold text-white bg-red-400 hover:bg-red-500 px-8 py-4 rounded-full shadow-md' %>
+        <%= link_to '「ためる」の使い方へ', page_path('how_to_use/userpages'), class: 'text-gray-500 text-lg block hover:text-gray-700 hover:underline' %>
+        <%= link_to '「共有する」の使い方へ', page_path('how_to_use/posts'), class: 'text-gray-500 text-lg block hover:text-gray-700 hover:underline' %>
+      </div>
+    </div>
+  </div>
+</div>

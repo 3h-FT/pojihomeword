@@ -7,9 +7,16 @@
           <i class="bi bi-share-fill mr-2"></i> 共有する
         </div>
       </div>
-      <h1 class="text-2xl font-bold text-red-600 text-center mb-4">
-        <i class="fas fa-sun text-red-400 mr-2"></i> みんなのポジほめワード
-      </h1>
+
+      <div class="flex justify-center items-center mb-4 space-x-2">      
+        <h1 class="text-2xl font-bold text-red-600 text-center">
+          みんなのポジほめワード
+        </h1>
+      
+        <%= link_to page_path('how_to_use/posts'), rel: "noopener", class: "text-red-600 hover:text-red-700", title: "みんなのポジほめワードの使い方" do %>
+          <i class="bi bi-question-circle-fill text-xl"></i>
+        <% end %>
+      </div>  
       <p class="text-md text-gray-700 text-center">
         日々の素敵な発見や、
       </p>      

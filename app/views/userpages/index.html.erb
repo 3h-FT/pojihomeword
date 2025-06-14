@@ -3,14 +3,21 @@
   <div class="max-w-3xl w-full bg-yellow-50/50 rounded-2xl shadow-lg overflow-hidden">
     <div class="bg-amber-100 py-4 px-6 rounded-t-2xl border-b border-yellow-200 mb-4">
       <div class="flex justify-center mb-4">
-        <div class="flex items-center bg-yellow-100 text-yellow-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+        <div class="flex items-center bg-yellow-200 text-yellow-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
           <i class="bi bi-journals mr-2"></i> ためる
         </div>
       </div>
-      <h1 class="text-2xl font-bold text-yellow-700 text-center mb-4">
-        <i class="bi bi-person-fill text-yellow-500 mr-2"></i> <%= current_user.username %> さんのページ
-      </h1>
-    
+
+      <div class="flex justify-center items-center mb-4 space-x-2">      
+        <h1 class="text-2xl font-bold text-yellow-700 text-center">
+          <%= current_user.username %> さんのページ
+        </h1>
+      
+        <%= link_to page_path('how_to_use/userpages'), rel: "noopener", class: "text-yellow-700 hover:text-yellow-800", title: "ユーザーページの使い方" do %>
+          <i class="bi bi-question-circle-fill text-xl"></i>
+        <% end %>
+      </div>    
+
       <p class="text-md text-gray-700 text-center">  
         あなただけの「ワード集」を作成・管理
       </p>
@@ -31,7 +38,7 @@
       <div class="flex border-b border-gray-400 mb-6 mt-2">
         <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-yellow-500 <%= 'border-yellow-500 text-yellow-700' if params[:filter].blank? || params[:filter] == 'all' %>" onclick="location.href='<%= userpages_path(filter: 'all') %>'">すべて</button>
         <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-red-500 <%= 'border-red-500 text-red-700' if params[:filter] == 'favorite' %>" onclick="location.href='<%= userpages_path(filter: 'favorite') %>'">お気に入り</button>
-        <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-yellow-500 <%= 'border-yellow-500 text-yellow-700' if params[:filter] == 'custom' %>" onclick="location.href='<%= userpages_path(filter: 'custom') %>'">カスタムワード</button>
+        <button class="px-4 py-2 text-lg font-medium text-gray-700 border-b-2 border-transparent hover:border-yellow-500 <%= 'border-yellow-500 text-yellow-700' if params[:filter] == 'custom' %>" onclick="location.href='<%= userpages_path(filter: 'custom') %>'">カスタム</button>
       </div>
 
       <% if params[:filter].blank? || params[:filter] == "all" %>
