@@ -1,6 +1,5 @@
 class UserpagesController < ApplicationController
   before_action :authenticate_user!, except: [ :show ]
-  helper_method :prepare_meta_tags
 
   def index
     set_meta_tags title: "ユーザーページ"
@@ -72,7 +71,7 @@ class UserpagesController < ApplicationController
 
   def edit
    @positive_word = current_user.positive_words.find(params[:id])
-    render partial: "positive_words/edit_form", locals: { positive_word: @positive_word  }
+    render partial: "edit_form", locals: { positive_word: @positive_word  }
   end
 
   def update
@@ -80,7 +79,7 @@ class UserpagesController < ApplicationController
     if @positive_word.update(positive_word_params)
       render partial: "userpages/custom_words/word_updata", locals: { positive_word: @positive_word }
     else
-      render partial: "positive_words/edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
+      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
     end
   end
 
@@ -112,7 +111,7 @@ class UserpagesController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to userpages_path, notice: "ワードを削除しました" }
+      format.html { redirect_to userpages_path, alert: "ワードを削除しました" }
     end
   end
 

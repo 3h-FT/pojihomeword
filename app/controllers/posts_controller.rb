@@ -1,8 +1,5 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :show ]
-  # 設定したprepare_meta_tagsをprivateにあってもpostコントローラー以外にも使えるようにする
-  helper_method :prepare_meta_tags
-
 
   def index
     set_meta_tags title: "みんなのポジほめワード"

@@ -47,3 +47,10 @@ document.addEventListener('turbo:load', () => {
     });
   }
 });
+
+document.addEventListener('turbo:load', () => {
+  const resultSection = document.getElementById('result-section');
+  if (resultSection) {
+    resultSection.scrollIntoView({ behavior: 'smooth' });
+  }
+});

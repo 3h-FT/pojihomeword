@@ -1,14 +1,23 @@
-<div class="mt-8 max-w-3xl mx-auto bg-yellow-50/50 p-6 rounded-lg shadow-lg">
-  <h3 class="text-center text-2xl font-semibold text-yellow-700 mt-2 mb-2">自分でポジティブワードを追加</h3>
-  <%= form_with model: PositiveWord.new, url: userpages_path, local: true, class: "space-y-4" do |f| %>
-    <div>
-      <%= f.text_field :word, placeholder: 'ワードを入力', required: true, autofocus: true, class: "w-full p-4 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700" %>
+<div class="mt-8 flex items-center justify-center px-4">
+  <div class="max-w-3xl w-full bg-yellow-50/50 rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-amber-100 py-8 px-6 rounded-t-2xl border-b border-yellow-200">
+      <h2 class="text-center text-2xl font-bold text-yellow-700">
+         自分でポジティブワードを追加
+      </h2>        
     </div>
+   
+    <div class="p-6">
+      <%= form_with model: PositiveWord.new, url: userpages_path, local: true, class: "space-y-4" do |f| %>
+        <div>
+          <%= f.text_field :word, placeholder: 'ワードを入力', required: true, autofocus: true, class: "w-full p-4 rounded-md bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700" %>
+        </div>
 
-    <%= f.hidden_field :is_custom, value: true %>
+        <%= f.hidden_field :is_custom, value: true %>
 
-    <div class="flex justify-end space-x-3 pt-3">
-      <%= f.submit "追加", class: "w-full text-lg px-2 py-2 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-300 transition" %>
-    </div>
-  <% end %>
+        <div class="flex justify-end space-x-3 pt-3">
+          <%= f.submit "追加", class: "w-full text-lg px-2 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-300 transition" %>
+        </div>
+      <% end %>
+    </div>      
+  </div>
 </div>

@@ -1,4 +1,4 @@
-module ApplicationHelper
+module ApplicationHelper  
   def default_meta_tags
     {
       site: "ポジほめワード",
