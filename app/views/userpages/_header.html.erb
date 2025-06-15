@@ -1,8 +1,23 @@
-<h3 id="word-summary-header" class="text-center text-2xl font-semibold text-yellow-700 py-4">
-  総ワード数: <span class="text-yellow-500"><%= total_count %></span> 個
-</h3>
+<div class="mb-2 px-4">
+  <div class="bg-white p-3 rounded-lg  text-center mb-4">
+    <div class="text-xl font-semibold text-yellow-700">総ワード数</div>
+    <div class="text-4xl font-extrabold text-yellow-600 leading-none py-1">
+      <%= total_count %>個
+    </div>
 
-<div class="text-center text-sm text-gray-600 mb-4">
-  カスタム: <span class="text-yellow-500"><%= custom_count %></span> 個 /
-  お気に入り: <span class="text-red-400"><%= favorite_count %></span> 個
+  <div class="flex justify-between gap-3 sm:gap-4">
+    <div class="bg-pink-50 p-2 rounded-lg shadow-sm text-center flex-1">
+      <div class="text-sm font-semibold text-pink-600 mb-0.5">お気に入り</div>
+      <div class="text-2xl font-bold text-pink-600 leading-tight">
+        <%= favorite_count %>個
+      </div>
+    </div>
+
+    <div class="bg-yellow-100 p-2 rounded-lg shadow-sm text-center flex-1">
+      <div class="text-sm font-semibold text-yellow-700 mb-0.5">カスタム</div>
+      <div class="text-2xl font-bold text-yellow-600 leading-tight">
+        <%= custom_count %>個
+      </div>
+    </div>
+  </div>
 </div>

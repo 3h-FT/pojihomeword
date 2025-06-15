@@ -1,49 +1,90 @@
-<div class="mt-10 grid grid-cols-1 xl:grid-cols-3 gap-10">
+<div class="mt-10 flex flex-col gap-8 px-4 max-w-full ">
 
-  <!-- Card 1 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
+  <div class="flex flex-col text-center p-8 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-pink-200 mx-auto mb-4">
       <i class="bi bi-lightbulb text-pink-500 text-2xl"></i>
     </div>
-    <h3 class="text-xl font-semibold text-pink-600 mb-4">ポジティブワードを知る</h3>
-    <p class="text-gray-600 text-lg mb-6">
-      「誰に」「どんな」言葉を送りたい？シチュエーションに合わせて、ポジティブなワードをAIが作成します。</br>
+    <h3 class="text-2xl font-bold text-pink-600 mb-3">ポジティブワードを知る</h3>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">
+      「誰に」「どんな」言葉を送りたい？
     </p>
-    <p class="text-red-600 text-lg mb-6">※ワードの作成は1日3回まで</p>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">
+    シチュエーションに合わせて、
+    </p>    
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">      
+      AIがポジティブなワードを作成します。
+    </p>
+    <span class="block text-red-600 text-lg font-bold mt-4 mb-4">※ワードの作成は1日5回まで</span>
 
+    <div class="mb-4"> 
+      <%= image_tag "ai_messages/ai_messages_top.png", alt: "作るの画面の例", class: "rounded-lg w-full max-w-[200px] mx-auto mb-3 h-auto object-contain" %>
+      <%= link_to page_path('how_to_use/ai_messages'), rel: "noopener", class: "text-pink-600 hover:text-pink-800 text-lg", title: "ポジティブワードを作るの使い方" do %>
+        <i class="bi bi-question-circle-fill mr-1"></i>使い方
+      <% end %>
+    </div>
+    
     <% if signed_in %>
       <%= link_to "ポジティブワードを知る", new_ai_message_path,
-        class: "block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
+        class: "block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full" %>
     <% end %>
   </div>
 
-  <!-- Card 2 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
+  <div class="flex flex-col text-center p-8 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-yellow-200 mx-auto mb-4">
       <i class="bi bi-journals text-yellow-500 text-2xl"></i>
     </div>
-    <h3 class="text-xl font-semibold text-yellow-600 mb-4">ワードをためる</h3>
-    <p class="text-gray-600 text-lg mb-6">
-      アプリで作ったワードや、日常で見つけた素敵な言葉など、自分専用のポジティブワード集を作りませんか。気になる言葉はストックしておけば、いつでも見返せます。
+    <h3 class="text-2xl font-bold text-yellow-600 mb-3">ポジティブワードをためる</h3>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">
+      アプリで作ったワードや、日常で見つけた素敵な言葉など、
     </p>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">  
+      自分専用のポジティブワード集を作りませんか。
+    </p>      
+    <p class="text-gray-600 leading-relaxed  mb-4 flex-grow text-lg font-semibold"> 
+      気になる言葉はストックしておけば、いつでも見返せます。
+    </p>
+
+    <div class="mb-4">
+      <%= image_tag "userpages/userpages_top.png", alt: "ためるの画面の例", class: "rounded-lg w-full max-w-[200px] mx-auto mb-3 h-auto object-contain" %>
+      <%= link_to page_path('how_to_use/userpages'), rel: "noopener", class: "text-yellow-700 hover:text-yellow-800 text-lg", title: "ユーザーページの使い方" do %>
+        <i class="bi bi-question-circle-fill mr-1"></i>使い方
+      <% end %>
+    </div>
+
     <% if signed_in %>
       <%= link_to "ポジティブワードをためる", userpages_path,
-        class: "block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
+        class: "block bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full" %>
     <% end %>
   </div>
 
-  <!-- Card 3 -->
-  <div class="text-center p-10 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300 max-auto w-full mx-auto">
+  <div class="flex flex-col text-center p-8 rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-red-200 mx-auto mb-4">
       <i class="bi bi-share-fill text-red-500 text-2xl"></i>
     </div>
-    <h3 class="text-xl font-semibold text-red-600 mb-4">みんなのポジティブワード</h3>
-    <p class="text-gray-600 text-lg mb-6">
-      他のユーザーのポジティブなワードを見て、あなたのポジティブワードの知識はさらに広がる！お気に入りの言葉をシェアして、ポジティブな気持ちを広げよう！
+    <h3 class="text-2xl font-bold text-red-600 mb-3">みんなのポジティブワード</h3>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">   
+      他のユーザーが投稿したポジティブなワードを見て、
     </p>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">   
+      あなたの語彙力もさらに広がる！
+    </p>
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg font-semibold">         
+      お気に入りの言葉をシェアして、
+    </p>      
+    <p class="text-gray-600 leading-relaxed flex-grow text-lg mb-4 font-semibold">         
+      ポジティブな気持ちをみんなに広げよう！
+    </p>
+    
+    <div class="mb-4">
+      <%= image_tag "posts/posts_tops.png", alt: "共有するの画面の例", class: "rounded-lg w-full max-w-[200px] mx-auto mb-3 h-auto object-contain" %>
+      <%= link_to page_path('how_to_use/posts'), rel: "noopener", class: "text-red-600 hover:text-red-700 text-lg", title: "みんなのポジほめワードの使い方" do %>
+        <i class="bi bi-question-circle-fill mr-1"></i>使い方
+      <% end %>
+    </div>
+    
     <% if signed_in %>
       <%= link_to "ポジティブワードを共有する", posts_path,
-        class: "block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full max-auto mx-auto text-center" %>
+        class: "block bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-full shadow-md text-lg w-full" %>
     <% end %>
   </div>
 </div>

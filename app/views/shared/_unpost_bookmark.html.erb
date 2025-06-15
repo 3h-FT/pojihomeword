@@ -2,6 +2,7 @@
   <%= link_to post_favorite_path(fav.id),
               data: { turbo_method: :delete },
               class: "text-2xl" do %>
-    <i class="bi bi-star-fill text-yellow-500 hover:text-yellow-600"></i>解除
+    <i class="bi bi-star-fill text-yellow-500 hover:text-yellow-600"></i>
+    <span class="align-middle  text-left text-sm text-gray-700">解除</span>
   <% end %>
 <% end %>

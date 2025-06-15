@@ -4,9 +4,9 @@
   <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
 <% end %>
 
-<turbo-stream action="replace" target="word-summary-header">
+<turbo-stream action="replace" target="word-summary-dashboard">
   <template>
-    <div id="word-summary-header" class="text-center text-4xl font-semibold text-gray-700 mb-6">
+    <div id="word-summary-dashboard">
       <%= render partial: "userpages/header", locals: {
         total_count: @custom_words.count + current_user.favorited_words.count,
         custom_count: @custom_words.count,

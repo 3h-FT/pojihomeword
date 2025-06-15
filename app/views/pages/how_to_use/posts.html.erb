@@ -1,0 +1,110 @@
+<% set_meta_tags title: "使い方:ワードを共有する" %>
+
+<div class="mt-8 flex items-center justify-center px-4">
+  <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-red-100 py-4 px-6 rounded-t-2xl border-b border-pink-200">
+      <div class="flex justify-center mb-4">
+        <div class="flex items-center mt-4 bg-red-200 text-red-500 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+          <i class="bi bi-question-circle-fill text-xl mr-1"></i> 使い方
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-red-600 text-center mb-4">
+        ワードを共有する
+      </h2>
+      <p class="text-md text-gray-600 text-center">
+        他のユーザーとポジティブなワードを共有し合うことができます。
+      </p>
+    </div>
+
+
+    <div class="p-6">
+      <div class="divide-y divide-dotted divide-gray-300">
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-4">1. ワードを共有する</h3>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <p>
+                他のユーザーが投稿したワードを見ることができます。<br>
+                どんなポジティブなワードを、どのようなシーンで送ったのかが共有されており、参考にしたり共感したりできます。
+              </p>             
+            </div>
+
+            <div class="md:w-1/2 flex items-start">
+              <%= image_tag "posts/posts_index.png", alt: "ワードを共有する画面の例", class: "rounded-lg shadow-md w-full h-auto" %>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-2">2. 投稿の作成</h3>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <p>
+                検索フォームの下にある「+新規投稿」ボタンをクリックすると、投稿作成画面が開きます。<br>
+                ワードとその説明を入力して、投稿してください。
+              </p>  
+            </div>
+
+            <div class="md:w-2/3 flex items-start">
+              <%= image_tag "posts/posts_new.png", alt: "投稿の作成画面の例", class: "rounded-lg  w-full  h-auto" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-2">2. 投稿の詳細</h3>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <ul class="list-disc pl-5 space-y-2">
+                <li>
+                  投稿されたワードをクリックすると、詳細画面が表示されます。
+                </li>
+                <li>
+                  自分が投稿したワードは、編集や削除が可能です。他のユーザーの投稿は「お気に入り登録」やその解除が行えます。
+                </li>
+                <li>
+                  <strong>共有:</strong> 詳細画面からSNSへ投稿内容を共有することもできます。
+                </li>
+                <li>
+                  <strong>保存:</strong> 気に入った投稿は「★いいね」ボタンを押すことで、自分の「お気に入り」に保存されます。
+                </li>
+                <li>
+                  <strong>コメント:</strong> 投稿に対してコメント可能。コメントしてさらにポジティブの輪をひろげよう。
+                </li>                
+              </ul>
+            </div>
+
+            <div class="md:w-1/2 flex items-start">
+              <%= image_tag "posts/posts_show.png", alt: "投稿の詳細画面の例", class: "rounded-lg  w-full  h-auto" %>
+            </div>
+          </div>
+        </div>        
+ 
+        <div class="py-6">
+          <h3 class="font-bold text-2xl mb-2">2. 投稿のお気に入り</h3>
+          <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+              <p>
+                検索フォームの下にある「★お気に入り」ボタンをクリックすると、お気に入りに登録した投稿を一覧で確認できます。<br>
+                いつでも見返すことができ、ワードの参考として役立ちます。
+              </p>  
+            </div>
+
+            <div class="md:w-2/3 flex items-start">
+              <%= image_tag "posts/posts_favorite.png", alt: "投稿のお気に入り画面の例", class: "rounded-lg  w-full  h-auto" %>
+            </div>
+          </div>
+        </div>
+        
+        
+
+      </div>
+
+      <div class="mt-8 text-center space-y-4">
+        <%= link_to "ポジティブワードを共有するへ", posts_path, class: 'inline-block text-lg sm:text-xl font-semibold text-white bg-red-500 hover:bg-red-600 px-8 py-4 rounded-full shadow-md' %>
+        <%= link_to '「作る」の使い方へ', page_path('how_to_use/ai_messages'), class: 'text-gray-500 text-lg block hover:text-gray-700 hover:underline' %>
+        <%= link_to '「ためる」の使い方へ', page_path('how_to_use/userpages'), class: 'text-gray-500 text-lg block hover:text-gray-700 hover:underline' %>
+      </div>
+    </div>
+  </div>
+</div>

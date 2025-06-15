@@ -1,6 +1,5 @@
 class AiMessagesController < ApplicationController
   before_action :authenticate_user!, except: [ :show ]
-  helper_method :prepare_meta_tags
 
   def new
     set_meta_tags title: "ワード生成"
@@ -65,7 +64,7 @@ class AiMessagesController < ApplicationController
       #
       # ai_message = response.dig("choices", 0, "message", "content")
 
-      ai_message = "シチュエーションでポジティブなメッセージを送ります！" # ダミー出力（開発用）
+      ai_message = "ポジティブなワードを作ります" # ダミー出力（開発用）
 
       @positive_word.word = ai_message
       @positive_word.save!

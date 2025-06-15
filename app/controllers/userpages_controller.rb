@@ -1,13 +1,12 @@
 class UserpagesController < ApplicationController
   before_action :authenticate_user!, except: [ :show ]
-  helper_method :prepare_meta_tags
 
   def index
     set_meta_tags title: "ユーザーページ"
     filter = params[:filter] || "all"
 
     @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
 
     favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
     @favorited_words = @searched_words.where(id: favorited_ids)
@@ -112,7 +111,7 @@ class UserpagesController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to userpages_path, notice: "ワードを削除しました" }
+      format.html { redirect_to userpages_path, alert: "ワードを削除しました" }
     end
   end
 
