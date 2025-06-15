@@ -2,6 +2,7 @@
   <div>
     <%= form_with model: positive_word, url: ai_message_path(positive_word), method: :patch, class: 'space-y-6' do |f| %>
       <div class="p-6">
+        <%= f.label :word, 'ワードの編集', class: 'block mb-2 text-lg font-medium text-gray-700' %>      
         <%= f.text_field :word, required: true, autofocus: true, class: "w-full bg-white p-4 rounded-md border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
       </div>
 
