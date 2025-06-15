@@ -108,12 +108,11 @@ RSpec.describe "UserPages", type: :system do
         new_word = PositiveWord.order(created_at: :desc).first
         expect(page).to have_content(new_word.word)        
         find('[data-testid="menu-toggle"]', match: :first).click
-        expect(page).to have_link('いいね', wait: 5)
-        click_link 'いいね'
-        puts "生成されたワード: #{new_word.word}"
+        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']", wait: 10).click
+        expect(page).to have_content(new_word.word, wait: 5), 'ページ内に「new_word.word」が表示されていません'
         visit '/userpages?filter=favorite'
         Capybara.assert_current_path("/userpages?filter=favorite", wait:5)        
-        expect(page).to have_content(new_word.word, wait: 5), 'ページ内に「new_word.word」が表示されていません'
+        expect(page).to have_content(new_word.word), 'ページ内に「new_word.word」が登録されていません'
       end
     end
   end
