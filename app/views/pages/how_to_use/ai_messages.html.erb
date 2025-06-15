@@ -4,7 +4,7 @@
   <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
     <div class="bg-pink-100/70 py-4 px-6 rounded-t-2xl border-b border-pink-200">
       <div class="flex justify-center mb-4">
-        <div class="flex items-center bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+        <div class="flex items-center mt-4 bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
           <i class="bi bi-question-circle-fill text-xl mr-1"></i> 使い方
         </div>
       </div>
@@ -36,25 +36,20 @@
             </div>
 
             <div class="md:w-1/2 flex items-start">
-              <%= image_tag "ai_messages/ai_messages_index.png", alt: "ワードを作る画面の例", class: "rounded-lg shadow-md w-full max-w-xs h-auto" %>
+              <%= image_tag "ai_messages/ai_messages_index.png", alt: "ワードを作る画面の例", class: "rounded-lg w-full  h-auto" %>
             </div>
           </div>
         </div>
         
-        <div class="flex border-b border-gray-400 mb-6 mt-6">
-        </div>
  
         <div class="py-6">
           <h3 class="font-bold text-2xl mb-2">2. ワードの保存・共有・編集</h3>
-          <p class="font-semibold text-lg mb-4">
-            生成されたワードは、以下の方法で活用できます。
-          </p>
           <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-            <div class="md:w-2/3 space-y-3 text-md md:text-base text-gray-700">
+            <div class="md:w-2/3 space-y-3 mt-2 text-md md:text-base text-gray-700">
               <ul class="list-disc pl-5 space-y-2">
-                <li>
+                <p>
                   生成されたワードをクリックすると詳細画面が開きます。また左側の三点リーダー（<i class="bi bi-three-dots"></i>）をクリックすると、メニューが開きます。ここでは、生成されたワードを自由に編集・お気に入り登録解除・コピーができます。
-                </li>
+                </p>
                 <li>
                   <strong>共有:</strong> 詳細画面からSNSに共有することも可能です。
                 </li>
@@ -65,7 +60,7 @@
             </div>
 
             <div class="md:w-1/2 flex items-start">
-              <%= image_tag "ai_messages/ai_messages_show_edit.png", alt: "ワードの詳細・編集画面の例", class: "rounded-lg  w-full max-w-xs h-auto" %>
+              <%= image_tag "ai_messages/ai_messages_show_edit.png", alt: "ワードの詳細・編集画面の例", class: "rounded-lg  w-full  h-auto" %>
             </div>
           </div>
         </div>

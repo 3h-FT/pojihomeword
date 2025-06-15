@@ -17,32 +17,3 @@
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <%= link_to "ロック解除メールが届かない場合", new_unlock_path(resource_name) %><br />
 <% end %>
-
-<% if devise_mapping.omniauthable? %>
-  <% resource_class.omniauth_providers.each do |provider| %>
-    <% if provider.to_s == 'google_oauth2' %>
-      <!-- Googleログイン -->
-      <%= button_to omniauth_authorize_path(resource_name, :google_oauth2),
-                    data: { turbo: false },
-                    class: "inline-block p-0 border-0 bg-transparent", method: :post do %>
-        <img src="<%= asset_path('web_light_sq_SI@4x.png') %>" alt="Googleでログイン" style="height: 40px;" />
-    <% end %>
-
-    <% elsif provider.to_s == 'line' %>
-      <!-- LINEログイン -->
-      <%= button_to user_line_omniauth_authorize_path,
-                    data: { turbo: false },
-                    class: "inline-block p-0 border-0 bg-transparent", method: :post do %>
-        <img src="<%= asset_path('btn_login_base.png') %>" alt="LINEでログイン" style="height: 40px;" />
-    <% end %>
-
-    <% else %>
-      <!-- その他のプロバイダー -->
-      <%= button_to omniauth_authorize_path(resource_name, provider),
-                    data: { turbo: false },
-                    class: "flex items-center justify-center w-full gap-2 mb-2 py-2 px-4 rounded-lg bg-gray-500 text-white hover:bg-gray-600 transition" do %>
-        <%= "#{OmniAuth::Utils.camelize(provider)}でログイン" %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
