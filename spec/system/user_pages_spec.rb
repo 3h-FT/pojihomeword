@@ -1,210 +1,119 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe "UserPages", type: :system do
-#   let(:user) { create(:user) }
+RSpec.describe "UserPages", type: :system do
+  let(:user) { create(:user) }
 
-#   # ↓↓↓ テスト内容全体をいったんコメントアウト（非同期化対応のため後日整備予定）↓↓↓
+  describe 'ユーザーページ一覧' do
+    context 'ログインしていない場合' do
+      it 'ログインページにリダイレクトされる' do
+        visit '/userpages'
+        expect(current_path).to eq('/users/sign_in'), 'ログインページにリダイレクトされません'
+        expect(page).to have_content('ログインもしくはアカウント登録してください。'), 'フラッシュメッセージ「ログインもしくはアカウント登録してください。」が表示されていません'
+      end
+    end
 
-#   describe 'ユーザーページ一覧' do
-#     context 'ログインしていない場合' do
-#       it 'ログインページにリダイレクトされる', js: true do
-#         visit '/userpages'
-#         Capybara.assert_current_path("/users/sign_in", ignore_query: true)
-#         expect(current_path).to eq('/users/sign_in')
-#         expect(page).to have_content('ログインもしくはアカウント登録してください。'), 'フラッシュメッセージ「ログインもしくはアカウント登録してください。」が表示されていません'
-#       end
-#     end
+    context 'ログインしている場合' do
+      before { login_as(user) }
 
-#     context 'ログインしている場合' do
-#       before { login_as(user) }
+      it 'Topページのリンクから遷移できる' do
+        visit '/'
+        click_on 'ポジティブワードをためる'
+        Capybara.assert_current_path("/userpages")         
+        expect(current_path).to eq('/userpages'), 'Topページのリンクからポジティブワードをためるに遷移できません'
+      end
 
-#       it 'Topページのリンクから遷移できる', js: true do
-#         visit '/'
-#         click_on 'ポジティブワードをためる'
-#         Capybara.assert_current_path("/userpages", ignore_query: true)
-#         expect(current_path).to eq('/userpages')
-#       end
+      it 'ページタイトルが表示される' do
+        visit '/userpages'
+        expect(page).to have_title('ユーザーページ | ポジほめワード'), 'タイトル「新規登録 | ポジほめワード」が表示されていません'
+      end
+    end
+  end
 
-#       it 'ページタイトルが表示される', js: true do
-#         visit '/userpages'
-#         expect(page).to have_title('ユーザーページ | ポジほめワード'), 'タイトル「新規登録 | ポジほめワード」が表示されていません'
-#       end
-#     end
-#   end
+  describe '「すべて」タブ' do
+    before { login_as(user) }
 
-#   describe '「すべて」タブ' do
-#     before { login_as(user) }
+    context 'ワードがない場合' do
+      it '何もない旨のメッセージが表示される' do
+        visit '/userpages?filter=all'
+        expect(page).to have_content('ワードがありません'), 'ページ内に「ワードはありません」が表示されていません'
+      end
+    end
 
-#     context 'ワードがない場合' do
-#       it '何もない旨のメッセージが表示される', js: true do
-#         visit '/userpages?tab=all'
-#         expect(page).to have_selector("[data-tab-content='all']", visible: true)
-#         expect(page).to have_content('登録されたワードはありません'), 'ページ内に「登録されたワードはありません」が表示されていません'
-#       end
-#     end
+    context 'カスタムワードを作成する' do
+      it '作成後に表示される' do
+        visit '/userpages?filter=custom'
+        click_link '作成'
+        fill_in 'カスタムワードの追加', with: 'カスタムワード'
+        click_button '追加'
+        expect(page).to have_content('ワードを追加しました'), 'フラッシュメッセージ「ワードを追加しました」が表示されていません'
+        expect(page).to have_content('カスタムワード'), 'ページ内に「カスタムワード」が表示されていません'
+      end
+    end
+  end
 
-#     context 'カスタムワードを作成する' do
-#       it '作成後に表示される', js: true do
-#         visit '/userpages'
-#         find("[data-tab='all']", wait: 5).click
-#         expect(page).to have_selector("[data-tab-content='all']", visible: true)
+  describe '「カスタム」タブ' do
+    before { login_as(user) }
 
-#         within '[data-tab-content="all"]' do
-#           fill_in 'ワードを入力', with: 'カスタムワード'
-#           click_button '追加'
-#           expect(page).to have_content('カスタムワード'), 'ページ内に「カスタムワード」が表示されていません'
-#         end
-#       end
-#     end
-#   end
+    context 'ワードがない場合' do
+      it 'メッセージが表示される' do
+        visit '/userpages?filter=custom'
+        expect(page).to have_content('ワードがありません'), 'ページ内に「ワードはありません」が表示されていません'
+      end
+    end
 
-#   describe '「カスタム」タブ' do
-#     before { login_as(user) }
+    context 'カスタムワードの編集・削除' do
+      let!(:positive_word) { create(:positive_word, user: user, word: '削除対象', is_custom: true) }
 
-#     context 'ワードがない場合' do
-#       it 'メッセージが表示される', js: true do
-#         visit '/userpages?tab=custom'
-#         find("[data-tab='custom']", wait: 5).click
-#         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
-#         expect(page).to have_content('カスタムワードはありません'), 'ページ内に「カスタムワードはありません」が表示されていません'
-#       end
-#     end
+      it '編集できる' do
+        visit '/userpages?filter=custom'
+        find('[data-testid="menu-toggle"]', match: :first).click
+        click_link '編集'
 
-#     context 'カスタムワードが10件以下の場合' do
-#       before { create_list(:positive_word, 10, user: user, is_custom: true) }
+        fill_in 'ワードの編集', with: '変更後ワード'
+        click_button '更新'
+        expect(page).to have_content('変更後ワード'), 'ページ内に「変更後ワード」が表示されていません'
+      end
 
-#       it 'ページングが表示されない', js: true do
-#         visit '/userpages?tab=custom'
-#         find("[data-tab='custom']", wait: 5).click
-#         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
+      it '削除できる' do
+        visit '/userpages?filter=custom'
+        find('[data-testid="menu-toggle"]', match: :first).click
+        accept_confirm do
+          click_link '削除'
+        end
+        expect(page).not_to have_content('削除対象'), 'ページ内に「削除対象」が表示されています'
+      end
+    end
+  end
 
-#         within "[data-tab-content='custom']" do
-#           expect(page).not_to have_selector('.pagination')
-#         end
-#       end
-#     end
+  describe '「お気に入り」タブ' do
+    before { login_as(user) }
 
-#     context 'カスタムワードが11件以上ある場合' do
-#       before { create_list(:positive_word, 11, user: user, is_custom: true) }
+    context 'ワードがない場合' do
+      it 'メッセージが表示される' do
+        visit '/userpages?filter=favorite'
+        expect(page).to have_content('ワードがありません'), 'ページ内に「ワードはありません」が表示されていません'
+      end
+    end
 
-#       it 'ページングが表示される', js: true do
-#         visit '/userpages?tab=custom'
-#         find("[data-tab='custom']", wait: 5).click
-#         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
+    context 'ワードがある場合' do
+      it 'お気に入りに登録されて表示される'do
+        visit new_ai_message_path
 
-#         within "[data-tab-content='custom']" do
-#           expect(page).to have_selector('.pagination')
-#         end
-#       end
-#     end
+        fill_in '誰に送りますか', with: '友達'
+        fill_in 'どんな時', with: '励ましたい時'
+        click_button 'ワードを作る'
 
-#     context 'カスタムワードの編集・削除' do
-#       let!(:positive_word) { create(:positive_word, user: user, word: '削除対象', is_custom: true) }
-
-#       it 'カスタムワードが編集できること', js: true do
-#         visit '/userpages?tab=custom'
-#         find("[data-tab='custom']", wait: 5).click
-#         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
-
-#         within("[data-tab-content='custom']") do
-#           find('[data-testid="menu-toggle"]').click
-#           expect(page).to have_selector("a[href='/userpages/#{positive_word.id}/edit']", wait: 5)
-#         end
-
-#         visit "/userpages/#{positive_word.id}/edit"
-#         fill_in 'ポジティブワード', with: '編集カスタムワード'
-#         click_button '更新'
-
-#         Capybara.assert_current_path("/userpages", ignore_query: true)
-#         expect(current_path).to eq('/userpages')
-#         expect(page).to have_text('カスタムワードを編集しました'), 'フラッシュメッセージ「カスタムワードを編集しました」が表示されていません'
-#         expect(page).to have_content('編集カスタムワード'), 'ページ内に「編集カスタムワード」が表示されていません'
-#       end
-
-#       it 'カスタムワードが削除できること', js: true do
-#         visit '/userpages?tab=custom'
-#         expect(page).to have_selector("[data-tab-content='custom']", visible: true)
-
-#         within("[data-tab-content='custom']") do
-#           find('[data-testid="menu-toggle"]', wait: 5).click
-#           find("button", text: '削除', wait: 5).click
-#         end
-
-#         expect(page).to have_text('ワードを削除しました'), 'フラッシュメッセージ「ワードを削除しました」が表示されていません'
-#         expect(page).not_to have_content('削除対象'), 'ページ内に「削除対象」が表示されていません'
-#       end
-#     end
-#   end
-
-#   describe '「お気に入り」タブ' do
-#     before { login_as(user) }
-
-#     context 'ワードがない場合' do
-#       it 'メッセージが表示される', js: true do
-#         visit userpages_path(tab: 'favorite')
-#         find("[data-tab='favorite']", wait: 5).click
-#         expect(page).to have_content('お気に入り登録はありません'), 'ページ内に「お気に入り登録はありません」が表示されていません'
-#       end
-#     end
-
-#     context 'ワードがある場合' do
-#       it 'AIメッセージを生成してお気に入りに登録し、favoriteタブで表示される' do
-#         visit new_ai_message_path
-
-#         fill_in '誰に送りますか', with: '友達'
-#         fill_in 'どんな時', with: '励ましたい時'
-#         click_button 'ワードを作る'
-
-#         expect(page).to have_content('ポジティブワード生成結果'), 'ページ内に「ポジティブワード生成結果」が表示されていません'
-#         new_word = PositiveWord.order(created_at: :desc).first
-        
-#         find('[data-testid="menu-toggle"]', wait: 10).click
-#         find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']", wait: 10).click
-#         expect(page).to have_content(new_word.word, wait: 5)
-
-#         visit userpages_path(tab: 'favorite')
-#         find("[data-tab='favorite']", wait: 5).click
-#         expect(page).to have_current_path(userpages_path(tab: 'favorite'), wait: 5)
-#         expect(page).to have_content(new_word.word, wait: 5)
-#         expect(page).not_to have_selector('.pagination'),'10件以下はページネーションが表示されない'
-#       end
-
-#       it '11件以上お気に入り登録したら、ページネーションされ2ページ目に11件目が表示される' do
-#         11.times do |i|
-#           word = create(:positive_word, user:, word: "お気に入り#{i + 1}")
-#           user.word_favorites.create!(positive_word: word)
-#         end
-
-#         visit userpages_path(tab: 'favorite')
-
-#         (1..10).each do |i|
-#           expect(page).to have_content("お気に入り#{i}")
-#         end
-#         expect(page).not_to have_content("お気に入り11")
-
-#         within "[data-tab-content='favorite']" do
-#           expect(page).to have_selector('.pagination')
-#         end
-#       end
-
-#       it 'お気に入り登録したワードの編集が可能' do
-#         login_as(user)
-#         word = create(:positive_word, user:, word: "編集ワード")
-#         user.word_favorites.create!(positive_word: word)
-
-#         visit userpages_path(tab: 'favorite')
-#         within "[data-tab-content='favorite']" do
-#           find('[data-testid="menu-toggle"]', wait: 5).click
-#           find("a[href='/ai_messages/#{word.id}/edit?from=userpages']").click
-#         end
-
-#         fill_in 'ポジティブワード', with: '編集後のワード'
-#         click_button '更新'
-
-#         Capybara.assert_current_path("/userpages", ignore_query: true)
-#         expect(page).to have_text('ワードを編集しました'), 'フラッシュメッセージ「ワードを編集しました」が表示されていません'
-#         expect(page).to have_content('編集後のワード'), 'ページ内に「編集後のワード」が表示されていません'
-#       end
-#     end
-#   end
-# end
+        expect(page).to have_content('ポジティブワード生成結果'), '生成結果が表示されていません'
+      
+        new_word = PositiveWord.order(created_at: :desc).first
+        expect(page).to have_content(new_word.word)        
+        find('[data-testid="menu-toggle"]', match: :first).click
+        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']", wait: 10).click
+        expect(page).to have_content(new_word.word, wait: 5), 'ページ内に「new_word.word」が表示されていません'
+        visit '/userpages?filter=favorite'
+        Capybara.assert_current_path("/userpages?filter=favorite", wait:5)        
+        expect(page).to have_content(new_word.word), 'ページ内に「new_word.word」が登録されていません'
+      end
+    end
+  end
+end
