@@ -1,8 +1,9 @@
 <ul class="space-y-2 text-gray-700">
   <% if words.any? %>
     <% words.each do |word| %>
-      <li class="custom-word-<%= word.id %> py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-wrap">
-        <%= link_to userpage_path(word), data: { turbo: false }, class: "flex-grow break-words min-w-0" do %>
+      <li class="custom-word-<%= word.id %> py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-nowrap">
+        
+        <%= link_to userpage_path(word), data: { turbo: false }, class: "flex-grow break-words truncate min-w-0" do %>
           <%= word.word %>
         <% end %>
 
@@ -15,9 +16,15 @@
                 dropUp = (window.innerHeight - rect.bottom) < 200;
               }
             })"
-            class="relative inline-block text-left shrink-0"
+            class="relative inline-block text-left flex-shrink-0"
           >
-            <button data-testid="menu-toggle" @click="open = !open" class="text-gray-600 hover:text-gray-800 focus:outline-none" aria-haspopup="true" aria-expanded="open">
+            <button
+              data-testid="menu-toggle"
+              @click="open = !open"
+              class="text-gray-600 hover:text-gray-800 focus:outline-none"
+              aria-haspopup="true"
+              aria-expanded="open"
+            >
               <i class="bi bi-three-dots-vertical text-xl"></i>
             </button>
 
@@ -37,18 +44,19 @@
                 <i class="bi bi-trash-fill mr-1 text-red-500 hover:text-red-700"></i> 削除
               <% end %>
 
-              <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button"
+              <button
+                class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button"
                 data-word="<%= word.word %>"
                 x-init="$el.addEventListener('click', () => {
-                navigator.clipboard.writeText($el.dataset.word)
-                  .then(() => {
-                     alert('コピーしました');
-                     $data.open = false;
-                   })
-                  .catch(err => console.error('コピーに失敗しました: ', err));
-               })"
+                  navigator.clipboard.writeText($el.dataset.word)
+                    .then(() => {
+                      alert('コピーしました');
+                      $data.open = false;
+                    })
+                    .catch(err => console.error('コピーに失敗しました: ', err));
+                })"
               >
-                <i class="bi bi-copy mr-1 text-blue-500 mr-1"></i> コピー
+                <i class="bi bi-copy mr-1 text-blue-500"></i> コピー
               </button>
             </div>
           </div>

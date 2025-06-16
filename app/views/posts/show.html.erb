@@ -25,11 +25,11 @@
       <% if user_signed_in? %>
         <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
           <% if current_user.own?(@post) %>
-            <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200',data: { turbo_frame: "_top" } do %>
-              <i class="bi bi-pencil-fill"></i>編集        
+            <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200',data: { turbo_frame: "_top" }, title: "編集" do %>
+              <i class="bi bi-pencil-fill"></i> 
             <% end %>
-            <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-red-500" do %>
-              <i class="bi bi-trash-fill"></i>削除
+            <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-red-500", title: "削除" do %>
+              <i class="bi bi-trash-fill"></i>
             <% end %>
           <% else %>          
             <%= render 'shared/post_favorites_button', post: @post %>
@@ -41,6 +41,7 @@
               <img 
                 src="<%= asset_path('btn_base.png') %>" 
                 alt="LINEでシェア" 
+                title= "LINEでシェア"                
                 style="height: 20px;" 
                 onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
                 onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
@@ -49,6 +50,7 @@
           <!-- X（旧Twitter）シェア -->
             <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(@post))}&text=#{ERB::Util.url_encode("【#{@post.post_word}】")}", 
                 target: '_blank', 
+                title: "Xでシェア",                
                 rel: 'noopener', 
                 class: "text-black hover:text-gray-500" do %>
             <i class="bi bi-twitter-x"></i>

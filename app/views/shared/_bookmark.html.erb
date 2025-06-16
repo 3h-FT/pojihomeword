@@ -1,6 +1,5 @@
 <%= link_to word_favorites_path(positive_word_id: positive_word.id),
             data: { turbo_method: :post },
-            class: "text-mg block text-gray-600 hover:underline hover:text-yellow-500 rounded cursor-pointer select-none" do %>
+            class: "text-mg block text-gray-600 hover:underline hover:text-yellow-500 rounded cursor-pointer select-none", title: "いいね" do %>
   <i class="bi bi-star align-middle text-left"></i>
-  <span class="align-middle  text-left text-sm text-gray-700">いいね</span>
 <% end %>

@@ -1,6 +1,5 @@
 <%= link_to word_favorite_path(current_user.word_favorites.find_by(positive_word_id: positive_word.id)),
             data: { turbo_method: :delete },
-            class: "text-mg  block text-yellow-500 hover:underline hover:text-yellow-600 rounded cursor-pointer select-none" do %>
+            class: "text-mg  block text-yellow-500 hover:underline hover:text-yellow-600 rounded cursor-pointer select-none", title: "いいね解除" do %>
   <i class="bi bi-star-fill  text-left align-middle"></i>
-  <span class="align-middle  text-left text-sm text-gray-700">解除</span>
 <% end %>

@@ -1,9 +1,9 @@
 <div class="w-full py-20 text-center flex flex-col items-center bg-gradient-to-b from-pink-200 to-yellow-50">
   <%= image_tag "pojihome_title.png", alt: "ポジほめワードタイトル", class: "max-w-md h-auto w-full mx-auto" %>
-  <p class="mt-4 text-lg text-gray-700 leading-relaxed">
+  <p class="mt-4 text-md text-gray-700 leading-relaxed">
     誰かを励ましたり、自分を勇気づけたり...
     </p>  
-  <p class="mt-2 mb-8 text-lg text-gray-700 leading-relaxed">    
+  <p class="mt-2 mb-8 text-md text-gray-700 leading-relaxed">    
     あなたの心を彩る、ポジティブな言葉と出会おう。
   </p>
 
@@ -70,6 +70,7 @@
       <img 
         src="<%= asset_path('btn_base.png') %>" 
         alt="LINEでシェア" 
+        title= "LINEでシェア"       
         style="height: 28px;" 
         onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
         onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
@@ -78,6 +79,7 @@
     <%# X（旧Twitter）シェアアイコン %>
     <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(root_url)}",
                 target: '_blank',
+                title: "Xでシェア",       
                 rel: 'noopener',
                 class: "text-black hover:text-gray-500 text-2xl" do %> 
       <i class="bi bi-twitter-x"></i>

@@ -23,13 +23,13 @@
     <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
       <% if current_user.own?(post) %>
         <!-- 編集 -->
-        <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700', data: { turbo: false } do %>
-          <i class="bi bi-pencil-fill"></i>編集
+        <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-blue-500 hover:text-blue-700', data: { turbo: false }, title: "編集" do %>
+          <i class="bi bi-pencil-fill"></i>
         <% end %>
 
         <!-- 削除 -->  
-        <%= link_to post_path(post, page: params[:page]), id: "button-delete-#{post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しますか', turbo: true }, class: 'text-red-500 hover:text-red-700' do %>
-          <i class="bi bi-trash-fill"></i> 削除
+        <%= link_to post_path(post, page: params[:page]), id: "button-delete-#{post.id}", data: { turbo_method: :delete, turbo_confirm: '削除しますか', turbo: true }, class: 'text-red-500 hover:text-red-700', title: "削除" do %>
+          <i class="bi bi-trash-fill"></i>
         <% end %>
         
       <% else %>      
@@ -43,6 +43,7 @@
         <img 
           src="<%= asset_path('btn_base.png') %>" 
           alt="LINEでシェア" 
+          title= "LINEでシェア"
           class="h-5 w-auto sm:h-[20px]"
           onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
           onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
@@ -50,7 +51,8 @@
 
       <!-- X（旧Twitter）シェア -->
       <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(post))}&text=#{ERB::Util.url_encode("【#{post.post_word}】")}", 
-          target: '_blank', 
+          target: '_blank',
+          title: "Xでシェア",
           rel: 'noopener', 
           class: "text-black hover:text-gray-500" do %>
         <i class="bi bi-twitter-x"></i>
