@@ -1,22 +1,23 @@
-<div class="mb-2 px-4">
-  <div class="bg-white p-3 rounded-lg  text-center mb-4">
+<div id="word_counts">
+  <div class="bg-white p-3 rounded-lg text-center mb-4">
     <div class="text-xl font-semibold text-yellow-700">総ワード数</div>
     <div class="text-4xl font-extrabold text-yellow-600 leading-none py-1">
-      <%= total_count %>個
+      <%= known_word_count %>個
     </div>
 
-  <div class="flex justify-between gap-3 sm:gap-4">
-    <div class="bg-pink-50 p-2 rounded-lg shadow-sm text-center flex-1">
-      <div class="text-sm font-semibold text-pink-600 mb-0.5">お気に入り</div>
-      <div class="text-2xl font-bold text-pink-600 leading-tight">
-        <%= favorite_count %>個
+    <div class="flex justify-between gap-3 sm:gap-4">
+      <div class="bg-pink-50 p-2 rounded-lg shadow-sm text-center flex-1">
+        <div class="text-sm font-semibold text-pink-600 mb-0.5">お気に入り</div>
+        <div class="text-2xl font-bold text-pink-600 leading-tight">
+          <%= favorited_words_count %>個
+        </div>
       </div>
-    </div>
 
-    <div class="bg-yellow-100 p-2 rounded-lg shadow-sm text-center flex-1">
-      <div class="text-sm font-semibold text-yellow-700 mb-0.5">カスタム</div>
-      <div class="text-2xl font-bold text-yellow-600 leading-tight">
-        <%= custom_count %>個
+      <div class="bg-yellow-100 p-2 rounded-lg shadow-sm text-center flex-1">
+        <div class="text-sm font-semibold text-yellow-700 mb-0.5">カスタム</div>
+        <div class="text-2xl font-bold text-yellow-600 leading-tight">
+          <%= custom_words_count %>個
+        </div>
       </div>
     </div>
   </div>

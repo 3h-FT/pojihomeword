@@ -25,14 +25,13 @@
 
     <%= render 'search', q: @q, autocomplete_url: autocomplete_userpages_path %>
 
-    <div id="word-summary-dashboard" >
+    <div class="mb-2 px-4" id="word_counts">
       <%= render partial: "userpages/header", locals: {
-        total_count: @known_word_count,
-        custom_count: @custom_words_count,
-        favorite_count: @favorited_words_count
+        known_word_count: @known_word_count,
+        favorited_words_count: @favorited_words_count,
+        custom_words_count: @custom_words_count
       } %>
     </div>
-
 
     <div class="p-6">
       <div class="flex border-b border-gray-400 mb-6 mt-2">

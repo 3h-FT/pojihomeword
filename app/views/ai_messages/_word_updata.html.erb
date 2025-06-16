@@ -7,14 +7,15 @@
 
   <% if user_signed_in? %>
     <div class="bg-white px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
-      <%= link_to edit_ai_message_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline" do %>
-        <i class="bi bi-pencil-fill mr-1"></i>編集
+      <%= link_to edit_ai_message_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline", title: "編集" do %>
+        <i class="bi bi-pencil-fill mr-1"></i>
   
       <% end %>
 
-      <%= render 'shared/word_favorites_button', positive_word: positive_word, hide_text_on_small: true %>
+      <%= render 'shared/word_favorites_button', positive_word: positive_word %>
 
       <button class=" text-sm text-gray-700 hover:underline copy-button"
+        title= "コピー"
         data-word="<%= positive_word.word %>"
         x-init="$el.addEventListener('click', () => {
         navigator.clipboard.writeText($el.dataset.word)
@@ -22,7 +23,7 @@
           .catch(err => console.error('コピーに失敗しました: ', err));
         })"
       >
-        <i class="bi bi-copy mr-1 text-blue-500"></i>コピー       
+        <i class="bi bi-copy mr-1 text-blue-500"></i>      
       </button>
 
       <!-- LINEシェア -->
@@ -31,6 +32,7 @@
         <img 
           src="<%= asset_path('btn_base.png') %>" 
           alt="LINEでシェア" 
+          title= "LINEでシェア"
           class="h-5 w-auto sm:h-[20px]"
           onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
           onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
@@ -39,6 +41,7 @@
       <!-- Twitter/X シェア -->
       <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(userpage_url(@positive_word))}&text=#{ERB::Util.url_encode("【#{@positive_word.word}】")}", 
           target: '_blank', 
+          title: "Xでシェア",
           rel: 'noopener', 
           class: "text-black hover:text-gray-500" do %>
         <i class="bi bi-twitter-x"></i>
