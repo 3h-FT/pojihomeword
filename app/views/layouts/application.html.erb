@@ -6,7 +6,7 @@
     <%= display_meta_tags(default_meta_tags) %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
     <%= favicon_link_tag 'favicon.ico' %>
     <%= tag.link rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" %>
     <%= tag.link rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Roboto&display=swap" %>
@@ -31,13 +31,6 @@
   <body class="overflow-x-hidden text-gray-800 bg-gradient-to-b from-pink-100 to-yellow-50">
 
     <%= render 'shared/header' %>
-
-    <% flash.each do |key, message| %>
-      <div class="text-center text-lg px-4 py-2 rounded
-        <%= key == "notice" ? "bg-green-100 text-green-700": "bg-red-100 text-red-700" %>">
-        <%= message %>
-      </div>
-    <% end %>  
 
     <main class="<%= user_signed_in? ? 'min-h-screen pb-20' : 'min-h-screen pb-5' %>">
       <%= yield %>

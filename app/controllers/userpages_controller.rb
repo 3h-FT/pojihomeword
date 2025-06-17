@@ -100,14 +100,17 @@ class UserpagesController < ApplicationController
 
     favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
     @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
     @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
 
-    # ページ計算
     @custom_words_page = @custom_words.page(params[:custom_page])
     if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
       @custom_words_page = @custom_words.page(@custom_words_page.total_pages) # 最後のページに戻す
     end
+
+    @favorited_words_count = favorited_ids.size
+    @custom_words_count = @custom_words.count
+    @known_word_count = @favorited_words_count + @custom_words_count
 
     respond_to do |format|
       format.turbo_stream

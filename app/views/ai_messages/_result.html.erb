@@ -1,9 +1,11 @@
 <% if local_assigns[:show_header_and_button] != false %>
-  <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">ポジティブワード生成結果</h3>
+  <h3 class="text-2xl font-semibold text-red-400 text-center mb-6">
+    ポジティブワード生成結果
+  </h3>
 <% end %>
 
-<div class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2">
-  <%= link_to ai_message_path(positive_word), class: "flex-grow break-words min-w-0" do %>
+<div class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-nowrap">
+  <%= link_to ai_message_path(positive_word), class: "flex-grow break-words truncate min-w-0" do %>
     <%= positive_word.word %>
   <% end %>
 
@@ -16,9 +18,13 @@
           dropUp = (window.innerHeight - rect.bottom) < 200;
         }
       })"
-      class="relative inline-block text-left shrink-0"
+      class="relative inline-block text-left flex-shrink-0"
     >
-      <button data-testid="menu-toggle" @click="open = !open" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+      <button
+        data-testid="menu-toggle"
+        @click="open = !open"
+        class="text-gray-600 hover:text-gray-800 focus:outline-none"
+      >
         <i class="bi bi-three-dots-vertical"></i>
       </button>
 
@@ -28,6 +34,7 @@
         x-transition
         :class="dropUp ? 'bottom-full mb-2' : 'mt-2'"
         class="absolute right-0 z-50 w-48 origin-top-right bg-white border border-gray-200 rounded-lg shadow-lg py-2"
+        style="display: none;"
       >
 
         <%= link_to ai_message_path(positive_word, edit: true), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline" do %>
@@ -36,20 +43,21 @@
 
         <div class="px-4 py-2">
           <%= render 'shared/word_favorites_button', positive_word: positive_word %>
-        </div>        
+        </div>    
 
-        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button"
+        <button
+          class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 copy-button"
           data-word="<%= positive_word.word %>"
           x-init="$el.addEventListener('click', () => {
-          navigator.clipboard.writeText($el.dataset.word)
+            navigator.clipboard.writeText($el.dataset.word)
               .then(() => {
                 alert('コピーしました');
                 $data.open = false;
-                })
+              })
               .catch(err => console.error('コピーに失敗しました: ', err));
           })"
         >
-          <i class="bi bi-copy mr-1 text-blue-500 mr-1"></i> コピー
+          <i class="bi bi-copy mr-1 text-blue-500"></i> コピー
         </button>
       </div>
     </div>
@@ -60,4 +68,4 @@
   <div class="mt-8 flex justify-center">
     <%= link_to "もう一度作る", new_ai_message_path, class: "px-6 py-3 bg-red-400 text-white rounded-full hover:bg-red-500" %>
   </div>
-<% end %>  
+<% end %>

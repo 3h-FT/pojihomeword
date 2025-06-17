@@ -1,4 +1,5 @@
-<header class="bg-pink-200">
+<header data-controller="menu" data-menu-target="header"
+  class="bg-pink-200 fixed top-0 w-full z-50 transition-transform duration-300 ease-in-out">
   <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
     <a href="/" class="flex items-center">
       <%= image_tag 'pojihome_logo.png', size: "32x32", alt: "ポジほめワード ロゴ" %>
@@ -133,4 +134,11 @@
       <% end %>
     <% end %>
   </div>
+    <% flash.each do |key, message| %>
+      <div class="text-center text-lg px-4 py-2 rounded
+        <%= key == "notice" ? "bg-green-100 text-green-700": "bg-red-200 text-red-700" %>">
+        <%= message %>
+      </div>
+    <% end %>  
+
 </header>

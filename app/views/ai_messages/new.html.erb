@@ -1,30 +1,27 @@
 <% set_meta_tags title: "ワード生成" %>
-
-<div class="mt-8 flex items-center justify-center px-4">
-  <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
-
+<div class="flex items-center justify-center px-4">
+  <div class="mt-20 max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden">
     <div class="bg-pink-100/70 py-4 px-6 rounded-t-2xl border-b border-pink-200">
-
-      <div class="flex justify-center mb-4">
-        <div class="flex items-center bg-pink-200 mt-4 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
+      <div class="flex justify-center space-x-2 mt-4 mb-4">
+        <div class="bg-pink-200 text-pink-700 text-md font-semibold px-4 py-2 rounded-full shadow-sm">
           <i class="bi bi-lightbulb mr-2"></i> 知る
         </div>
+        <%= link_to page_path('how_to_use/ai_messages'), rel: "noopener", class: "text-pink-600 hover:text-pink-800 mt-1", title: "ポジティブワードを作るの使い方" do %>
+          <i class="bi bi-question-circle-fill text-xl"></i>
+        <% end %>
       </div> 
 
-      <div class="flex justify-center items-center mb-4 space-x-2">
+      <div class="items-center mb-4">
         <h1 class="text-2xl font-bold text-red-400 text-center">
           ポジティブワードを作る
         </h1>
-        <%= link_to page_path('how_to_use/ai_messages'), rel: "noopener", class: "text-pink-600 hover:text-pink-800", title: "ポジティブワードを作るの使い方" do %>
-          <i class="bi bi-question-circle-fill text-xl"></i>
-        <% end %>
       </div>
 
       <p class="text-md text-gray-600 text-center">
-        誰に、どんな気持ちを伝えたいですか？
+        誰に、どんな気持ちを伝えたい？
       </p>
       <p class="text-md text-gray-600 text-center">
-        下のフォームに自由に書いてみてくださいね！
+        下のフォームに自由に書いてみて！
       </p>
 
       <p class="text-md text-red-600 text-center mt-2 font-semibold">
