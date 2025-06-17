@@ -100,7 +100,7 @@ class UserpagesController < ApplicationController
 
     favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
     @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target)
+    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
     @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
 
     @custom_words_page = @custom_words.page(params[:custom_page])

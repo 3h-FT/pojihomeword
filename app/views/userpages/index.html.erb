@@ -63,9 +63,11 @@
               <% end %>
             </div>
           </div>
-          <div id="custom_words">
-            <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-          </div>
+          <%= turbo_frame_tag "custom_words_frame" do %>
+            <div id="custom_words">
+              <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+            </div>
+          <% end %>
         </div>
 
       <% elsif params[:filter] == "custom" %>
@@ -81,9 +83,11 @@
               <% end %>
             </div>
           </div>
-          <div id="custom_words">
-            <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
-          </div>
+          <%= turbo_frame_tag "custom_words_frame" do %>
+            <div id="custom_words">
+              <%= render partial: "userpages/custom_words/word_section_with_pagination", locals: { words: @custom_words_page } %>
+            </div>
+          <% end %>
         </div>
 
       <% elsif params[:filter] == "favorite" %>
