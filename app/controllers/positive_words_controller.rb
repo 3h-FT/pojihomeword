@@ -1,5 +1,4 @@
 class PositiveWordsController < ApplicationController
-  
   def index
     set_meta_tags title: "サンプルページ"
     # is_seeded: true の Target のみを取得

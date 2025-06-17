@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :username ])
     devise_parameter_sanitizer.permit(:account_update, keys: [ :username ])
   end
- # 404エラーを public/404.html に接続
+  # 404エラーを public/404.html に接続
   def render_404(exception = nil)
     log_error(exception)
     render file: Rails.public_path.join("404.html"), status: :not_found, layout: false
