@@ -6,9 +6,9 @@
   </div>
 
   <% if user_signed_in? %>
-    <div class="bg-white px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+    <div class="bg-white px-6 py-3 flex justify-end items-center space-x-2 border-t border-gray-200 rounded-b-xl">
       <%= link_to edit_ai_message_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline", title: "編集" do %>
-        <i class="bi bi-pencil-fill mr-1"></i>
+        <i class="bi bi-pencil-fill mr-1"></i>編集
   
       <% end %>
 
@@ -23,7 +23,7 @@
           .catch(err => console.error('コピーに失敗しました: ', err));
         })"
       >
-        <i class="bi bi-copy mr-1 text-blue-500"></i>      
+        <i class="bi bi-copy mr-1 text-blue-500"></i>コピー   
       </button>
 
       <!-- LINEシェア -->
