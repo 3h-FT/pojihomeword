@@ -109,8 +109,10 @@ RSpec.describe "UserPages", type: :system do
 
         find('[data-testid="menu-toggle"]', match: :first).click
         within "#bookmark-button-for-word-#{positive_word.id}" do
-          click_link 'いいね'
+          find('a', text: 'いいね', wait: 10).click
         end
+        
+        expect(page).to have_content('お気に入りワード', wait: 10), 'いいね解除直後に非表示になるべきではありません'        
         
         visit '/userpages?filter=all'
         expect(page).not_to have_content('お気に入りワード'), 'お気に入り解除後もワードが表示されています'
