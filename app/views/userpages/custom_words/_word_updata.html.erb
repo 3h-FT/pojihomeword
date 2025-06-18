@@ -1,6 +1,6 @@
 <turbo-frame id="word_<%= @positive_word.id %>">
   <div class="px-6 py-4">
-    <%= link_to "≪ ユーザーページへ", userpages_path, class: 'text-sm text-blue-500 hover:underline' %>
+    <%= link_to "≪ ユーザーページへ", userpages_path, data: { turbo: false }, class: 'text-sm text-blue-500 hover:underline' %>
     <h4 class="text-xl font-semibold text-black mb-3 mt-6 rounded-2xl bg-white px-8 py-4 break-words">
       <%= @positive_word.word %>
     </h4>

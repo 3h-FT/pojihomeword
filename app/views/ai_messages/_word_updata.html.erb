@@ -1,7 +1,7 @@
 <turbo-frame id="word_<%= @positive_word.id %>">
   <div class="px-6 py-4 flex flex-col items-center justify-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-    <%= link_to "≪ ワード作成ページへ", new_ai_message_path, class: 'text-sm text-blue-500 hover:underline' %>
-    <%= link_to "ユーザーページへ ≫", userpages_path, class: 'text-sm text-blue-500 hover:underline' %>
+    <%= link_to "≪ ワード作成ページへ", new_ai_message_path, data: { turbo: false }, class: 'text-sm text-blue-500 hover:underline' %>
+    <%= link_to "ユーザーページへ ≫", userpages_path, data: { turbo: false }, class: 'text-sm text-blue-500 hover:underline' %>
    </div>   
   <div class="px-6">       
     <h4 class="text-xl font-semibold text-black mb-3 rounded-2xl bg-white px-8 py-4 break-words">

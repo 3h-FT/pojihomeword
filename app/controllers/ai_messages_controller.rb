@@ -50,9 +50,9 @@ class AiMessagesController < ApplicationController
     )
 
     if @positive_word.valid?
-      #AIメッセージ生成用プロンプトとAPI呼び出し
+       # AIメッセージ生成用プロンプトとAPI呼び出し
        prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
-      
+
        client = OpenAI::Client.new
        response = client.chat(
          parameters: {
@@ -61,7 +61,7 @@ class AiMessagesController < ApplicationController
            temperature: 0.8
          }
        )
-      
+
        ai_message = response.dig("choices", 0, "message", "content")
 
 
