@@ -126,7 +126,7 @@ class AiMessagesController < ApplicationController
 
   def prepare_meta_tags(positive_word)
     # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
-    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(positive_word.word)}"
+    image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(positive_word.word)}&v=#{positive_word.updated_at.to_i}"
     set_meta_tags og: {
                     site_name: "ポジほめワード",
                     title: positive_word.word,

@@ -35,27 +35,6 @@
         <!-- ブックマーク -->
         <%= render 'shared/post_favorites_button', post: post %>
       <% end %>
-
-      <!-- LINEシェア -->
-      <a href="https://social-plugins.line.me/lineit/share?url=<%= ERB::Util.url_encode(post_url(post)) %>" 
-        target="_blank" rel="noopener" class="text-white hover:text-white">
-        <img 
-          src="<%= asset_path('btn_base.png') %>" 
-          alt="LINEでシェア" 
-          title= "LINEでシェア"
-          class="h-5 w-auto sm:h-[20px]"
-          onmouseover="this.src='<%= asset_path('btn_hover.png') %>'" 
-          onmouseout="this.src='<%= asset_path('btn_base.png') %>'" />
-      </a>
-
-      <!-- X（旧Twitter）シェア -->
-      <%= link_to "https://twitter.com/share?url=#{ERB::Util.url_encode(post_url(post))}&text=#{ERB::Util.url_encode("【#{post.post_word}】")}", 
-          target: '_blank',
-          title: "Xでシェア",
-          rel: 'noopener', 
-          class: "text-black hover:text-gray-500" do %>
-        <i class="bi bi-twitter-x"></i>
-      <% end %>
     </div>
   </div>
 </div>
