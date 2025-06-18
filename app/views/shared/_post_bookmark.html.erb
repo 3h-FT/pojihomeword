@@ -1,5 +1,5 @@
 <%= link_to post_favorites_path(post_id: post.id),
             data: { turbo_method: :post },
-            class: "text-2xl", title: "いいね" do %>
-  <i class="bi bi-star text-md"></i>
+            class: "text-mg text-gray-600 hover:underline", title: "いいね" do %>
+  <i class="bi bi-star text-left  text-sm"></i>いいね
 <% end %>

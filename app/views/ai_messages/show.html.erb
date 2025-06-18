@@ -10,6 +10,10 @@
       <% if @show_edit_form && user_signed_in? %>
         <%= render partial: "edit_form", locals: { positive_word: @positive_word } %>
       <% else %>
+        <div class="px-6 py-4 flex flex-col items-center justify-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+          <%= link_to "≪ ワード作成ページへ", new_ai_message_path, class: 'text-sm text-blue-500 hover:underline' %>
+          <%= link_to "ユーザーページへ ≫", userpages_path, class: 'text-sm text-blue-500 hover:underline' %>
+        </div>     
         <%= render partial: "word_updata", locals: { positive_word: @positive_word } %>
       <% end %>
     </div>      

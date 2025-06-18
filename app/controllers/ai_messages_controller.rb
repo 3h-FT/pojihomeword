@@ -15,10 +15,10 @@ class AiMessagesController < ApplicationController
     # if user_reached_limit?
     #   respond_to do |format|
     #     format.html {
-    #       redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限3回)")
+    #       redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
     #     }
     #     format.json {
-    #       render json: { error: "一日の生成回数制限に達しました(上限3回)" }, status: :forbidden
+    #       render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
     #     }
     #   end
     #   return

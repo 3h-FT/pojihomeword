@@ -1,12 +1,12 @@
 <turbo-frame id="word_<%= @positive_word.id %>">
-  <div class="p-6">
+  <div class="px-6">
     <h4 class="text-xl font-semibold text-black mb-3 rounded-2xl bg-white px-8 py-4 break-words">
       <%= @positive_word.word %>
     </h4>
   </div>
 
   <% if user_signed_in? %>
-    <div class="bg-white px-6 py-3 flex justify-end items-center space-x-2 border-t border-gray-200 rounded-b-xl">
+    <div class="bg-white mt-6 px-6 py-3 flex justify-end items-center space-x-1 border-t border-gray-200 rounded-b-xl">
       <%= link_to edit_ai_message_path(@positive_word), data: { turbo_frame: "word_#{@positive_word.id}" }, class: "px-1 py-1 text-sm text-gray-700 hover:underline", title: "編集" do %>
         <i class="bi bi-pencil-fill mr-1"></i>編集
   

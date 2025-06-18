@@ -8,6 +8,7 @@
       </h2>
     </div>
     <div class="p-6">
+      <%= link_to "≪ 投稿詳細へ", post_path(@post.id), class: 'text-sm text-blue-500 hover:underline' %>
       <%= render 'form', post: @post %>
     </div>
   </div>
