@@ -12,17 +12,17 @@ class AiMessagesController < ApplicationController
   end
 
   def generate
-    # if user_reached_limit?
-    #   respond_to do |format|
-    #     format.html {
-    #       redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
-    #     }
-    #     format.json {
-    #       render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
-    #     }
-    #   end
-    #   return
-    # end
+     if user_reached_limit?
+       respond_to do |format|
+         format.html {
+           redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
+         }
+         format.json {
+           render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
+         }
+       end
+       return
+     end
 
     target_name = params[:positive_word][:target].to_s.strip
     situation_name = params[:positive_word][:situation].to_s.strip
@@ -50,21 +50,20 @@ class AiMessagesController < ApplicationController
     )
 
     if @positive_word.valid?
-      # --- AIメッセージ生成用プロンプトとAPI呼び出し (将来的に有効化予定) ---
-      # prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
-      #
-      # client = OpenAI::Client.new
-      # response = client.chat(
-      #   parameters: {
-      #     model: "gpt-4.1-mini",
-      #     messages: [ { role: "user", content: prompt } ],
-      #     temperature: 0.8
-      #   }
-      # )
-      #
-      # ai_message = response.dig("choices", 0, "message", "content")
+      #AIメッセージ生成用プロンプトとAPI呼び出し
+       prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
+      
+       client = OpenAI::Client.new
+       response = client.chat(
+         parameters: {
+           model: "gpt-4.1-mini",
+           messages: [ { role: "user", content: prompt } ],
+           temperature: 0.8
+         }
+       )
+      
+       ai_message = response.dig("choices", 0, "message", "content")
 
-      ai_message = "ポジティブなワードを作ります" # ダミー出力（開発用）
 
       @positive_word.word = ai_message
       @positive_word.save!
@@ -122,7 +121,7 @@ class AiMessagesController < ApplicationController
   private
 
   def user_reached_limit?
-    current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 3
+    current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 5
   end
 
   def prepare_meta_tags(positive_word)
