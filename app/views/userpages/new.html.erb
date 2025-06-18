@@ -7,7 +7,7 @@
     </div>
    
     <div class="p-6">
-      <%= link_to "≪ ユーザーページへ", userpages_path, class: 'text-sm text-blue-500 hover:underline' %>
+      <%= link_to "≪ ユーザーページへ", userpages_path, class: 'text-left text-sm text-blue-500 hover:underline' %>
       <%= form_with model: PositiveWord.new, url: userpages_path, local: true, class: "space-y-4" do |f| %>
         <div>
           <%= f.label :word, 'カスタムワードの追加', class: 'block mb-2 text-lg font-medium text-gray-700' %>              

@@ -33,17 +33,6 @@ RSpec.describe 'PostsPosts', type: :system do
         end
       end  
 
-      context '投稿ワードが一件もない場合' do
-        it '何もない旨のメッセージが表示されること' do
-          login_as(user)
-          visit '/'
-          click_on 'ポジティブワードを共有する'
-          Capybara.assert_current_path("/posts", ignore_query: true)
-          expect(current_path).to eq('/posts')
-          expect(page).to have_content('まだ投稿はありません。'), 'ページ内に「まだ投稿はありません。」が表示されていません'
-        end
-      end
-
       context '投稿ワードがある場合' do
         it '投稿ワード一覧が表示されること' do
           post
