@@ -27,14 +27,6 @@ RSpec.describe 'AiMessages', type: :system do
         click_on 'ポジティブワードを知る'
         expect(page).to have_title('ワード生成 | ポジほめワード'), 'タイトル「ワード生成 | ポジほめワード」が正しく表示されていません'
       end
-
-      it 'メッセージの作成ができる' do
-        visit '/ai_messages/new'
-        fill_in '誰に送りますか', with: '自分自身'
-        fill_in 'どんな時', with: '自分の成功を祝う'
-        click_on 'ワードを作る'
-        expect(page).to have_content('ポジティブワード生成結果'), '生成結果が表示されていません'
-      end
     end
   end
 

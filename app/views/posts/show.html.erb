@@ -24,13 +24,13 @@
       </div>
     
       <% if user_signed_in? %>
-        <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-3 border-t border-gray-200 rounded-b-xl">
+        <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-2 border-t border-gray-200 rounded-b-xl">
           <% if current_user.own?(@post) %>
-            <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-blue-500 hover:text-blue-700 transition duration-200',data: { turbo_frame: "_top" }, title: "編集" do %>
-              <i class="bi bi-pencil-fill"></i> 
+            <%= link_to edit_post_path(@post), id: "button-edit-#{@post.id}", class: 'text-sm text-gray-700 hover:underline',data: { turbo_frame: "_top" }, title: "編集" do %>
+              <i class="bi bi-pencil-fill"></i>編集
             <% end %>
-            <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-red-500", title: "削除" do %>
-              <i class="bi bi-trash-fill"></i>
+            <%= button_to post_path(@post), method: :delete, data: { turbo_confirm: "削除しますか？" }, form: { data: { turbo: false } }, class: "text-sm text-red-600 hover:underline", title: "削除" do %>
+              <i class="bi bi-trash-fill"></i>削除
             <% end %>
           <% else %>          
             <%= render 'shared/post_favorites_button', post: @post %>
@@ -58,7 +58,7 @@
             <% end %>
         </div>
     </div>    
- 
+      <%= link_to "≪ 投稿一覧へ", posts_path, class: 'text-sm text-blue-500 hover:underline' %>
       <%= render 'comments/form', comment: @comment, post: @post %>
       <div id="table-comment" class="space-y-4 mt-6">
         <%= render @comments %>

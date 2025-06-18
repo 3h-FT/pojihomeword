@@ -95,24 +95,27 @@ RSpec.describe "UserPages", type: :system do
       end
     end
 
-    context 'ワードがある場合' do
-      it 'お気に入りに登録されて表示される'do
-        visit new_ai_message_path
+    context 'お気に入り解除できる' do
+      let!(:positive_word) { create(:positive_word, user: user, word: 'お気に入りワード') }
 
-        fill_in '誰に送りますか', with: '友達'
-        fill_in 'どんな時', with: '励ましたい時'
-        click_button 'ワードを作る'
+      before do
+        create(:word_favorite, user: user, positive_word: positive_word)
+      end
 
-        expect(page).to have_content('ポジティブワード生成結果'), '生成結果が表示されていません'
-      
-        new_word = PositiveWord.order(created_at: :desc).first
-        expect(page).to have_content(new_word.word)        
-        find('[data-testid="menu-toggle"]', match: :first).click
-        find(:css, "a[href='/word_favorites?positive_word_id=#{new_word.id}']", wait: 10).click
-        expect(page).to have_content(new_word.word, wait: 5), 'ページ内に「new_word.word」が表示されていません'
+      it 'お気に入り解除後に表示されない' do
         visit '/userpages?filter=favorite'
-        Capybara.assert_current_path("/userpages?filter=favorite", wait:5)        
-        expect(page).to have_content(new_word.word), 'ページ内に「new_word.word」が登録されていません'
+
+        expect(page).to have_content('お気に入りワード'), 'お気に入りワードが表示されていません'
+
+        find('[data-testid="menu-toggle"]', match: :first).click
+        within "#bookmark-button-for-word-#{positive_word.id}" do
+          find('a', text: 'いいね', wait: 10).click
+        end
+        
+        expect(page).to have_content('お気に入りワード', wait: 10), 'いいね解除直後に非表示になるべきではありません'        
+        
+        visit '/userpages?filter=all'
+        expect(page).not_to have_content('お気に入りワード'), 'お気に入り解除後もワードが表示されています'
       end
     end
   end

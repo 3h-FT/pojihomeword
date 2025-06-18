@@ -5,8 +5,8 @@ class OgpCreator
   TEXT_POSITION = "0,0"
   FONT = "./app/assets/fonts/MPLUSRounded1c-Regular.ttf"
   FONT_SIZE = 50
-  INDENTION_COUNT = 10
-  ROW_LIMIT = 5
+  INDENTION_COUNT = 12
+  ROW_LIMIT = 3
 
   def self.build(text)
     text = prepare_text(text)
@@ -22,6 +22,13 @@ class OgpCreator
 
   private
   def self.prepare_text(text)
-    text.to_s.scan(/.{1,#{INDENTION_COUNT}}/)[0...ROW_LIMIT].join("\n")
+    chunks = text.to_s.scan(/.{1,#{INDENTION_COUNT}}/)
+    if chunks.size > ROW_LIMIT
+      chunks = chunks[0...ROW_LIMIT]
+      # 最後の行の末尾を「…」で置き換える（全角省略記号を使用）
+      last_line = chunks.last
+      chunks[-1] = last_line[0...-1] + "…" if last_line.length >= 1
+    end
+    chunks.join("\n")
   end
 end
