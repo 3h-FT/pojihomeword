@@ -1,15 +1,15 @@
 class UserpagesController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [ :show ]
 
   def index
     set_meta_tags title: "ユーザーページ"
     filter = params[:filter] || "all"
-    
-    #検索フォーム
+
+    # 検索フォーム
     @q = current_user.positive_words.ransack(params[:q])
     word_data = Userpages::WordFetcher.new(current_user, params)
 
-    #ワードのカウント数
+    # ワードのカウント数
     @favorited_words = word_data.favorited_words
     @custom_words    = word_data.custom_words
     @favorited_word_ids = word_data.favorited_ids
@@ -17,7 +17,7 @@ class UserpagesController < ApplicationController
     @custom_words_count    = @custom_words.count
     @known_word_count      = @favorited_words_count + @custom_words_count
 
-    #ワード種類のフィルター
+    # ワード種類のフィルター
     @words = case filter
              when "favorite" then @favorited_words
              when "custom"   then @custom_words
@@ -25,7 +25,7 @@ class UserpagesController < ApplicationController
                @favorited_words
              end
 
-    #ページネーションの設定
+    # ページネーションの設定
     paginate_words
   end
 
@@ -38,7 +38,7 @@ class UserpagesController < ApplicationController
     set_meta_tags title: "ワード詳細"
     @positive_word = PositiveWord.find(params[:id])
     @show_edit_form = params[:edit].present?
-    prepare_meta_tags(@positive_word) 
+    prepare_meta_tags(@positive_word)
   end
 
   def edit
@@ -69,14 +69,14 @@ class UserpagesController < ApplicationController
     @custom_word.destroy!
     word_data = Userpages::WordFetcher.new(current_user, params)
 
-    #Turboのためワードのカウント数を再度取得
+    # Turboのためワードのカウント数を再度取得
     @custom_words = word_data.custom_words
     @favorited_word_ids = word_data.favorited_ids
     @favorited_words_count = @favorited_word_ids.size
     @custom_words_count = @custom_words.count
     @known_word_count = @favorited_words_count + @custom_words_count
 
-    #Turboのためワードのページネーションの設定を再度取得
+    # Turboのためワードのページネーションの設定を再度取得
     @custom_words_page = @custom_words.page(params[:custom_page])
     if @custom_words_page.out_of_range? && @custom_words_page.total_pages.positive?
       @custom_words_page = @custom_words.page(@custom_words_page.total_pages)

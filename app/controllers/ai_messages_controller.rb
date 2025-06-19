@@ -1,5 +1,5 @@
 class AiMessagesController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [ :show ]
 
   def new
     set_meta_tags title: "ワード生成"
@@ -10,8 +10,8 @@ class AiMessagesController < ApplicationController
   end
 
   def generate
-    #生成回数の制限
-    if current_user.reached_daily_word_limit?
+    # 生成回数の制限
+    if reached_daily_word_limit?
       return render_limit_reached
     end
 
@@ -57,18 +57,22 @@ class AiMessagesController < ApplicationController
 
   def update
     @positive_word = current_user.positive_words.find(params[:id])
-    target, situation = find_or_create_target_and_situation
+
+    target_name = params[:positive_word][:target].to_s.strip
+    situation_name = params[:positive_word][:situation].to_s.strip
+
+    target = Target.find_or_create_by(name: target_name)
+    situation = Situation.find_or_create_by(name: situation_name)
 
     if @positive_word.update(
-      word: params[:positive_word][:word],
-      target: target,
-      situation: situation
-    )
+        word: params[:positive_word][:word],
+        target: target,
+        situation: situation
+      )
+      # リダイレクト先を分岐
       render partial: "word_updata", locals: { positive_word: @positive_word }
     else
-      render partial: "edit_form", locals: { positive_word: @positive_word },
-             status: :unprocessable_entity,
-             alert: "ワードを編集できません"
+      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードを編集できません"
     end
   end
 
@@ -78,12 +82,12 @@ class AiMessagesController < ApplicationController
     target_name = params[:positive_word][:target].to_s.strip
     situation_name = params[:positive_word][:situation].to_s.strip
 
-    return [nil, nil] if target_name.blank? || situation_name.blank?
+    return [ nil, nil ] if target_name.blank? || situation_name.blank?
 
     target = Target.find_or_create_by(name: target_name, is_seeded: false)
     situation = Situation.find_or_create_by(name: situation_name, is_seeded: false)
 
-    [target, situation]
+    [ target, situation ]
   end
 
   def render_limit_reached
@@ -106,6 +110,10 @@ class AiMessagesController < ApplicationController
         render json: { error: "対象人物とシチュエーションは必須です。" }, status: :unprocessable_entity
       }
     end
+  end
+
+  def reached_daily_word_limit?
+    current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 5
   end
 
   def prepare_meta_tags(positive_word)

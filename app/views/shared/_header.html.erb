@@ -73,7 +73,7 @@
           <span>アカウント編集</span>
         <% end %>
 
-        <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-red-700" do %>
+        <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-red-700", id: "logout-button-desktop" do %>
           <i class="bi bi-box-arrow-right text-sm"></i>
           <span>ログアウト</span>
         <% end %>

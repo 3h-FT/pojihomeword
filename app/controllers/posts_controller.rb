@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [ :show ]
 
   def index
     set_meta_tags title: "みんなのポジほめワード"
-   
-    #検索フォーム
+
+    # 検索フォーム
     @q = Post.ransack(params[:q])
     @posts = Posts::PostFetcher.new(Post.all, params).call
 
@@ -19,7 +19,7 @@ class PostsController < ApplicationController
 
     @q = current_user.favorite_posts.ransack(params[:q])
     @post_favorites = Posts::PostFetcher.new(current_user.favorite_posts, params).call
-    
+
     # お気に入りのワード数
     @post_favorites_count = current_user.favorite_posts.count
 
@@ -56,7 +56,7 @@ class PostsController < ApplicationController
   def show
     set_meta_tags title: "投稿詳細"
     @post = Post.find(params[:id])
-    prepare_meta_tags(@post) #OGPの設定
+    prepare_meta_tags(@post) # OGPの設定
     @comment = Comment.new
     @comments = @post.comments.includes(:user).order(created_at: :desc)
   end
@@ -80,7 +80,7 @@ class PostsController < ApplicationController
     @post = current_user.posts.find(params[:id])
     @post.destroy!
 
-    #Turboのためワードのページネーションの設定を再度取得
+    # Turboのためワードのページネーションの設定を再度取得
     @posts = Posts::PostFetcher.new(Post.all, params).call
     if @posts.out_of_range? && @posts.total_pages > 0
       @posts = Posts::PostFetcher.new(Post.all, params.merge(page: @posts.total_pages)).call
