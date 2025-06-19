@@ -3,98 +3,56 @@ class AiMessagesController < ApplicationController
 
   def new
     set_meta_tags title: "ワード生成"
-
     @word_id = params[:word_id]
     @target = params[:target]
     @situation = params[:situation]
-
     @positive_word = PositiveWord.find_by(id: @word_id) || PositiveWord.new
   end
 
   def generate
-     if user_reached_limit?
-       respond_to do |format|
-         format.html {
-           redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
-         }
-         format.json {
-           render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
-         }
-       end
-       return
-     end
-
-    target_name = params[:positive_word][:target].to_s.strip
-    situation_name = params[:positive_word][:situation].to_s.strip
-
-    if target_name.blank? || situation_name.blank?
-      respond_to do |format|
-        format.html {
-          redirect_to new_ai_message_path(error: "対象人物とシチュエーションは必須です。")
-        }
-        format.json {
-          render json: { error: "対象人物とシチュエーションは必須です。" }, status: :unprocessable_entity
-        }
-      end
-      return
+    # 生成回数の制限
+    if reached_daily_word_limit?
+      return render_limit_reached
     end
 
-    # ユーザーが入力した Target は is_seeded: false で作成または取得
-    target = Target.find_or_create_by(name: target_name, is_seeded: false)
-    situation = Situation.find_or_create_by(name: situation_name, is_seeded: false)
+    target, situation = find_or_create_target_and_situation
+    if target.nil? || situation.nil?
+      return render_missing_input
+    end
 
-    @positive_word = PositiveWord.new(
-      target: target,
-      situation: situation,
-      user: current_user
+    ai_message = AiMessagesGenerator.call(
+      target_name: target.name,
+      situation_name: situation.name
     )
 
-    if @positive_word.valid?
-       # AIメッセージ生成用プロンプトとAPI呼び出し
-       prompt = "#{target.name}が#{situation.name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
+    @positive_word = current_user.positive_words.create!(
+      target: target,
+      situation: situation,
+      word: ai_message
+    )
 
-       client = OpenAI::Client.new
-       response = client.chat(
-         parameters: {
-           model: "gpt-4.1-mini",
-           messages: [ { role: "user", content: prompt } ],
-           temperature: 0.8
-         }
-       )
-
-       ai_message = response.dig("choices", 0, "message", "content")
-
-
-      @positive_word.word = ai_message
-      @positive_word.save!
-
-      respond_to do |format|
-        format.html {
-          redirect_to new_ai_message_path(
-            word_id: @positive_word.id,
-            target: target_name,
-            situation: situation_name
-          )
-        }
-        format.json {
-          render json: { word_id: @positive_word.id }
-        }
-      end
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      format.html {
+        redirect_to new_ai_message_path(
+          word_id: @positive_word.id,
+          target: target.name,
+          situation: situation.name
+        )
+      }
+      format.json { render json: { word_id: @positive_word.id } }
     end
   end
 
   def show
     set_meta_tags title: "ワード詳細"
     @positive_word = PositiveWord.find(params[:id])
-    prepare_meta_tags(@positive_word) # メタタグを設定する。
+    prepare_meta_tags(@positive_word)
     @show_edit_form = params[:edit].present?
   end
 
   def edit
     @positive_word = current_user.positive_words.find(params[:id])
-    render partial: "edit_form", locals: { positive_word: @positive_word  }
+    render partial: "edit_form", locals: { positive_word: @positive_word }
   end
 
   def update
@@ -120,12 +78,45 @@ class AiMessagesController < ApplicationController
 
   private
 
-  def user_reached_limit?
+  def find_or_create_target_and_situation
+    target_name = params[:positive_word][:target].to_s.strip
+    situation_name = params[:positive_word][:situation].to_s.strip
+
+    return [ nil, nil ] if target_name.blank? || situation_name.blank?
+
+    target = Target.find_or_create_by(name: target_name, is_seeded: false)
+    situation = Situation.find_or_create_by(name: situation_name, is_seeded: false)
+
+    [ target, situation ]
+  end
+
+  def render_limit_reached
+    respond_to do |format|
+      format.html {
+        redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
+      }
+      format.json {
+        render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
+      }
+    end
+  end
+
+  def render_missing_input
+    respond_to do |format|
+      format.html {
+        redirect_to new_ai_message_path(error: "対象人物とシチュエーションは必須です。")
+      }
+      format.json {
+        render json: { error: "対象人物とシチュエーションは必須です。" }, status: :unprocessable_entity
+      }
+    end
+  end
+
+  def reached_daily_word_limit?
     current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 5
   end
 
   def prepare_meta_tags(positive_word)
-    # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
     image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(positive_word.word)}&v=#{positive_word.updated_at.to_i}"
     set_meta_tags og: {
                     site_name: "ポジほめワード",

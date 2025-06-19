@@ -1,13 +1,17 @@
-<header data-controller="menu" data-menu-target="header"
-  class="bg-pink-200 fixed top-0 w-full z-50 transition-transform duration-300 ease-in-out">
+<header data-controller="header menu"
+        data-header-target="header"
+        data-menu-target="header"
+        class="bg-pink-200 fixed top-0 w-full z-50 transition-transform duration-300 ease-in-out">
   <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
     <a href="/" class="flex items-center">
       <%= image_tag 'pojihome_logo.png', size: "32x32", alt: "ポジほめワード ロゴ" %>
     </a>
 
     <!-- ハンバーガーボタン（モバイル用） -->
-    <button id="hamburger-button" class="md:hidden focus:outline-none p-2 rounded">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+    <button data-header-target="hamburgerButton" data-action="click->header#toggleMobileMenu"
+            class="md:hidden focus:outline-none p-2 rounded">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+           stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
@@ -16,30 +20,41 @@
     <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-gray-500">
       <% if user_signed_in? %>
         <!-- ポジティブワード ドロップダウン -->
-        <div class="relative" id="positive-dropdown">
-          <button id="positive-dropdown-button" class="flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" type="button">
+        <div class="relative">
+          <button type="button"
+                  class="flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded"
+                  data-header-target="dropdownButton"
+                  data-action="click->header#toggleDropdown">
             <span>ポジティブワード</span>
             <i class="bi bi-chevron-down text-xs"></i>
           </button>
-          <div id="positive-dropdown-menu" class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-md border border-pink-200 hidden z-20">
-            <a href="/ai_messages/new" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
+          <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-md border border-pink-200 hidden z-20"
+               data-header-target="dropdownMenu">
+            <a href="/ai_messages/new"
+               class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
               <i class="bi bi-lightbulb"></i>
               <span>ワードを知る</span>
             </a>
-            <a href="/userpages" class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
+            <a href="/userpages"
+               class="flex items-center space-x-2 px-4 py-2 text-gray-500 hover:bg-yellow-100">
               <i class="bi bi-journals"></i>
               <span>ワードをためる</span>
             </a>
-            <!-- 共有サブメニュー -->
-            <div class="relative" id="share-dropdown-desktop">
-              <button id="share-dropdown-button-desktop" class="flex items-center justify-between w-full px-4 py-2 text-gray-500 hover:bg-yellow-100" type="button">
+
+            <!-- 共有サブメニュー（デスクトップ） -->
+            <div class="relative">
+              <button type="button"
+                      class="flex items-center justify-between w-full px-4 py-2 text-gray-500 hover:bg-yellow-100"
+                      data-header-target="shareButtonDesktop"
+                      data-action="click->header#toggleShareDesktop">
                 <div class="flex items-center space-x-2">
                   <i class="bi bi-share-fill"></i>
                   <span>ワードを共有する</span>
                 </div>
                 <i class="bi bi-chevron-down text-xs"></i>
               </button>
-              <div id="share-dropdown-menu-desktop" class="absolute top-9 w-44 bg-white rounded-md shadow-md border border-pink-200 hidden z-30">
+              <div class="absolute top-9 w-44 bg-white rounded-md shadow-md border border-pink-200 hidden z-30"
+                   data-header-target="shareMenuDesktop">
                 <a href="/posts" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">投稿一覧</a>
                 <a href="/posts/post_favorites" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">お気に入り登録の投稿一覧</a>
                 <a href="/posts/new" class="block px-4 py-2 text-gray-500 hover:bg-yellow-100">新規投稿</a>
@@ -58,7 +73,7 @@
           <span>アカウント編集</span>
         <% end %>
 
-        <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-desktop", class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-red-700" do %>
+        <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded text-red-700", id: "logout-button-desktop" do %>
           <i class="bi bi-box-arrow-right text-sm"></i>
           <span>ログアウト</span>
         <% end %>
@@ -67,7 +82,6 @@
           <i class="bi bi-person-plus-fill text-sm"></i>
           <span>サインイン</span>
         <% end %>
-
         <%= link_to new_user_session_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
           <i class="bi bi-box-arrow-in-right text-sm"></i>
           <span>ログイン</span>
@@ -77,7 +91,8 @@
   </div>
 
   <!-- モバイルメニュー -->
-  <div id="mobile-menu" class="bg-pink-200 md:hidden hidden px-4 pb-4 space-y-2 font-semibold text-gray-500">
+  <div data-header-target="mobileMenu"
+       class="bg-pink-200 md:hidden hidden px-4 pb-4 space-y-2 font-semibold text-gray-500">
     <% if user_signed_in? %>
       <a href="/ai_messages/new" class="flex items-center space-x-2 hover:bg-yellow-100 px-2 py-1 rounded">
         <i class="bi bi-lightbulb text-base"></i>
@@ -87,38 +102,41 @@
         <i class="bi bi-journals text-base"></i>
         <span>ワードをためる</span>
       </a>
+
       <div class="relative">
-        <button id="share-dropdown-button-mobile" class="flex items-center justify-between w-full hover:bg-yellow-100 px-2 py-1 rounded" type="button">
+        <button type="button"
+                class="flex items-center justify-between w-full hover:bg-yellow-100 px-2 py-1 rounded"
+                data-header-target="shareButtonMobile"
+                data-action="click->header#toggleShareMobile">
           <div class="flex items-center space-x-2">
             <i class="bi bi-share-fill text-base"></i>
             <span>ワードを共有する</span>
           </div>
           <i class="bi bi-chevron-down text-xs"></i>
         </button>
-        <div id="share-dropdown-menu-mobile" class="absolute left-0 w-full bg-white rounded-md shadow-md border border-pink-200 mt-1 hidden z-30">
+        <div class="absolute left-0 w-full bg-white rounded-md shadow-md border border-pink-200 mt-1 hidden z-30"
+             data-header-target="shareMenuMobile">
           <a href="/posts" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">投稿一覧</a>
           <a href="/posts/post_favorites" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">お気に入り登録の投稿一覧</a>
           <a href="/posts/new" class="block px-4 py-2 hover:bg-yellow-100 text-gray-700">新規投稿</a>
         </div>
       </div>
 
-      <div class="flex border-b border-gray-400 mb-8 mt-8">
-      </div>
+      <div class="flex border-b border-gray-400 mb-8 mt-8"></div>
 
       <%= link_to new_contact_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-envelope-fill text-sm"></i>
         <span>お問い合わせ</span>
       <% end %>
 
-      <div class="flex border-b border-gray-400 mb-8 mt-8">
-      </div>
+      <div class="flex border-b border-gray-400 mb-8 mt-8"></div>
 
       <%= link_to edit_user_registration_path, class: "flex items-center space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-gear-fill text-sm"></i>
         <span>アカウント編集</span>
       <% end %>
 
-      <%= button_to destroy_user_session_path, method: :delete, id: "logout-button-mobile", class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
+      <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center text-red-700 space-x-1 hover:bg-yellow-100 px-2 py-1 rounded" do %>
         <i class="bi bi-box-arrow-right text-sm"></i>
         <span>ログアウト</span>
       <% end %>
@@ -134,11 +152,11 @@
       <% end %>
     <% end %>
   </div>
-    <% flash.each do |key, message| %>
-      <div class="text-center text-lg px-4 py-2 rounded
-        <%= key == "notice" ? "bg-green-100 text-green-700": "bg-red-200 text-red-700" %>">
-        <%= message %>
-      </div>
-    <% end %>  
 
+  <% flash.each do |key, message| %>
+    <div class="text-center text-lg px-4 py-2 rounded
+      <%= key == "notice" ? "bg-green-100 text-green-700": "bg-red-200 text-red-700" %>">
+      <%= message %>
+    </div>
+  <% end %>
 </header>

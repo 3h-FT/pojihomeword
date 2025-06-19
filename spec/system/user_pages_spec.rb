@@ -109,6 +109,7 @@ RSpec.describe "UserPages", type: :system do
 
         find('[data-testid="menu-toggle"]', match: :first).click
         within "#bookmark-button-for-word-#{positive_word.id}" do
+          expect(page).to have_link('いいね', wait: 10)
           find('a', text: 'いいね', wait: 10).click
         end
         

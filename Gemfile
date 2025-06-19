@@ -1,94 +1,104 @@
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# ----------------------------------------
+# ✅ Core Rails Components
+# ----------------------------------------
 gem "rails", "~> 8.0.2"
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
-# Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
+gem "pg", "~> 1.1"                      # PostgreSQL
+gem "puma", ">= 5.0"                    # Webサーバ
+gem "sprockets-rails"                  # アセットパイプライン
+gem "importmap-rails"                  # JavaScript ESM用
+gem "turbo-rails"                      # Hotwire: Turbo
+gem "stimulus-rails"                   # Hotwire: Stimulus
+gem "jbuilder"                         # JSONビルダー
+gem "high_voltage"                     # Staticページルーティング
+gem "kaminari"                         # ページネーション
+
+# ----------------------------------------
+# ✅ 認証・認可
+# ----------------------------------------
 gem "devise"
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
+gem "devise-i18n"
+gem "omniauth-line"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+# ----------------------------------------
+# ✅ インフラ・運用補助
+# ----------------------------------------
+gem "bootsnap", require: false         # 起動時間短縮
+gem "dotenv-rails"                     # 環境変数管理
+gem "dockerfile-rails", ">= 1.7", group: :development
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+# ----------------------------------------
+# ✅ エラートラッキング・監視
+# ----------------------------------------
+gem "sentry-ruby"
+gem "sentry-rails"
 
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
+# ----------------------------------------
+# ✅ UI / フロントエンド
+# ----------------------------------------
+gem "tailwindcss-ruby", "3.4.17"
+gem "tailwindcss-rails"
+gem "mini_magick"                      # 画像加工
+gem "meta-tags", require: 'meta_tags' # OGPなどのメタ設定
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+# ----------------------------------------
+# ✅ OpenAI / GPT連携
+# ----------------------------------------
+gem "ruby-openai"
 
+# ----------------------------------------
+# ✅ 検索・フィルター
+# ----------------------------------------
+gem "ransack", "4.3.0"
+
+# ----------------------------------------
+# ✅ その他ユーティリティ
+# ----------------------------------------
+gem "pry"                              # コンソール用
+gem 'net-imap', '>= 0.5.7'             # メール受信処理向け
+
+# ----------------------------------------
+# ✅ 多言語対応
+# ----------------------------------------
+gem "rails-i18n"
+
+# ----------------------------------------
+# ✅ 開発・テスト共通
+# ----------------------------------------
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
   gem "letter_opener_web", "~> 2.0"
-  gem "config"
+  gem "config"                         # 環境設定 (config/settings.yml)
 end
 
+# ----------------------------------------
+# ✅ 開発専用
+# ----------------------------------------
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   gem "better_errors"
   gem "binding_of_caller"
 end
 
+# ----------------------------------------
+# ✅ テスト専用
+# ----------------------------------------
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
 end
 
-gem "dockerfile-rails", ">= 1.7", group: :development
-
-gem "pry"
-
-gem "sentry-ruby"
-gem "sentry-rails"
-gem "tailwindcss-ruby", "3.4.17"
-
-gem "tailwindcss-rails"
-gem "dotenv-rails"       # APIキーの.env管理に
-gem "ruby-openai"        # OpenAIのAPIラッパー
-
-gem "ransack", "4.3.0"
-gem "kaminari"
-gem "high_voltage"
-
-gem 'omniauth-line'
-gem 'omniauth-rails_csrf_protection' #CSRF（Cross-Site Request Forgery）攻撃からアプリケーションを保護するためのGem
-gem 'omniauth-google-oauth2'
-
-gem 'net-imap', '>= 0.5.7'
-
-gem 'devise-i18n'
-gem 'rails-i18n'
-
-gem "mini_magick"
-gem "meta-tags", require: 'meta_tags'
+# ----------------------------------------
+# ✅ Windows・JRuby向け (tzデータ補完)
+# ----------------------------------------
+gem "tzinfo-data", platforms: %i[windows jruby]

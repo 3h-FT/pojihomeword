@@ -20,6 +20,7 @@ class User < ApplicationRecord
   # uidが存在する場合のみ、その一意性をproviderのスコープ内で確認する
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
+  # ポジティブワードのブックマーク
   def bookmark(positive_word)
     favorited_words << positive_word
   end
@@ -32,6 +33,7 @@ class User < ApplicationRecord
     favorited_words.include?(positive_word)
   end
 
+  # 投稿のブックマーク
   def post_bookmark(post)
     favorite_posts << post
   end

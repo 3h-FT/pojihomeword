@@ -5,73 +5,45 @@ class UserpagesController < ApplicationController
     set_meta_tags title: "ユーザーページ"
     filter = params[:filter] || "all"
 
+    # 検索フォーム
     @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
+    word_data = Userpages::WordFetcher.new(current_user, params)
 
-    favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
-    @favorited_words = @searched_words.where(id: favorited_ids)
-    @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
+    # ワードのカウント数
+    @favorited_words = word_data.favorited_words
+    @custom_words    = word_data.custom_words
+    @favorited_word_ids = word_data.favorited_ids
+    @favorited_words_count = @favorited_word_ids.size
+    @custom_words_count    = @custom_words.count
+    @known_word_count      = @favorited_words_count + @custom_words_count
 
-    @favorited_word_ids = favorited_ids
-    @favorited_words_count = favorited_ids.size
-    @custom_words_count = @custom_words.count
-    @known_word_count = @favorited_words_count + @custom_words_count
+    # ワード種類のフィルター
+    @words = case filter
+             when "favorite" then @favorited_words
+             when "custom"   then @custom_words
+             else
+               @favorited_words
+             end
 
-  case filter
-  when "favorite"
-    @words = @searched_words.where(id: favorited_ids)
-  when "custom"
-    @words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
-  else
-    # all
-    @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
-    @favorited_words = @searched_words.where(id: favorited_ids)
-  end
-
-    @favorited_words_page = @favorited_words.page(params[:favorited_page])
-    if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages > 0
-      redirect_to userpages_path(favorited_page: @favorited_words_page.total_pages)
-    end
-
-    @custom_words_page = @custom_words.page(params[:custom_page])
-    if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
-      redirect_to userpages_path(custom_page: @custom_words_page.total_pages)
-    end
+    # ページネーションの設定
+    paginate_words
   end
 
   def autocomplete
-    keyword = params[:q].to_s.strip
-
-    # 検索用のransackオブジェクト
-    @q = current_user.positive_words.ransack(word_cont: keyword)
-    @searched_words = @q.result(distinct: true).includes(:situation, :target)
-
-    # お気に入りワードのIDリストを取得
-    favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
-
-    # お気に入り登録済みワードだけ抽出
-    favorited_words = @searched_words.where(id: favorited_ids)
-
-    # カスタムワード（お気に入り登録以外）を抽出
-    custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
-
-    # お気に入り優先でマージし10件までに絞る
-    @results = (favorited_words + custom_words).uniq.first(10)
-
-    # partialに渡す変数名はpositive_wordsに合わせる（partialの変数名に依存）
+    @results = Userpages::AutocompleteQuery.new(current_user, params[:q]).call
     render partial: "autocomplete_results", locals: { positive_words: @results }
   end
 
   def show
     set_meta_tags title: "ワード詳細"
     @positive_word = PositiveWord.find(params[:id])
-    prepare_meta_tags(@positive_word) # メタタグを設定する。
     @show_edit_form = params[:edit].present?
+    prepare_meta_tags(@positive_word)
   end
 
   def edit
-   @positive_word = current_user.positive_words.find(params[:id])
-    render partial: "edit_form", locals: { positive_word: @positive_word  }
+    @positive_word = current_user.positive_words.find(params[:id])
+    render partial: "edit_form", locals: { positive_word: @positive_word }
   end
 
   def update
@@ -79,14 +51,12 @@ class UserpagesController < ApplicationController
     if @positive_word.update(positive_word_params)
       render partial: "userpages/custom_words/word_updata", locals: { positive_word: @positive_word }
     else
-      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの追加に失敗しました"
+      render partial: "edit_form", locals: { positive_word: @positive_word }, status: :unprocessable_entity, alert: "ワードの更新に失敗しました"
     end
   end
 
   def create
-    @positive_word = current_user.positive_words.new(positive_word_params)
-    @positive_word.is_custom = true if params[:positive_word][:is_custom] == "true"
-
+    @positive_word = current_user.positive_words.new(positive_word_params.merge(is_custom: params[:positive_word][:is_custom] == "true"))
     if @positive_word.save
       redirect_to userpages_path, notice: "ワードを追加しました"
     else
@@ -97,20 +67,20 @@ class UserpagesController < ApplicationController
   def destroy
     @custom_word = current_user.positive_words.find(params[:id])
     @custom_word.destroy!
+    word_data = Userpages::WordFetcher.new(current_user, params)
 
-    favorited_ids = current_user.favorited_words.pluck(:positive_word_id)
-    @q = current_user.positive_words.ransack(params[:q])
-    @searched_words = @q.result(distinct: true).includes(:situation, :target).order("created_at desc")
-    @custom_words = @searched_words.where(is_custom: true).where.not(id: favorited_ids)
-
-    @custom_words_page = @custom_words.page(params[:custom_page])
-    if @custom_words_page.out_of_range? && @custom_words_page.total_pages > 0
-      @custom_words_page = @custom_words.page(@custom_words_page.total_pages) # 最後のページに戻す
-    end
-
-    @favorited_words_count = favorited_ids.size
+    # Turboのためワードのカウント数を再度取得
+    @custom_words = word_data.custom_words
+    @favorited_word_ids = word_data.favorited_ids
+    @favorited_words_count = @favorited_word_ids.size
     @custom_words_count = @custom_words.count
     @known_word_count = @favorited_words_count + @custom_words_count
+
+    # Turboのためワードのページネーションの設定を再度取得
+    @custom_words_page = @custom_words.page(params[:custom_page])
+    if @custom_words_page.out_of_range? && @custom_words_page.total_pages.positive?
+      @custom_words_page = @custom_words.page(@custom_words_page.total_pages)
+    end
 
     respond_to do |format|
       format.turbo_stream
@@ -122,6 +92,18 @@ class UserpagesController < ApplicationController
 
   def positive_word_params
     params.require(:positive_word).permit(:word, :is_custom)
+  end
+
+  def paginate_words
+    @favorited_words_page = @favorited_words.page(params[:favorited_page])
+    if @favorited_words_page.out_of_range? && @favorited_words_page.total_pages.positive?
+      redirect_to userpages_path(favorited_page: @favorited_words_page.total_pages) && return
+    end
+
+    @custom_words_page = @custom_words.page(params[:custom_page])
+    if @custom_words_page.out_of_range? && @custom_words_page.total_pages.positive?
+      redirect_to userpages_path(custom_page: @custom_words_page.total_pages) && return
+    end
   end
 
   def prepare_meta_tags(positive_word)
