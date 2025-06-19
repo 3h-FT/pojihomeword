@@ -1,11 +1,14 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [ :show ]
+  before_action :authenticate_user!, except: [:show]
 
   def index
     set_meta_tags title: "みんなのポジほめワード"
+   
+    #検索フォーム
     @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
+    @posts = Posts::PostFetcher.new(Post.all, params).call
 
+    # ページ数が減って、現在のページが存在しない場合は最後のページへ
     if @posts.out_of_range? && @posts.total_pages > 0
       redirect_to posts_path(page: @posts.total_pages)
     end
@@ -13,28 +16,25 @@ class PostsController < ApplicationController
 
   def post_favorites
     set_meta_tags title: "お気に入り登録ページ"
+
     @q = current_user.favorite_posts.ransack(params[:q])
-    @post_favorites = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
+    @posts = Posts::PostFetcher.new(current_user.favorite_posts, params).call
+    
+    # お気に入りのワード数
     @post_favorites_count = current_user.favorite_posts.count
 
-    if @post_favorites.out_of_range? && @post_favorites.total_pages > 0
-      redirect_to favorites_posts_path(page: @post_favorites.total_pages)
+    if @posts.out_of_range? && @posts.total_pages > 0
+      redirect_to favorites_posts_path(page: @posts.total_pages)
     end
   end
 
   def autocomplete
-    keyword = params[:q].to_s.strip
-    @posts = Post.where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%").limit(10)
-
+    @posts = Posts::AutocompleteQuery.new(Post.all, params[:q]).call
     render partial: "autocomplete_results", locals: { posts: @posts }
   end
 
   def favorites_autocomplete
-    keyword = params[:q].to_s.strip
-    @posts = current_user.favorite_posts
-                        .where("post_word LIKE :kw OR caption LIKE :kw", kw: "%#{keyword}%")
-                        .limit(10)
-
+    @posts = Posts::AutocompleteQuery.new(current_user.favorite_posts, params[:q]).call
     render partial: "autocomplete_results", locals: { posts: @posts }
   end
 
@@ -56,8 +56,7 @@ class PostsController < ApplicationController
   def show
     set_meta_tags title: "投稿詳細"
     @post = Post.find(params[:id])
-    prepare_meta_tags(@post) # メタタグを設定する。
-
+    prepare_meta_tags(@post) #OGPの設定
     @comment = Comment.new
     @comments = @post.comments.includes(:user).order(created_at: :desc)
   end
@@ -81,12 +80,10 @@ class PostsController < ApplicationController
     @post = current_user.posts.find(params[:id])
     @post.destroy!
 
-    @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(params[:page])
-
-    # ページ数が減って、現在のページが存在しない場合は最後のページへ
+    #Turboのためワードのページネーションの設定を再度取得
+    @posts = Posts::PostFetcher.new(Post.all, params).call
     if @posts.out_of_range? && @posts.total_pages > 0
-      @posts = @q.result(distinct: true).includes(:user).order("created_at desc").page(@posts.total_pages)
+      @posts = Posts::PostFetcher.new(Post.all, params.merge(page: @posts.total_pages)).call
     end
 
     respond_to do |format|
@@ -102,7 +99,6 @@ class PostsController < ApplicationController
   end
 
   def prepare_meta_tags(post)
-    # このimage_urlにMiniMagickで設定したOGPの生成した合成画像を代入する
     image_url = "#{request.base_url}/images/ogp.png?text=#{CGI.escape(post.post_word)}&v=#{post.updated_at.to_i}"
     set_meta_tags og: {
                     site_name: "ポジほめワード",
