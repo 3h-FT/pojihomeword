@@ -20,6 +20,11 @@ class User < ApplicationRecord
   # uidが存在する場合のみ、その一意性をproviderのスコープ内で確認する
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
+  def reached_daily_word_limit?
+    positive_words.where(created_at: Time.zone.today.all_day).count >= 5
+  end
+
+  #ポジティブワードのブックマーク
   def bookmark(positive_word)
     favorited_words << positive_word
   end
@@ -32,6 +37,7 @@ class User < ApplicationRecord
     favorited_words.include?(positive_word)
   end
 
+  #投稿のブックマーク
   def post_bookmark(post)
     favorite_posts << post
   end

@@ -7,10 +7,7 @@ module Posts
 
     def call
       q = @base_relation.ransack(@params[:q])
-      q.result(distinct: true)
-       .includes(:user)
-       .order(created_at: :desc)
-       .page(@params[:page])
+      q.result(distinct: true).includes(:user).order(created_at: :desc).page(@params[:page])
     end
   end
 end

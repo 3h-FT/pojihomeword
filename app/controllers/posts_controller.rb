@@ -18,13 +18,13 @@ class PostsController < ApplicationController
     set_meta_tags title: "お気に入り登録ページ"
 
     @q = current_user.favorite_posts.ransack(params[:q])
-    @posts = Posts::PostFetcher.new(current_user.favorite_posts, params).call
+    @post_favorites = Posts::PostFetcher.new(current_user.favorite_posts, params).call
     
     # お気に入りのワード数
     @post_favorites_count = current_user.favorite_posts.count
 
-    if @posts.out_of_range? && @posts.total_pages > 0
-      redirect_to favorites_posts_path(page: @posts.total_pages)
+    if @post_favorites.out_of_range? && @post_favorites.total_pages > 0
+      redirect_to favorites_posts_path(page: @post_favorites.total_pages)
     end
   end
 
