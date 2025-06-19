@@ -109,7 +109,8 @@ RSpec.describe "UserPages", type: :system do
 
         find('[data-testid="menu-toggle"]', match: :first).click
         within "#bookmark-button-for-word-#{positive_word.id}" do
-          find('a', text: 'いいね', wait: 10).click
+          expect(page).to have_link('いいね', wait: 10)
+          click_link 'いいね'
         end
         
         expect(page).to have_content('お気に入りワード', wait: 10), 'いいね解除直後に非表示になるべきではありません'        
