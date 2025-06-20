@@ -10,11 +10,6 @@ class AiMessagesController < ApplicationController
   end
 
   def generate
-    # 生成回数の制限
-    if reached_daily_word_limit?
-      return render_limit_reached
-    end
-
     target, situation = find_or_create_target_and_situation
     if target.nil? || situation.nil?
       return render_missing_input
@@ -90,17 +85,6 @@ class AiMessagesController < ApplicationController
     [ target, situation ]
   end
 
-  def render_limit_reached
-    respond_to do |format|
-      format.html {
-        redirect_to new_ai_message_path(error: "一日の生成回数制限に達しました(上限5回)")
-      }
-      format.json {
-        render json: { error: "一日の生成回数制限に達しました(上限5回)" }, status: :forbidden
-      }
-    end
-  end
-
   def render_missing_input
     respond_to do |format|
       format.html {
@@ -110,10 +94,6 @@ class AiMessagesController < ApplicationController
         render json: { error: "対象人物とシチュエーションは必須です。" }, status: :unprocessable_entity
       }
     end
-  end
-
-  def reached_daily_word_limit?
-    current_user.positive_words.where(created_at: Time.zone.today.all_day).count >= 5
   end
 
   def prepare_meta_tags(positive_word)
