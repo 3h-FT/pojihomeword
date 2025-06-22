@@ -26,6 +26,17 @@
 
     <%= yield :head %>
     <%= javascript_importmap_tags %>
+
+  <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E4QVCZMVT5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-E4QVCZMVT5');
+    </script>
+    <!-- Google tag 終了 -->
   </head>
 
   <body class="overflow-x-hidden text-gray-800 bg-gradient-to-b from-pink-100 to-yellow-50">
