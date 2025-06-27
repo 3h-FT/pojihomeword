@@ -11,3 +11,35 @@
 }
 
 */
+/* 紙吹雪エフェクト用CSS */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f00; /* デフォルト色、JSで上書き */
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateY(0) rotate(0deg);
+  pointer-events: none; /* クリックイベントをブロックしない */
+  z-index: 9999; /* 最前面に表示 */
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) rotate(0deg) scale(0.5); /* 開始位置とサイズ */
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0px) rotate(30deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(400px) rotate(720deg) scale(0.2); /* 落下位置と回転、最終的なサイズ */
+  }
+}
+
+/* モーダル表示中の背景スクロールを禁止 */
+body.overflow-hidden {
+  overflow: hidden;
+}

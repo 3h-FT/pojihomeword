@@ -10,15 +10,13 @@ class AiMessagesController < ApplicationController
   end
 
   def generate
+    sleep 3
     target, situation = find_or_create_target_and_situation
     if target.nil? || situation.nil?
       return render_missing_input
     end
 
-    ai_message = AiMessagesGenerator.call(
-      target_name: target.name,
-      situation_name: situation.name
-    )
+    ai_message = "ダミー"
 
     @positive_word = current_user.positive_words.create!(
       target: target,
