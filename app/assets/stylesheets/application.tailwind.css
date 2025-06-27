@@ -43,3 +43,23 @@
 body.overflow-hidden {
   overflow: hidden;
 }
+#confetti-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 9999;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f43f5e; /* ピンク系 */
+  opacity: 0.9;
+  will-change: transform, opacity;
+  border-radius: 2px;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}

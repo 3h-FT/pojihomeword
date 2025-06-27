@@ -8,7 +8,7 @@
           <i class="bi bi-lightbulb mr-2"></i> サンプル
         </div>
       </div>      
-  
+
       <h2 class="text-2xl font-semibold text-red-400 text-center mb-4">
         ポジティブワードを作る
       </h2>
@@ -20,8 +20,8 @@
         次に、どんなシチュエーションか選んでみて♪
       </p>
     </div>
-  
-    <div class="p-6 text-center">    
+
+    <div class="p-6 text-center" data-controller="sample">    
       <% if user_signed_in? %>
         <%= link_to "自分で作ってみる？", new_ai_message_path, class: 'inline-block text-sm sm:text-base font-semibold text-white bg-indigo-300 hover:bg-indigo-400 px-6 py-3 rounded-full shadow-md' %>
       <% else %>
@@ -31,21 +31,25 @@
       <%= form_tag positive_words_path, method: :get, class: "space-y-6 mt-6" do %>
         <div>
           <%= label_tag :target_id, '誰に送りますか？', class: 'block mb-2 text-left text-lg font-medium text-gray-700' %>
-          <%= select_tag :target_id, options_from_collection_for_select(@targets, :id, :name, params[:target_id]), prompt: '誰に送りたいか選んでね', class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 " %>
+          <%= select_tag :target_id,
+              options_from_collection_for_select(@targets, :id, :name, params[:target_id]),
+              prompt: '誰に送りたいか選んでね',
+              class: "w-full p-4 rounded-full border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300",
+              data: { action: "change->sample#filter" } %>
         </div>
 
-        <% if params[:target_id].present? %>
-          <div id="situation-container">
-            <%= label_tag :situation_id, 'どんな時？', class: 'block mb-2 text-left  text-lg font-medium text-gray-700' %>
-            <%= select_tag :situation_id, options_from_collection_for_select(@situations, :id, :name, params[:situation_id]), prompt: 'どんなシチュエーションか選んでね', class: "w-full p-4 rounded-full border border-gray-300 text-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
-          </div>
-        <% end %>
+        <div id="sample-container" data-sample-target="container" style="<%= params[:target_id].present? ? '' : 'display:none;' %>">
+          <%= label_tag :situation_id, 'どんな時？', class: 'block mb-2 text-left text-lg font-medium text-gray-700' %>
+          <%= select_tag :situation_id,
+              options_from_collection_for_select(@situations, :id, :name, params[:situation_id]),
+              prompt: 'どんなシチュエーションか選んでね',
+              class: "w-full p-4 rounded-full border border-gray-300 text-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-300" %>
+        </div>
 
         <div>
           <%= submit_tag '表示', class: 'w-full bg-red-400 hover:bg-red-500 text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md cursor-pointer' %>
         </div>
       <% end %>
-
 
       <% if @positive_words.present? %>
         <div id="result-section" class="bg-pink-50 py-8 px-8 mb-4 mt-6 border-l-4 border-pink-400 rounded-xl shadow-sm">
@@ -54,14 +58,15 @@
           </h2>
           <ul class="py-3 px-6 mt-4 space-y-3 text-lg text-gray-700">
             <% @positive_words.each do |word| %>
-              <li class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-wrap"">
+              <li class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-wrap">
+                <div id="confetti-container" class="fixed inset-0 pointer-events-none z-50"></div>
                 <%= word.word %>
               </li>
             <% end %>
           </ul>
         </div>
       <% end %>
-    
+
       <div class="mt-6 mb-6 space-y-3 text-center">
         <%= link_to "トップに戻る", root_path, class: 'text-lg text-blue-500 font-semibold hover:text-blue-700 hover:underline' %>
       </div>
@@ -69,4 +74,4 @@
   </div>    
 </div>
 
-<div id="situations-data" data-situations="<%= @situations.to_json %>"></div>
+<div id="situations-data" data-situation-target="data" data-situations="<%= @situations.to_json %>"></div>
