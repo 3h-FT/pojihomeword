@@ -36,6 +36,7 @@
 
       <% if @positive_word&.persisted? %>
         <div id="result-section" class="mt-6 bg-pink-50 border-l-4 border-pink-400 py-8 px-8 rounded-xl shadow-sm">
+        <div id="confetti-container" class="fixed inset-0 pointer-events-none z-50"></div>
           <%= render 'result', positive_word: @positive_word %>
         </div>
       <% end %>
