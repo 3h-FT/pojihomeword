@@ -9,6 +9,7 @@
 - [ユーザー層について](#-ユーザー層について)
 - [推しポイント](#-推しポイント)
 - [機能紹介](#-機能紹介)
+- [メイン機能紹介](#-メイン機能紹介)
 - [今後の展望](#-今後の展望)
 - [技術構成について](#-技術構成について)
   - [使用技術](#使用技術)
@@ -76,6 +77,57 @@
 | <p align="left">共感するワードなどがあれば詳細ページでぜひコメントしよう。またワードをX、LINEで共有してさらにポジティブな輪を広げよう。いいなと思う投稿があればお気に入り登録が可能。「★お気に入り」ではお気に入り登録された投稿を確認できます。<p> |
 <br>
 
+# ⚙ メイン機能紹介
+## 💡 ポジティブワードを知る / ポジティブなワードを生成
+
+- **処理ファイル**：
+  - `app/controllers/ai_messages_controller.rb`
+  - `app/services/ai_messages_generator.rb`
+  - `app/models/positive_word.rb`
+  - `app/views/ai_messages/new.html.erb`
+  - `app/views/ai_messages/_form.html.erb`
+  - `app/views/ai_messages/_result.html.erb`
+  - `app/javascript/situations.js`
+<br>
+
+- **処理の流れ**：
+<img width=" 500" src="https://github.com/3h-FT/pojihomeword/raw/main/public/images/readme/main.png"> 
+
+  1. ユーザーが「誰に」「どんな時」の入力フォームに情報を入力し送信
+  2. コントローラの `generate` アクションで `Target` と `Situation` を検索または作成
+  3. `AiMessagesGenerator.call` にて OpenAI GPT-4.1-mini を呼び出し、対象と状況に合ったポジティブワードを生成
+  4. 生成したワードを `current_user.positive_words` としてDBに保存
+  5. 生成ワードを画面に表示
+  6. フロントで紙吹雪アニメーションを表示し、ユーザー体験を向上
+  7. 生成済みワードの編集、コピー、いいね機能も提供
+<br>
+
+- **技術選定理由**：
+  - OpenAI API（GPT-4.1-mini）による自然な日本語ポジティブメッセージ生成を実現。temperature: 0.9で固くならずに親しみやすいカジュアルな文章を生成  
+  - サービスオブジェクトパターン（`AiMessagesGenerator`）でロジックを分離し保守性を確保  
+実装コード（`app/services/ai_messages_generator.rb`）：
+```ruby
+class AiMessagesGenerator
+  def self.call(target_name:, situation_name:)
+    prompt = "#{target_name}が#{situation_name}ときに贈る、ほめたり、肯定したりなどポジティブになれる会話文のような短いメッセージまたはワードを1つ考えてください。出力はそのメッセージ、またはワードの本文のみを日本語で返してください。親しみやすいカジュアルな口調で書いてください。マジではいらないです。番号付け、複数回答、説明や挨拶などは不要です。過去に生成されたメッセージ・ワードと重複しないようにしてください。"
+
+    client = OpenAI::Client.new
+    response = client.chat(
+      parameters: {
+        model: "gpt-4.1-mini",
+        messages: [ { role: "user", content: prompt } ],
+        temperature: 0.9
+      }
+    )
+
+    response.dig("choices", 0, "message", "content")
+  end
+end
+```
+  - JavaScriptで紙吹雪演出やローディングアニメーションを実装しUX向上  
+  - SEO・SNSシェア向けにOGP画像生成・メタタグ設定を行い拡散を促進  
+<br>
+
 # 🔄 今後の展望
 - **ポジティブワード生成結果の演出向上**: 生成結果をフラッシュメッセージのように出すなど、もっと動的に演出し、UI/UXからもポジティブな気持ちになるように展開。  
 - **既存のワードをポジティブワード化**: シチュエーションに合わせるだけでなく、既存のワードをポジティブ化することで語彙力を高めてもらえます。  
@@ -85,17 +137,16 @@
 # 🔧 技術構成について
 
 ## 使用技術
-| カテゴリ | 技術内容 |
-| --- | --- | 
-| サーバーサイド | Ruby on Rails 8.0.2・Ruby 3.2.2 |
-| フロントエンド | Ruby on Rails・Turbo (Hotwire)・Stimulus・Importmap |
-| CSSフレームワーク | Tailwindcss 3.4.17 |
-| Web API | OpenAI API(GPT-4.1-mini)・Google API・LINE Developers |
-| データベースサーバー | PostgreSQL 15 |
-| アプリケーションサーバー | Render |
-| バージョン管理ツール | GitHub |
-| CI/CD | GitHub Actions |
-| データベース | Docker |
+
+| カテゴリ | 技術内容 | 理由・特徴 |
+|----------|----------|------------|
+| サーバーサイド | Ruby on Rails 8.0.2 / Ruby 3.2.2 | RailsはCRUD・認証・投稿などを高速・堅牢に構築でき、Hotwireが標準搭載されているためUX向上も実現。Ruby 3.2.2はYJITにより高速化され、現場でもよく使われる安定バージョン。 |
+| フロントエンド | Turbo / Stimulus / Importmap | TurboはJavaScriptなしでページ遷移を高速化、StimulusはHTML属性でJSの制御が可能で保守性が高い。ImportmapによりWebpackやNode.js不要で構成がシンプルになる。 |
+| CSSフレームワーク | Tailwind CSS 3.4.17 | クラスベースで直感的にスタイルが指定でき、保守性・開発効率が高い。Rails 8との相性も非常に良い。 |
+| Web API | OpenAI GPT-4.1-mini / Google API / LINE Developers | GPT-4.1-miniは応答速度とコストのバランスが良く、短文生成に最適。GoogleはOAuth認証、LINEは通知連携を想定。 |
+| データベース | PostgreSQL 15（Docker） | 安定性・拡張性・トランザクション処理に強く、本番に近い動作検証が可能。Dockerにより環境構築の再現性も確保。 |
+| インフラ / デプロイ | Render | GitHubと連携しCI/CDが自動化可能。無料プランあり、個人開発に適している。独自ドメインやSSLも簡単に設定可能。 |
+| バージョン管理 / CI | GitHub / GitHub Actions | バージョン管理、レビュー、CI/CDパイプラインの自動化が可能。品質向上と効率化に貢献。 |
 <br>
 
 ## 画面遷移図  
