@@ -140,8 +140,8 @@ end
 
 | カテゴリ | 技術内容 | 理由・特徴 |
 |----------|----------|------------|
-| サーバーサイド | Ruby on Rails 8.0.2 / Ruby 3.2.2 | RailsはCRUD・認証・投稿などを高速・堅牢に構築でき、Hotwireが標準搭載されているためUX向上も実現。Ruby 3.2.2はYJITにより高速化され、現場でもよく使われる安定バージョン。 |
-| フロントエンド | Turbo / Stimulus / Importmap | TurboはJavaScriptなしでページ遷移を高速化、StimulusはHTML属性でJSの制御が可能で保守性が高い。ImportmapによりWebpackやNode.js不要で構成がシンプルになる。 |
+| サーバーサイド | Ruby on Rails 8.0.2 / Ruby 3.2.2 | RailsはCRUD・認証・投稿などを高速・堅牢に構築でき、 Rails8ならHotwireが標準搭載されているためUX向上も実現。Ruby 3.2.2はYJITにより高速化され、現場でもよく使われる安定バージョン。 |
+| フロントエンド | Turbo / Stimulus / Importmap | TurboはJavaScriptなしでページ遷移を高速化、StimulusはHTMLにデータ属性を追加することで、JavaScriptの振る舞いを直感的に制御が可能で保守性が高い。ImportmapによりWebpackやNode.js不要で構成がシンプルになる。 |
 | CSSフレームワーク | Tailwind CSS 3.4.17 | クラスベースで直感的にスタイルが指定でき、保守性・開発効率が高い。Rails 8との相性も非常に良い。 |
 | Web API | OpenAI GPT-4.1-mini / Google API / LINE Developers | GPT-4.1-miniは応答速度とコストのバランスが良く、短文生成に最適。GoogleはOAuth認証、LINEは通知連携を想定。 |
 | データベース | PostgreSQL 15（Docker） | 安定性・拡張性・トランザクション処理に強く、本番に近い動作検証が可能。Dockerにより環境構築の再現性も確保。 |
