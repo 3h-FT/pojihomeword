@@ -39,7 +39,7 @@ gem "sentry-rails"
 # ----------------------------------------
 # ✅ UI / フロントエンド
 # ----------------------------------------
-gem "tailwindcss-ruby", "3.4.17"
+gem "tailwindcss-ruby", "4.1.11"
 gem "tailwindcss-rails"
 gem "mini_magick"                      # 画像加工
 gem "meta-tags", require: 'meta_tags' # OGPなどのメタ設定
