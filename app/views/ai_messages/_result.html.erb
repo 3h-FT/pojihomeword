@@ -4,7 +4,7 @@
   </h3>
 <% end %>
 
-<div class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-nowrap">
+<div data-controller="reload-on-back" class="py-2 px-4 bg-white hover:bg-blue-50 text-gray-800 rounded-xl shadow-sm font-semibold leading-relaxed flex items-center justify-between gap-x-2 flex-nowrap">
   <%= link_to ai_message_path(positive_word), class: "flex-grow break-words truncate min-w-0" do %>
     <%= positive_word.word %>
   <% end %>
