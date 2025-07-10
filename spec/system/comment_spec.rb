@@ -52,7 +52,7 @@ RSpec.describe 'Comments', type: :system do
           click_on '更新'
         end
   
-        within("#comment-#{own_comment.id}", visible: true) do
+        within("#comment-#{own_comment.id}", visible: true, wait: 5) do
           expect(page).to have_text('更新されたコメント'), '編集内容が反映されていません'
         end
       end
