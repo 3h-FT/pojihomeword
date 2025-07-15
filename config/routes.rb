@@ -24,6 +24,11 @@ Rails.application.routes.draw do
       get :favorites_autocomplete
     end
   end
+
+  namespace :admin do
+    resources :posts, only: [:index, :new, :create, :show, :edit, :update ,:destroy]
+  end
+  
   resources :post_favorites, only: %i[create destroy]
   
   resources :contacts, only: [:new, :create]

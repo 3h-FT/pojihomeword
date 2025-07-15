@@ -20,7 +20,7 @@
     <% end %>
 
     <div class="bg-gray-50 px-6 py-3 flex justify-end items-center space-x-2 border-t border-gray-200 rounded-b-xl">
-      <% if current_user.own?(post) %>
+      <% if current_user.own?(post)  || current_user.admin?  %>
         <!-- 編集 -->
         <%= link_to edit_post_path(post), id: "button-edit-#{post.id}", class: 'text-sm text-gray-700 hover:underline', data: { turbo: false }, title: "編集" do %>
           <i class="bi bi-pencil-fill"></i>編集
