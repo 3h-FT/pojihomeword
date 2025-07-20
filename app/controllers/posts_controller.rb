@@ -5,15 +5,7 @@ class PostsController < ApplicationController
     set_meta_tags title: "みんなのポジほめワード"
 
     @q = Post.ransack(params[:q])
-    posts_scope = @q.result
-
-    # ソート処理
-    case params[:sort]
-    when 'latest'
-      posts_scope = posts_scope.latest
-    when 'old'
-      posts_scope = posts_scope.old
-    end
+    posts_scope = apply_sorting(@q.result)
 
     @posts = Posts::PostFetcher.new(posts_scope, params).call
 
@@ -26,15 +18,7 @@ class PostsController < ApplicationController
     set_meta_tags title: "お気に入り登録ページ"
 
     @q = current_user.favorite_posts.ransack(params[:q])
-    posts_scope = @q.result
-
-    # ソート処理
-    case params[:sort]
-    when 'latest'
-      posts_scope = posts_scope.latest
-    when 'old'
-      posts_scope = posts_scope.old
-    end
+    posts_scope = apply_sorting(@q.result)
 
     @post_favorites = Posts::PostFetcher.new(posts_scope, params).call
 
@@ -111,6 +95,19 @@ class PostsController < ApplicationController
   end
 
   private
+  
+  def apply_sorting(scope)
+    case params[:sort]
+    when 'latest'
+      scope.latest
+    when 'old'
+      scope.old
+    when 'most_favorited'
+      scope.most_favorited
+    else
+      scope
+    end
+  end
 
   def post_params
     params.require(:post).permit(:post_word, :caption)

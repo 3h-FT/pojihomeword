@@ -7,7 +7,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
 
       <%= select_tag :sort,
-          options_for_select([["投稿の新しい順", "latest"], ["投稿の古い順", "old"]], params[:sort] || "latest"),
+          options_for_select([["投稿の新しい順", "latest"], ["投稿の古い順", "old"], ["人気順", "most_favorited"]], params[:sort] || "latest"),
           onchange: "this.form.submit()",
           class: "bg-white border border-gray-300 px-3 py-2 rounded-md text-gray-700" %>
 
