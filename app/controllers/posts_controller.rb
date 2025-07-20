@@ -95,14 +95,14 @@ class PostsController < ApplicationController
   end
 
   private
-  
+
   def apply_sorting(scope)
     case params[:sort]
-    when 'latest'
+    when "latest"
       scope.latest
-    when 'old'
+    when "old"
       scope.old
-    when 'most_favorited'
+    when "most_favorited"
       scope.most_favorited
     else
       scope
