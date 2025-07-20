@@ -4,11 +4,19 @@ class PostsController < ApplicationController
   def index
     set_meta_tags title: "みんなのポジほめワード"
 
-    # 検索フォーム
     @q = Post.ransack(params[:q])
-    @posts = Posts::PostFetcher.new(Post.all, params).call
+    posts_scope = @q.result
 
-    # ページ数が減って、現在のページが存在しない場合は最後のページへ
+    # ソート処理
+    case params[:sort]
+    when 'latest'
+      posts_scope = posts_scope.latest
+    when 'old'
+      posts_scope = posts_scope.old
+    end
+
+    @posts = Posts::PostFetcher.new(posts_scope, params).call
+
     if @posts.out_of_range? && @posts.total_pages > 0
       redirect_to posts_path(page: @posts.total_pages)
     end
@@ -18,7 +26,17 @@ class PostsController < ApplicationController
     set_meta_tags title: "お気に入り登録ページ"
 
     @q = current_user.favorite_posts.ransack(params[:q])
-    @post_favorites = Posts::PostFetcher.new(current_user.favorite_posts, params).call
+    posts_scope = @q.result
+
+    # ソート処理
+    case params[:sort]
+    when 'latest'
+      posts_scope = posts_scope.latest
+    when 'old'
+      posts_scope = posts_scope.old
+    end
+
+    @post_favorites = Posts::PostFetcher.new(posts_scope, params).call
 
     # お気に入りのワード数
     @post_favorites_count = current_user.favorite_posts.count
