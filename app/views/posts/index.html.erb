@@ -37,7 +37,8 @@
       </div>
 
       <div class="mt-8">
-        <% if @posts.present? %>
+
+       <% if @posts.present? %>
           <%= render partial: 'posts/posts_list', locals: { posts: @posts } %>
         <% else %>
           <p class="text-gray-600 italic text-center">まだ投稿はありません。</p>

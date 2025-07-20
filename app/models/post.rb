@@ -6,6 +6,15 @@ class Post < ApplicationRecord
 
   validates :post_word, presence: true, length: { maximum: 255 }
 
+  scope :latest, -> { order(created_at: :desc) }
+  scope :old, -> { order(created_at: :asc) }
+  scope :most_favorited, -> {
+    left_joins(:post_favorites)
+    .select("posts.*, COUNT(post_favorites.id) AS favorites_count")
+    .group("posts.id")
+    .order("favorites_count DESC")
+  }
+
   def self.ransackable_attributes(auth_object = nil)
     [ "post_word", "caption" ]
   end
