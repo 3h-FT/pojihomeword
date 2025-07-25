@@ -52,8 +52,8 @@ RSpec.describe 'Comments', type: :system do
           click_on '更新'
         end
   
-        within("#comment-#{own_comment.id}", visible: true, wait: 10) do
-          expect(page).to have_text('更新されたコメント', wait: 10), '編集内容が反映されていません'
+        within("#comment-#{own_comment.id}", visible: true, wait: 5) do
+          expect(page).to have_text('更新されたコメント', wait: 5), '編集内容が反映されていません'
         end
       end
     end
