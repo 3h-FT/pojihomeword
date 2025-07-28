@@ -11,6 +11,9 @@ class PositiveWord < ApplicationRecord
   validates :target, presence: true, unless: :is_custom?
   validates :word, presence: true, if: -> { is_custom? || persisted? }
 
+  scope :latest, -> { order(created_at: :desc) }
+  scope :old, -> { order(created_at: :asc) }
+
   def self.ransackable_attributes(auth_object = nil)
     [ "word" ]
   end

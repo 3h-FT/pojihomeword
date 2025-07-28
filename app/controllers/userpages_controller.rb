@@ -7,7 +7,9 @@ class UserpagesController < ApplicationController
 
     # 検索フォーム
     @q = current_user.positive_words.ransack(params[:q])
-    word_data = Userpages::WordFetcher.new(current_user, params)
+    words_scope = apply_sorting(@q.result)
+
+    word_data = Userpages::WordFetcher.new(words_scope, params)
 
     # ワードのカウント数
     @favorited_words = word_data.favorited_words
@@ -89,6 +91,17 @@ class UserpagesController < ApplicationController
   end
 
   private
+
+  def apply_sorting(scope)
+    case params[:sort]
+    when "latest"
+      scope.latest
+    when "old"
+      scope.old
+    else
+      scope
+    end
+  end
 
   def positive_word_params
     params.require(:positive_word).permit(:word, :is_custom)
