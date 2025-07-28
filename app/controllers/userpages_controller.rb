@@ -69,7 +69,7 @@ class UserpagesController < ApplicationController
   def destroy
     @custom_word = current_user.positive_words.find(params[:id])
     @custom_word.destroy!
-    
+
     # 検索・並び替え済みスコープを渡す
     q = current_user.positive_words.ransack(params[:q])
     words_scope = apply_sorting(q.result)
