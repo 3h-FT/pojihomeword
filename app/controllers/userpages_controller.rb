@@ -69,7 +69,11 @@ class UserpagesController < ApplicationController
   def destroy
     @custom_word = current_user.positive_words.find(params[:id])
     @custom_word.destroy!
-    word_data = Userpages::WordFetcher.new(current_user, params)
+    
+    # 検索・並び替え済みスコープを渡す
+    q = current_user.positive_words.ransack(params[:q])
+    words_scope = apply_sorting(q.result)
+    word_data = Userpages::WordFetcher.new(words_scope, params)
 
     # Turboのためワードのカウント数を再度取得
     @custom_words = word_data.custom_words
