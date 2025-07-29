@@ -4,7 +4,7 @@ source "https://rubygems.org"
 # ✅ Core Rails Components
 # ----------------------------------------
 gem "rails", "~> 8.0.2"
-gem "pg", "~> 1.1"                      # PostgreSQL
+gem "pg", "~> 1.6"                      # PostgreSQL
 gem "puma", ">= 5.0"                    # Webサーバ
 gem "sprockets-rails"                  # アセットパイプライン
 gem "importmap-rails"                  # JavaScript ESM用
