@@ -1,8 +1,8 @@
-<% set_meta_tags title: "ログイン" %>
+<% set_meta_tags title: t('.sign_in') %>
 <div class="flex items-center justify-center px-4">
   <div class="max-w-3xl mt-20 w-full bg-white rounded-2xl shadow-lg overflow-hidden p-8">
     <h2 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-blue-600 mb-6">
-      ログイン
+      <%= t('.sign_in') %>
     </h2>
 
     <div class="mt-2 text-center text-base sm:text-lg text-gray-600">
@@ -25,24 +25,24 @@
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :email, "メールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.label :email, t('activerecord.attributes.user.email'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
         <%= f.email_field :email, placeholder: "example@example.com", autofocus: true, autocomplete: "email", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <div>
-        <%= f.label :password, "パスワード", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.password_field :password, placeholder: "6文字以上のパスワードを入力", autocomplete: "current-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.label :password, t('activerecord.attributes.user.password'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.password_field :password, placeholder: t('.password_must_be_at_least_6_characters'), autocomplete: "current-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
         <div class="mt-4 flex items-center">
           <%= f.check_box :remember_me, class: "h-5 w-5 text-blue-500 border-gray-300 rounded" %>
-          <%= f.label :remember_me, "ログイン情報を保持する", class: "ml-2 text-lg sm:text-xl text-gray-700" %>
+          <%= f.label :remember_me, t('activerecord.attributes.user.remember_me'), class: "ml-2 text-lg sm:text-xl text-gray-700" %>
         </div>
       <% end %>
 
       <div>
-        <%= f.submit "ログイン", class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.submit t('.sign_in'), class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
     <% end %>
 
