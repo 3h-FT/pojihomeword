@@ -14,7 +14,7 @@ RSpec.describe "ログイン機能", type: :system do
       context '認証情報が正しい場合' do
         it 'ログインできること' do
           visit '/users/sign_in'
-          fill_in 'メールアドレス', with: user.email
+          fill_in 'Eメール', with: user.email
           fill_in 'パスワード', with: 'password'
           click_button 'ログイン'
           Capybara.assert_current_path("/", ignore_query: true)
@@ -26,7 +26,7 @@ RSpec.describe "ログイン機能", type: :system do
       context 'PWに誤りがある場合' do
         it 'ログインできないこと' do
           visit '/users/sign_in'
-          fill_in 'メールアドレス', with: user.email
+          fill_in 'Eメール', with: user.email
           fill_in 'パスワード', with: '1234'
           click_button 'ログイン'
           Capybara.assert_current_path("/users/sign_in", ignore_query: true)
