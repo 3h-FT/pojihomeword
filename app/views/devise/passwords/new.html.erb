@@ -1,20 +1,20 @@
-<% set_meta_tags title: "パスワード再設定" %>
+<% set_meta_tags title: t('activerecord.attributes.user.password_confirmation_re_enter') %>
 <div class="flex items-center justify-center px-4">
   <div class="mt-20 max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden p-8">
     <h2 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-blue-600 mb-6">
-      パスワード再設定
+      <%= t('activerecord.attributes.user.password_confirmation_re_enter') %>
     </h2>
 
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :email, "登録したメールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.label :email, t('.current_email') , class: "block text-lg sm:text-xl font-medium text-gray-700" %>
         <%= f.email_field :email, placeholder: "example@example.com", autofocus: true, autocomplete: "email", class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
 
       <div>
-        <%= f.submit "パスワード再設定の指示を送信", class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.submit t('.send_me_reset_password_instructions') , class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
     <% end %>
 

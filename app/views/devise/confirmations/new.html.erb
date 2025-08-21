@@ -1,8 +1,8 @@
-<% set_meta_tags title: "確認メールの再送" %>
+<% set_meta_tags title: t('.resend_confirmation_instructions') %>
 <div class="flex items-center justify-center px-4">
   <div class="mt-20 max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden p-8">
     <h2 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-blue-600 mb-6">
-      確認メールの再送
+      <%= t('.resend_confirmation_instructions') %>
     </h2>
 
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <%= f.submit "確認メールを再送", class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+        <%= f.submit t('.resend_confirmation_instructions'), class: "w-full flex justify-center rounded-full bg-blue-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300" %>
       </div>
     <% end %>
 

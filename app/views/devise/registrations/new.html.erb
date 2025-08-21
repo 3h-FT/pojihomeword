@@ -1,8 +1,8 @@
-<% set_meta_tags title: "新規登録" %>
+<% set_meta_tags title: t('.sign_up')  %>
 <div class="flex items-center justify-center px-4">
   <div class="mt-20 max-w-3xl w-full bg-white rounded-2xl shadow-lg overflow-hidden p-8">
     <h2 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-teal-600 mb-6">
-      新規登録
+      <%= t('.sign_up') %>
     </h2>
 
     <div class="mt-2 text-center text-base sm:text-lg text-gray-600">
@@ -25,30 +25,30 @@
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :username, "ユーザー名", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.text_field :username, placeholder: "ユーザー名", required: true, autofocus: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
+        <%= f.label :username, t('activerecord.attributes.user.username'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.text_field :username, placeholder: t('activerecord.attributes.user.username'), required: true, autofocus: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
       </div>
 
       <div>
-        <%= f.label :email, "メールアドレス", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.label :email, t('activerecord.attributes.user.email'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
         <%= f.email_field :email, placeholder: "example@example.com", autocomplete: "email", required: true,  class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
       </div>
 
       <div>
-        <%= f.label :password, "パスワード", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.label :password, t('activerecord.attributes.user.password'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
         <% if @minimum_password_length %>
           <em class="text-sm text-gray-500">(<%= @minimum_password_length %> 文字以上)</em>
         <% end %>
-        <%= f.password_field :password, placeholder: "6文字以上のパスワードを入力", autocomplete: "new-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
+        <%= f.password_field :password, placeholder: t('.password_must_be_at_least_6_characters'), autocomplete: "new-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
       </div>
 
       <div>
-        <%= f.label :password_confirmation, "パスワード確認", class: "block text-lg sm:text-xl font-medium text-gray-700" %>
-        <%= f.password_field :password_confirmation, placeholder: "パスワードを再入力", autocomplete: "new-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
+        <%= f.label :password_confirmation, t('activerecord.attributes.user.password_confirmation'), class: "block text-lg sm:text-xl font-medium text-gray-700" %>
+        <%= f.password_field :password_confirmation, placeholder: t('activerecord.attributes.user.password_confirmation_re_enter'), autocomplete: "new-password", required: true, class: "mt-2 block w-full rounded-full bg-white px-4 py-3 text-base text-gray-900 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" %>
       </div>
 
       <div>
-        <%= f.submit "登録", class: "w-full flex justify-center rounded-full bg-teal-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-teal-600 focus:outline-none" %>
+        <%= f.submit t('.sign_up') , class: "w-full flex justify-center rounded-full bg-teal-500 px-4 py-3 text-base font-semibold text-white shadow-md hover:bg-teal-600 focus:outline-none" %>
       </div>
     <% end %>
 
@@ -56,7 +56,7 @@
       <%= render "devise/shared/links" %>
     </div>
     <div class="text-sm text-gray-600 mt-4">
-      ※ご登録いただいたメールアドレスは、ログイン、アカウント管理などの目的で利用します。<br>
+      <%= t('.note') %><br>
     </div>
   </div>    
 </div>

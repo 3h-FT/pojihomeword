@@ -17,14 +17,16 @@ ja:
         locked_at: ロック時刻
         password: パスワード
         password_confirmation: パスワード（確認用）
+        password_confirmation_re_enter: パスワードを再入力
         remember_created_at: ログイン記憶時刻
-        remember_me: ログインを記憶する
+        remember_me: ログイン情報を保持する
         reset_password_sent_at: パスワードリセット送信時刻
         reset_password_token: パスワードリセット用トークン
         sign_in_count: ログイン回数
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
+        username: ユーザー名
     models:
       user:
         other: ユーザー
@@ -80,11 +82,14 @@ ja:
       edit:
         change_my_password: パスワードを変更する
         change_your_password: パスワードを変更
-        confirm_new_password: 確認用新しいパスワード
+        confirm_new_password: 新しいパスワードの確認
+        change_password: パスワードを再入力
         new_password: 新しいパスワード
+        password_must_be_at_least_6_characters: 6文字以上のパスワードを入力        
       new:
         forgot_your_password: パスワードを忘れましたか？
         send_me_reset_password_instructions: パスワードの再設定方法を送信する
+        current_email: 登録したメールアドレス
       no_token: このページにはアクセスできません。パスワード再設定メールのリンクからアクセスされた場合には、URL をご確認ください。
       send_instructions: パスワードの再設定について数分以内にメールでご連絡いたします。
       send_paranoid_instructions: メールアドレスが登録済みの場合、パスワード再設定用のメールが数分以内に送信されます。
@@ -93,16 +98,20 @@ ja:
     registrations:
       destroyed: アカウントを削除しました。またのご利用をお待ちしております。
       edit:
-        are_you_sure: 本当によろしいですか？
-        cancel_my_account: アカウント削除
+        are_you_sure: 本当にアカウントを削除しますか？
+        cancel_my_account: アカウントを削除
+        current_email: 現在確認中のメールアドレス
         currently_waiting_confirmation_for_email: '%{email} の確認待ち'
         leave_blank_if_you_don_t_want_to_change_it: 空欄のままなら変更しません
-        title: "%{resource}編集"
+        title: アカウント編集
         unhappy: 気に入りません
         update: 更新
+        toppage: トップページに戻る
         we_need_your_current_password_to_confirm_your_changes: 変更を反映するには現在のパスワードを入力してください
       new:
         sign_up: アカウント登録
+        password_must_be_at_least_6_characters: 6文字以上のパスワードを入力
+        note: ※ご登録いただいたメールアドレスは、ログイン、アカウント管理などの目的で利用します。
       signed_up: アカウント登録が完了しました。
       signed_up_but_inactive: ログインするためには、アカウントを有効化してください。
       signed_up_but_locked: アカウントがロックされているためログインできません。
@@ -114,6 +123,7 @@ ja:
       already_signed_out: 既にログアウト済みです。
       new:
         sign_in: ログイン
+        password_must_be_at_least_6_characters: 6文字以上のパスワードを入力
       signed_in: ログインしました。
       signed_out: ログアウトしました。
     shared:
