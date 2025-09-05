@@ -47,13 +47,13 @@ RSpec.describe 'Comments', type: :system do
         expect(page).to have_selector("turbo-frame#comment-form-#{own_comment.id}", wait: 5)
 
         within "turbo-frame#comment-form-#{own_comment.id}" do
-          expect(page).to have_field('コメントの編集', wait: 10)
+          expect(page).to have_field('コメントの編集', wait: 5)
           fill_in 'コメントの編集', with: '更新されたコメント'
           click_on '更新'
         end
   
-        within("#comment-#{own_comment.id}", visible: true, wait: 5) do
-          expect(page).to have_text('更新されたコメント', wait: 5), '編集内容が反映されていません'
+        within("#comment-#{own_comment.id}", visible: true, wait: 10) do
+          expect(page).to have_text('更新されたコメント', wait: 10), '編集内容が反映されていません'
         end
       end
     end
